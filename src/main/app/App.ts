@@ -3,7 +3,9 @@ import electron, { app, BrowserWindow, globalShortcut } from 'electron';
 import { isDev, isMacOS, isProduction } from '@main/common/common_const';
 import { registerListener } from './applistener';
 import * as main from './AppWindow'
+
 import createTray from './menus/tray';
+import renderer_api from '@main/services/renderer_api';
 export class App {
     public windowCreator: { init: () => void; getWindow: () => BrowserWindow| null };
     private systemPlugins: any;
@@ -48,6 +50,8 @@ export class App {
             this.createWindow();
             // const mainWindow = this.windowCreator.getWindow();
             // API.init(mainWindow);
+
+            renderer_api.setup();
             createTray(this.windowCreator.getWindow());
             // registerHotKey(this.windowCreator.getWindow());
             // this.systemPlugins.triggerReadyHooks(

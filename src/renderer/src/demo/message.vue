@@ -1,62 +1,55 @@
 <template>
-    <context-menu>
-      <context-menu-submenu :label="'View'">
-        <context-menu-item disabled> Icon </context-menu-item>
-        <context-menu-item> List </context-menu-item>
-        <context-menu-item> Detailed information </context-menu-item>
-      </context-menu-submenu>
-      <context-menu-submenu :label="'Sort by'">
-        <context-menu-item> Name </context-menu-item>
-        <context-menu-item> Date </context-menu-item>
-        <context-menu-item> Type </context-menu-item>
-        <context-menu-item> Size </context-menu-item>
-        <context-menu-item disabled> Duration </context-menu-item>
-      </context-menu-submenu>
-      <context-menu-item @click="refresh" :divider="true"> Refresh </context-menu-item>
-      <context-menu-item @itemClickHandle="itemClickEvent" :divider="true"> Stop </context-menu-item>
-      <context-menu-submenu :label="'Custom'" divider>
-        <context-menu-item> Secondary menu </context-menu-item>
-        <context-menu-submenu :label="'Multi level menu'">
-          <context-menu-item>Three level menu</context-menu-item>
-          <context-menu-item>Nested menu</context-menu-item>
-        </context-menu-submenu>
-      </context-menu-submenu>
-      <context-menu-submenu :label="'New'" divider>
-        <context-menu-item>New file</context-menu-item>
-        <context-menu-item>New folder</context-menu-item>
-        <context-menu-item>Shortcut</context-menu-item>
-      </context-menu-submenu>
-      <context-menu-item :disabled="true">Properties</context-menu-item>
-    </context-menu>
+  <context-menu name="app_action">
+    <context-menu-item @click="showMainWindow"> 主界面 </context-menu-item>
+    <context-menu-submenu :label="'开发'" divider>
+      <context-menu-item @click="showConsole">控制台</context-menu-item>
+      <context-menu-item @click="openInBrowser">浏览器中打开</context-menu-item>
+    </context-menu-submenu>
+    <context-menu-item> 隐藏 </context-menu-item>
+  </context-menu>
+  <div v-contextmenu="{ name: 'app_action' }" class="m-click">右键</div>
+</template>
   
-    <div v-contextmenu="{id: '123'}">Right click on area {id: '123'}</div>
-    <div v-contextmenu="{id: [1, 2, 3]}">Right click on area { id: [1, 2, 3]}</div>
-  </template>
-  
-  <script lang="ts">
-  
-  import { inject } from 'vue'
-  import ContextMenu from '@renderer/components/lib/contextmenu/ContextMenu.vue'
-  import ContextMenuItem from '@renderer/components/lib/contextmenu/ContextMenuItem.vue'
-  import ContextMenuSubmenu from '@renderer/components/lib/contextmenu/ContextMenuSubmenu.vue'
-  export default {
-    name: 'App',
-    setup () {
-      const emitContext = inject('emitContext') as (event: Event, dataId: Record<string, unknown>) => void
-  
-      function refresh () {
-        alert('refresh')
-      }
-  
-      function openContextMenu (e: any) {
-        emitContext(e, { id: [1, 2, 3] })
-      }
-  
-      function itemClickEvent (e: any) {
-        console.log('Stop; with id:' + e.id)
-      }
-  
-      return { refresh, itemClickEvent, openContextMenu }
+<script lang="ts">
+
+import { inject } from 'vue'
+import ContextMenu from '@renderer/components/lib/contextmenu/ContextMenu.vue'
+import ContextMenuItem from '@renderer/components/lib/contextmenu/ContextMenuItem.vue'
+import ContextMenuSubmenu from '@renderer/components/lib/contextmenu/ContextMenuSubmenu.vue'
+import AppController from '@renderer/utils/app/appcontroller'
+import { ctx } from '@renderer/startup/app_starter'
+export default {
+  name: 'message',
+  setup() {
+    const emitContext = inject('emitContext') as (event: Event, dataId: Record<string, unknown>) => void
+
+
+
+    function openContextMenu(e: any) {
+      emitContext(e, { name: 'app_action' })
+    }
+
+
+    return { openContextMenu }
+  },
+  methods: {
+    showMainWindow() {
+      console.log('打开主界面');
+    },
+    showConsole() {
+      console.log('打开控制台');
+      ctx.app.controller.openConsole();
+    },
+    openInBrowser() {
+      ctx.app.controller.openInBrowser();
     }
   }
-  </script>
+}
+</script>
+<style  scoped>
+.m-click {
+  width: 400px;
+  height: 100px;
+  background-color: rgb(235, 236, 231);
+}
+</style>

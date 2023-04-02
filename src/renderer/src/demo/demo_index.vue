@@ -25,8 +25,8 @@ for (let i = 0; i < routes.length; ++i) {
 const showLinks = ref(ls)
 
 function go(link) {
-    console.log(link.name)
-    routes.push(link.path)
+    // console.log(link.name)
+    router.push(link.path)
 }
 const search = (searchText) => {
 

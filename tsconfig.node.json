@@ -1,0 +1,25 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+  "include": [
+    "electron.vite.config.*",
+    "src/main/**/*.ts",
+    "src/preload/*"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    "types": [
+      "electron-vite/node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@main/*": [
+        "src/main/*"
+      ],
+      "@resources/*": [
+        "resources/*"
+      ],
+    },
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  }
+}

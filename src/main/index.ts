@@ -18,7 +18,7 @@
 //       sandbox: false
 //     }
 //   })
-//   registerAction('get-main-widow', () => mainWindow)
+//   registerAction('get-main-window', () => mainWindow)
 //   mainWindow.on('ready-to-show', () => {
 //     mainWindow.show()
 //   })

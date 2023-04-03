@@ -9,7 +9,7 @@ class RendererAPI {
     public setup() {
         // 响应 前端事件
         ipcMain.on('renderer-msg-trigger', async (event, arg) => {
-            const window = arg.winId ? BrowserWindow.fromId(arg.winId) : getAction('get-main-widow')();
+            const window = arg.winId ? BrowserWindow.fromId(arg.winId) : getAction('get-main-window')();
             const data = await this[arg.type](arg, window, event);
             event.returnValue = data;
             // event.sender.send(`msg-back-${arg.type}`, data);

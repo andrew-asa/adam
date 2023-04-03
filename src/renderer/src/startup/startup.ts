@@ -5,5 +5,5 @@ import { install_ctx } from './app_starter'
 export function start(app: App) {
     element_plus_starter(app)
     vue3_contentmenu_starter(app)
-    install_ctx()
+    install_ctx(app)
 }

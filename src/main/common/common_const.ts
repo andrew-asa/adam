@@ -23,6 +23,13 @@ export const DEFAULT_CONFIG = {
     }
   }
 }
+/**
+ * LOGGER 文件相关
+ */
+// log文件路径
+export const LOGGER_PATH = path.join(CONFIGURE_DIR, "./adam_log.txt");
+// log文件最大容量1MB
+export const MAX_LOG_SIZE = 1024 * 1024;
 
 
 

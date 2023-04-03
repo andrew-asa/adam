@@ -3,8 +3,12 @@ import { isNodeEnv } from "./app_utils";
 
 interface Renderer {
     send(channel: string, data: any): void;
+    sendSync(channel: string, data: any): void;
 }
 class defaultRenderer implements Renderer {
+    sendSync(channel: string, data: any): void {
+        console.log(channel, data);
+    }
     send(channel: string, data: any): void {
         console.log(channel, data);
     }
@@ -24,6 +28,12 @@ export default class AppController {
         } else {
             this.renderer = new defaultRenderer();
         }
+    }
+    public sendSyncMessage(type: String, data?: any) {
+        this.renderer.sendSync(renderer_msg_name, {
+            type: type,
+            data: data || {}
+        });
     }
     public sendMessage(type: String, data?: any) {
         this.renderer.send(renderer_msg_name, {

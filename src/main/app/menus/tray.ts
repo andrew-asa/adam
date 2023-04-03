@@ -1,7 +1,7 @@
 import { BrowserWindow, Tray } from "electron";
 import trayIcon from '@resources/assets/tray.png?asset'
 import { getTrayMenus } from "@main/app/menus/menus";
-function createTray(window: BrowserWindow|null): Promise<Tray> {
+function createTray(): Promise<Tray> {
     return new Promise((resolve, reject) => {
         let tray = new Tray(trayIcon.toString())
         tray.setToolTip('adam')

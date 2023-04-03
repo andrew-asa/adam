@@ -17,7 +17,7 @@ function regWindowListener(win: BrowserWindow) {
     win.on("closed", () => {
         // @ts-ignore
         win = null;
-        registerAction('get-main-widow', () => win)
+        registerAction('get-main-window', () => win)
     });
 
     win.on("show", () => {

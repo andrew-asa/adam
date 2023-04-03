@@ -30,11 +30,12 @@
     "element-plus": "^2.2.9",
     "highlight.js": "^11.7.0",
     "lodash": "^4.17.21",
+    "log4js": "^6.9.1",
     "markdown-it": "^13.0.1",
     "markdown-it-attrs": "^4.1.6",
+    "mitt": "^2.1.0",
     "typed.js": "^2.0.14",
-    "vue-router": "^4.1.6",
-    "mitt": "^2.1.0"
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^1.0.1",

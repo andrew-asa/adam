@@ -10,8 +10,20 @@
 </template>
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, onUnmounted, ref } from 'vue';
-import { search_pane_props } from './search_pane'
-const props = defineProps(search_pane_props)
+const props = defineProps({
+    input: {
+        type: String,
+        default: ''
+    },
+    placeholder: {
+        type: String,
+        default: '请输入搜索内容'
+    },
+    width: {
+        type: String,
+        default: '300px'
+    }
+})
 const emit = defineEmits(['search', 'clear'])
 const searchText = ref(props.input)
 const search = () => {

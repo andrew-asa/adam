@@ -1,13 +1,14 @@
 import { optimizer } from '@electron-toolkit/utils';
 import electron, { app, BrowserWindow, globalShortcut } from 'electron';
 import { isDev, isMacOS, isProduction } from '@main/common/common_const';
-import { registerListener } from './applistener';
+import { registerMainWindow } from './applistener';
 import * as main from './AppWindow'
 
 import createTray from './menus/tray';
 import renderer_api from '@main/services/renderer_api';
+import { setupApp } from './startup/startup';
 export class App {
-    public windowCreator: { init: () => void; getWindow: () => BrowserWindow| null };
+    public windowCreator: { init: () => void; getWindow: () => BrowserWindow | null };
     private systemPlugins: any;
     constructor() {
         // 
@@ -43,16 +44,15 @@ export class App {
     }
     createWindow() {
         this.windowCreator.init();
-        registerListener(app, this.windowCreator.getWindow())
+        registerMainWindow(app, this.windowCreator.getWindow())
     }
     onReady() {
         const readyFunction = () => {
             this.createWindow();
             // const mainWindow = this.windowCreator.getWindow();
             // API.init(mainWindow);
+            setupApp(app);
 
-            renderer_api.setup();
-            createTray(this.windowCreator.getWindow());
             // registerHotKey(this.windowCreator.getWindow());
             // this.systemPlugins.triggerReadyHooks(
             //     Object.assign(electron, { mainWindow: this.windowCreator.getWindow() })

@@ -70,15 +70,22 @@ export default {
         startType: function () {
             this.type(this.$props.content)
         },
+        /** 
+         * 往后追加打印文本
+         */
+        append(content: String) {
+
+        },
         /**
          * 重新打字
          */
         type: function (content) {
-            if(!content) {
+            this.typeContent = "";
+            if (!content) {
+                this.showCursor = false;
                 return;
             }
             const markdown = content;
-            this.typeContent = "";
             let index = 0;
             if (this.typeTimeId !== -1) {
                 // console.log(`暂停上一个打印任务:${this.typeTimeId}`);

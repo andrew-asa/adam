@@ -6,7 +6,7 @@ import { isMacOS } from "@main/common/common_const";
  * 打开控制台
  */
 export function openConsole() {
-    const win = getAction('get-main-widow')()
+    const win = getAction('get-main-window')()
     win && win.webContents.openDevTools()
 }
 
@@ -16,7 +16,7 @@ export function openConsole() {
  * @Date 2023-03-25 12:09:48
  */
 export function showMainWin() {
-    const win = getAction('get-main-widow')()
+    const win = getAction('get-main-window')()
     if (win) {
         let app = getAction('get-main-app')()
         if (isMacOS) {
@@ -41,7 +41,7 @@ export function showMainWin() {
  * @description 隐藏
  */
 export function hideMainWin() {
-    let win = getAction('get-main-widow')()
+    let win = getAction('get-main-window')()
     if (win) {
         win.hide()
         win.setSkipTaskbar(true)

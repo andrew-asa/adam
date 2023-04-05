@@ -101,3 +101,19 @@ export function openInBrowser() {
 export function toggleBall() {
 
 }
+
+/**
+ * 浏览器前进
+ */
+export function forward() {
+    let win = getAction('get-main-window')()
+    win && win.webContents.goForward()
+}
+
+/**
+ * 浏览器后退
+ */
+export function back() {
+    let win = getAction('get-main-window')()
+    win && win.webContents.goBack()
+}

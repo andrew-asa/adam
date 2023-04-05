@@ -36,6 +36,7 @@
     <div v-contextmenu="{ name: 'xxx' }">点击此处无效果</div>
     <el-button type="success" @click.stop="openContextMenu"> 手动打开菜单</el-button>
     <el-button type="success" @click.stop="stopOpen"> 无法打开</el-button>
+    
 </template>
   
 <script lang="ts">

@@ -5,7 +5,7 @@ interface Renderer {
     send(channel: string, data: any): void;
     sendSync(channel: string, data: any): void;
 }
-class defaultRenderer implements Renderer {
+class defaultDevRenderer implements Renderer {
     sendSync(channel: string, data: any): void {
         console.log(channel, data);
     }
@@ -26,7 +26,7 @@ export default class AppController {
             const { ipcRenderer } = window.require("electron");
             this.renderer = ipcRenderer;
         } else {
-            this.renderer = new defaultRenderer();
+            this.renderer = new defaultDevRenderer();
         }
     }
     public sendSyncMessage(type: String, data?: any) {
@@ -41,10 +41,29 @@ export default class AppController {
             data: data || {}
         });
     }
+
+    /**
+     * @description 前进
+     */
+    public forward() {
+        this.sendMessage("forward", {});
+    }
+    /**
+     * @description 后退
+     */
+    public back() {
+        this.sendMessage("back", {});
+    }
     public openConsole() {
         this.sendMessage("openConsole", {});
     }
     public openInBrowser() {
         this.sendMessage("openInBrowser", {});
+    }
+    /**
+     * @description 给当前选中的插件发送改变的文本
+     */
+    public sendSubInputChangeEvent(value: String) {
+        this.sendSyncMessage("subInputChangeEvent", { text: value });
     }
 }

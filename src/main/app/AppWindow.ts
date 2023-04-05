@@ -64,7 +64,7 @@ function setWindow(win: BrowserWindow) {
     // 设置窗口是否可移动
     win.setMovable(true)
     // 设置窗口是否总在最前
-    win.setAlwaysOnTop(true, 'floating', 1)
+    // win.setAlwaysOnTop(true, 'floating', 1)
     // 设置窗口打开链接的方式
     win.webContents.setWindowOpenHandler((details) => {
         shell.openExternal(details.url)
@@ -91,7 +91,7 @@ function createDefaultWindow() {
         // 指定窗口是否在任务栏中显示。
         skipTaskbar: true,
         // autoHideMenuBar: true,
-        // alwaysOnTop: true,
+        alwaysOnTop: true,
         webPreferences: {
             // 指定是否启用 Web 安全性。
             webSecurity: false,

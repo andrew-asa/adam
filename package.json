@@ -34,6 +34,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-attrs": "^4.1.6",
     "mitt": "^2.1.0",
+    "plist": "^3.0.6",
     "typed.js": "^2.0.14",
     "vue-router": "^4.1.6"
   },

@@ -5,7 +5,7 @@
   ></div>
   <div :class="isMacOS && 'drag'"></div>
   <div class="adam-select">
-    <search></search>
+    <search @onSearch="onSearch"></search>
     <result></result>
   </div>
 </template>
@@ -14,6 +14,8 @@ import { isMacOS, isWindows, isElectron } from '@renderer/utils/constants/common
 import search from './search.vue'
 import result from './result.vue'
 import { ref } from 'vue'
+import createPluginManager from './plugins/manager/plugin_manager'
+const { onSearch } = createPluginManager()
 </script>
 <style scoped lang="less">
 .drag-bar {

@@ -1,6 +1,9 @@
 out
 dist
+build
 pnpm-lock.yaml
 LICENSE.md
 tsconfig.json
 tsconfig.*.json
+/node_modules/**
+/resources/**

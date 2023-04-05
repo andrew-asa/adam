@@ -4,6 +4,10 @@ const routes = [{
     path: "/",
     name: "home",
     component: () => import("@renderer/home.vue")
+},{
+    path: "/search",
+    name: "search",
+    component: () => import("@renderer/components/search/index.vue")
 }
 ]
 const router = createRouter({

@@ -1,23 +1,30 @@
 import { useTransitionFallthroughEmits } from "element-plus";
 import { isNodeEnv } from "./app_utils";
+import { Action, BrowserController, Controller } from "./browsercontroller";
 
 interface Renderer {
     send(channel: string, data: any): void;
     sendSync(channel: string, data: any): void;
 }
+
 class defaultDevRenderer implements Renderer {
+    private browserAction: Action;
+    constructor() {
+        this.browserAction = new BrowserController();
+    }
     sendSync(channel: string, data: any): void {
         console.log(channel, data);
     }
     send(channel: string, data: any): void {
-        console.log(channel, data);
+        data && data.type && this.browserAction.action(data.type, data.data);
+        // console.log(channel, data);
     }
 }
 const renderer_msg_name = "renderer-msg-trigger"
 export default class AppController {
     private renderer: Renderer
     constructor() {
-        console.log("init AppController");
+        // console.log("init AppController");
         this.initRenderer();
     }
     private initRenderer() {

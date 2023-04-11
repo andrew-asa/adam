@@ -67,7 +67,7 @@ export default defineComponent({
 
         onMounted(() => {
             bus.on('add-contextmenu', e => {
-                // console.log(`x=${e.x} y=${e.y} value=${JSON.stringify(e.value)}`);
+                console.log(`add-contextmenu x=${e.x} y=${e.y} value=${JSON.stringify(e.value)}`);
                 showMenu(e.x, e.y, e.value)
             })
             bus.on('hide-contextmenu', () => {

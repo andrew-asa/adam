@@ -17,7 +17,7 @@ import ContextMenu from '@renderer/components/lib/contextmenu/ContextMenu.vue'
 import ContextMenuItem from '@renderer/components/lib/contextmenu/ContextMenuItem.vue'
 import ContextMenuSubmenu from '@renderer/components/lib/contextmenu/ContextMenuSubmenu.vue'
 import AppController from '@renderer/utils/app/appcontroller'
-import { ctx } from '@renderer/startup/app_starter'
+import { ctx } from '@/renderer/src/startup/ctx_starter.js'
 export default {
   name: 'message',
   setup() {

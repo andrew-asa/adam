@@ -12,21 +12,21 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ctx } from '@renderer/startup/app_starter'
+import { ctx } from '@/renderer/src/startup/ctx_starter.js'
 import { inject } from 'vue'
 const props: any = defineProps({
   showButton: {
     type: Boolean,
-    default: true
+    default: false
   }
 })
 const emitContext = inject('emitContext') as (event: Event, dataId: Record<string, unknown>) => void
 const forward = () => {
-  console.log('forward')
+  // console.log('forward')
   ctx.app.controller.forward()
 }
 const back = () => {
-  console.log('back')
+  // console.log('back')
   ctx.app.controller.back()
 }
 const openConsole = () => {
@@ -35,6 +35,7 @@ const openConsole = () => {
 function openContextMenu(e: any) {
   emitContext(e, { name: 'show_debug_contextmenus' })
 }
+defineExpose({ openContextMenu })
 </script>
 
 <style scoped></style>

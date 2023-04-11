@@ -39,7 +39,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ctx } from '@renderer/startup/app_starter'
+import { ctx } from '@/renderer/src/startup/ctx_starter.js'
 import { defineProps, defineEmits, ref, onMounted } from 'vue'
 const props: any = defineProps({
   searchValue: {

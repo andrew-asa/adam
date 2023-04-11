@@ -6,13 +6,10 @@
         <el-button type="success" @click="retype">打印</el-button>
     </div>
     <HtmlTypeContent class="type-content" :showCursor="showCursor" ref="typeContent" :content="text"></HtmlTypeContent>
-
-    <debugmenus></debugmenus>
 </template>
 <script lang="ts">
 import HtmlTypeContent from '@renderer/components/lib/vuetype/HtmlTypeContent.vue';
 import { textAreaAutoHeight } from '@renderer/utils/directives/elements_plus_directives';
-import debugmenus from '@renderer/demo/debugmenus.vue'
 import { ref } from 'vue';
 export default {
     props: {
@@ -23,7 +20,7 @@ export default {
         autoH: textAreaAutoHeight
     },
     components: {
-        HtmlTypeContent,debugmenus
+        HtmlTypeContent
     },
     setup(props) {
         const showCursor = ref(true);

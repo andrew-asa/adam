@@ -7,6 +7,8 @@ function hideContextmenu() {
 const onMounted = (el: HTMLElement, binding: DirectiveBinding) => {
     el.addEventListener('contextmenu', e => {
         e.preventDefault()
+        e.stopPropagation()
+        // console.log(`contextmenu: ${JSON.stringify(binding.value)}`)
         bus.emit('add-contextmenu', { x: e.clientX, y: e.clientY, value: binding.value })
     })
     document.addEventListener('click', hideContextmenu)

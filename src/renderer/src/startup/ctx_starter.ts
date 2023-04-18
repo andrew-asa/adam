@@ -3,10 +3,10 @@ import { App } from "vue"
 import * as commomConstant from "@renderer/utils/constants/common_const"
 import * as dom_utils from "@renderer/utils/dom_utils"
 import { starter } from "./starter"
+import _ from 'lodash'
 const empty_fun = () => {
 }
 export const ctx = Object.freeze({
-    _app: null,
     app: {
         controller: new AppController(),
         search: {
@@ -21,6 +21,9 @@ export const ctx = Object.freeze({
     },
     utils: {
         dom: dom_utils
+    },
+    lib:{
+        _
     }
 })
 export class ctx_starter implements starter {

@@ -19,7 +19,7 @@ export function start(app: App) {
         }
     }
     for (const starter of starters) {
-        console.log(`start ${starter.name}`)
+        // console.log(`start ${starter.name}`)
         starter.start(app);
     }
 }

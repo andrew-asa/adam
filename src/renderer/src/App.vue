@@ -1,24 +1,21 @@
 <template>
-  <router-view></router-view>
+  <div
+    id="router-content"
+    v-contextmenu="{ name: 'app-contextmenus' }"
+  >
+    <router-view></router-view>
+  </div>
+  <context-menu :name="`app-contextmenus`" v-if="noEnv">
+    <context-menu-item @click="ctx.app.controller.openConsole()"> 控制台 </context-menu-item>
+    <context-menu-item @click="ctx.app.controller.forward()"> 前进 </context-menu-item>
+    <context-menu-item @click="ctx.app.controller.back()"> 后退 </context-menu-item>
+  </context-menu>
 </template>
 <script setup lang="ts">
-import debugmenus from '@renderer/demo/debugmenus.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
-
-const dmenus = ref(null)
-function openContextmenu(e: any) {
-  // dmenus.value.openContextMenu(e)
-  // console.log('app openContextmenu')
-}
-onMounted(() => {
-  // console.log('app onMounted')
-  // console.log(dmenus.value.openContextMenu)
-  document.addEventListener('contextmenu', openContextmenu)
-})
-onUnmounted(() => {
-  // console.log('app onUnmounted')
-  document.removeEventListener('contextmenu', openContextmenu)
-})
+import { isNodeEnv } from '@renderer/utils/app/app_utils'
+import { ctx } from '@renderer/startup/ctx_starter.js'
+import { ref } from 'vue'
+const noEnv = ref(isNodeEnv())
 </script>
 <style>
 body {

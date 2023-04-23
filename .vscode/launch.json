@@ -25,6 +25,18 @@
       "presentation": {
         "hidden": true
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Server",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/src/main/server/index.ts",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/dist/server/*.js"]
     }
   ],
   "compounds": [

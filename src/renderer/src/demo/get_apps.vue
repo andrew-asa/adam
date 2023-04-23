@@ -1,16 +1,21 @@
 <template>
   <el-button
     type="success"
-    @click="getApps"
+    @click="click"
     >获取列表</el-button
   >
 </template>
 <script setup lang="ts">
-import appSearch from '@/common/core/app-search'
-const getApps = async () => {
+import getApps  '@/common/core/app-search'
+const click = () => {
   console.log('getApps')
-  const value = await appSearch()
-  console.log(value)
+  getApps()
+    .then((appNames) => {
+      console.log(appNames)
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 }
 </script>
 <style scoped></style>

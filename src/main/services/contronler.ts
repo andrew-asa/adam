@@ -7,7 +7,13 @@ import { isMacOS } from "@main/common/common_const";
  */
 export function openConsole() {
     const win = getAction('get-main-window')()
-    win && win.webContents.openDevTools()
+    if (win) {
+        if (win.webContents.isDevToolsOpened()) {
+            win.webContents.closeDevTools()
+        } else {
+            win.webContents.openDevTools()
+        }
+    }
 }
 
 /**

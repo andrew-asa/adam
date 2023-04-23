@@ -1,5 +1,5 @@
 import { spawn } from "child_process";
-import plist from "plist";
+const plist = require('plist');
 
 export default function getApps(resolve, reject, filterByAppName = false) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

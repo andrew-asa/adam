@@ -41,9 +41,6 @@ function getApps(resolve, reject, filterByAppName = false) {
     });
 }
 
-module.exports = {
-    getApps: getApps
-};
 export default {
     getApps: getApps
 }

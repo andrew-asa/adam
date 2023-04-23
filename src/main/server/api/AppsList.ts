@@ -5,7 +5,7 @@ export class AppsList implements ApiResponse {
     path = "/apps/get"
     action(ctx: any) {
         const data = {
-            name: 'John Doe',
+            name: 'John Doe12',
             age: 33,
             email: 'johndoe@example.com'
         };

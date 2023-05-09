@@ -43,6 +43,8 @@
         "-r",
         "tsconfig-paths/register",
         "node_modules/ts-node-dev/lib/bin.js",
+        // "-p",
+        // "${workspaceFolder}/tsconfig.server.json",
         "--respawn",
         "--transpile-only",
         "${workspaceFolder}/src/main/server/index.ts"

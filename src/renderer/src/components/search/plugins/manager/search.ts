@@ -10,7 +10,7 @@ const searchManager = () => {
     const onSearch = (e) => {
         const value = e;
         console.log(value)
-        state.searchValue = value;
+        // state.searchValue = value;
     };
 
     const setSearchValue = (value: string) => {

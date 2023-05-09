@@ -10,7 +10,45 @@ const optionsManager = ({
     const optionsRef = ref([]);
     const getOptionsFromSearchValue = (value, strict = false) => {
         let options: any = [];
-        return options;
+        // 搜索app列表
+        // todo 再搜索 app
+    const appPlugins = appList.value || [];
+    const descMap = new Map();
+    options = [
+      ...options,
+      ...appPlugins
+        .filter((plugin) => {
+          if (!descMap.get(plugin)) {
+            descMap.set(plugin, true);
+            let has = false;
+            plugin.keyWords.some((keyWord) => {
+              if (
+                keyWord
+                  .toLocaleUpperCase()
+                  .indexOf(value.toLocaleUpperCase()) >= 0
+              ) {
+                has = keyWord;
+                plugin.name = keyWord;
+                return true;
+              }
+              return false;
+            });
+            return has;
+          } else {
+            return false;
+          }
+        })
+        .map((plugin) => {
+          return {
+            ...plugin,
+            zIndex: 1,
+            click: () => {
+              openPlugin(plugin);
+            },
+          };
+        }),
+    ];
+    return options;
     }
 
     // search Input operation

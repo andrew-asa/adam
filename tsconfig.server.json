@@ -1,6 +1,24 @@
 {
+    "include": ["src/main/server/index.ts"],
     "compilerOptions": {
-      "outDir": "dist/server"
-    },
-    "include": ["src/main/server/index.ts"]
+      "outDir": "dist/server",
+      "composite": true,
+      "baseUrl": ".",
+      "paths": {
+        "@/*": [
+          "src/*"
+        ],
+        "@main/*": [
+          "src/main/*"
+        ],
+        "@common/*": [
+          "src/common/*"
+        ],
+        "@resources/*": [
+          "resources/*"
+        ],
+      },
+      "noUnusedLocals": false,
+      "noUnusedParameters": false
+    }
 }

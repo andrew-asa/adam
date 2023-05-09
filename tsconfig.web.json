@@ -17,6 +17,9 @@
       "@renderer/*": [
         "src/renderer/src/*"
       ],
+      "@common/*": [
+        "src/common/*"
+      ],
     },
     "noUnusedLocals": false,
     "noUnusedParameters": false,

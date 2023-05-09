@@ -2,9 +2,10 @@ import renderer_api from "@main/services/renderer_api";
 import createTray from "@main/app/menus/tray";
 import { registerApp } from "@main/app/applistener";
 import server from "@/main/server/server";
+import { backendpor } from "@/common/common_const";
 function startServer(){
     try{
-        const handler = server(3003);
+        const handler = server(backendpor);
     }catch(err){
         console.log("服务器启动失败",err);
     }

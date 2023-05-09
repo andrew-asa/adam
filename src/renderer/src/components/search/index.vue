@@ -1,12 +1,14 @@
 <template>
-  <div
-    v-if="isWindows"
-    class="drag-bar"
-  ></div>
-  <div :class="isMacOS && 'drag'"></div>
-  <div class="adam-select">
-    <search @onSearch="onSearch"></search>
-    <result></result>
+  <div class="adam-search-container">
+    <div
+      v-if="isWindows"
+      class="drag-bar"
+    ></div>
+    <div :class="isMacOS && 'drag'"></div>
+    <div class="adam-select">
+      <search @onSearch="onSearch"></search>
+      <result></result>
+    </div>
   </div>
 </template>
 <script setup lang="ts">

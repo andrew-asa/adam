@@ -1,15 +1,13 @@
 import { defineStore } from "pinia";
 import { getApps } from "../utils/app/app_api";
+import _ from "lodash";
 
 export const userStore = defineStore("demo_result", {
     state: () => {
         return {
             searchValue: "",
-            options: [
-                {
-                    name: "wechat",
-                }
-            ],
+            options: [],
+            apps: [],
         };
     },
     actions: {
@@ -18,7 +16,16 @@ export const userStore = defineStore("demo_result", {
         },
         initOptions() {
             getApps().then(({ data }) => {
-                this.options = data;
+                _.each(data, (app: any) => {
+                    app.name = app._name || app.name;
+                    this.apps.push(app);
+                })
+                // this.options = this.apps
+            })
+        },
+        search(value: string) {
+            this.options = this.apps.filter((app: any) => {
+                return app.name.includes(value);
             })
         }
     }

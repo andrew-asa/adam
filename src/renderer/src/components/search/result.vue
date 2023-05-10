@@ -1,5 +1,9 @@
 <template>
-  <div v-for="option in options">{{ option.name || option._name }}</div>
+  <div class="options">
+    <el-scrollbar>
+      <div v-for="option in options">{{ option.name }}</div>
+    </el-scrollbar>
+  </div>
 </template>
 <script setup lang="ts">
 const props = defineProps({
@@ -19,4 +23,34 @@ const props = defineProps({
   clipboardFile: (() => [])()
 })
 </script>
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.options {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+  max-height: calc(~'100vh - 64px');
+  overflow: auto;
+  background: var(--color-body-bg);
+  .op-item {
+    padding: 0 10px;
+    height: 60px;
+    line-height: 50px;
+    max-height: 500px;
+    overflow: auto;
+    // background: var(--color-body-bg);
+    // color: var(--color-text-content);
+    // border-color: var(--color-border-light);
+    // &.active {
+    //   background: var(--color-list-hover);
+    // }
+    // .ant-list-item-meta-title {
+    //   color: var(--color-text-content);
+    // }
+    // .ant-list-item-meta-description {
+    //   color: var(--color-text-desc);
+    // }
+  }
+}
+</style>

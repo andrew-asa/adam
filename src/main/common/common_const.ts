@@ -31,6 +31,13 @@ export const LOGGER_PATH = path.join(CONFIGURE_DIR, "./adam_log.txt");
 // log文件最大容量1MB
 export const MAX_LOG_SIZE = 1024 * 1024;
 
+/**
+ * @Author andrew
+ * @Description 用户应用空间下的文件列表
+ */
+export const apps_user_files = {
+  apps_list: "apps_list.json",
+}
 
 
 

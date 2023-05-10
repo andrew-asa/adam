@@ -6,12 +6,6 @@ export class AppsList implements ApiResponse {
     path = api_urls.get_apps
     async action(ctx: any) {
         const apps = await getApps()
-        // console.log(apps)
-        // const data = {
-        //     name: 'John Doe12',
-        //     age: 33,
-        //     email: 'johndoe@example.com'
-        // };
         ctx.body = apps;
     }
 }

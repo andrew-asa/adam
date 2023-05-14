@@ -30,6 +30,7 @@ export class ElectronWindowStateManage {
             const data = fs.readFileSync(this.fullStoreFileName, 'utf8')
             this.state = JSON.parse(data)
         } catch (err) {
+        
             // Don't care
             console.log(`Error: ${err}`);
         }

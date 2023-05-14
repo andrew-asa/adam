@@ -1,6 +1,10 @@
 <template>
   <div>
-    <search-pane @search="search"></search-pane>
+    <search-pane
+      @search="search"
+      @clear="clear"
+    ></search-pane>
+    <el-icon><Setting /></el-icon>
   </div>
   <div>
     <result :options="options"></result>
@@ -9,18 +13,18 @@
 <script setup lang="ts">
 import result from '@renderer/components/search/result.vue'
 import searchPane from '@renderer/components/lib/search_pane.vue'
-import { userStore } from './result_store';
-import { storeToRefs } from 'pinia';
-import { onMounted } from 'vue';
+import { userStore } from './result_store'
+import { storeToRefs } from 'pinia'
+import { onMounted } from 'vue'
 const store = userStore()
 const { options } = storeToRefs(store)
 const add = () => {
-    store.addOption({
-        name: 'xxxxx'
-    })
+  store.addOption({
+    name: 'xxxxx'
+  })
 }
 const initOptions = () => {
-    store.initOptions()
+  store.initOptions()
 }
 onMounted(() => {
   initOptions()
@@ -28,6 +32,9 @@ onMounted(() => {
 
 const search = (searchText) => {
   store.search(searchText)
+}
+const clear = () => {
+  search('')
 }
 </script>
 <style scoped></style>

@@ -25,6 +25,7 @@ export const backendpor = 3333
  */
 export const api_urls = {
     get_apps: "/apps/get",
+    get_file: "/file"
 }
 
 

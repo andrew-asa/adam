@@ -1,7 +1,11 @@
 <template>
   <div class="options">
     <el-scrollbar>
-      <div v-for="option in options">{{ option.name }}</div>
+      
+      <div class= "op-item" v-for="option in options">
+        <el-avatar shape="square" :size="50" :src="`${option.icon_path}`" />
+        {{ option.name }}
+      </div>
     </el-scrollbar>
   </div>
 </template>
@@ -22,6 +26,7 @@ const props = defineProps({
   currentPlugin: {},
   clipboardFile: (() => [])()
 })
+
 </script>
 <style scoped lang="less">
 .options {

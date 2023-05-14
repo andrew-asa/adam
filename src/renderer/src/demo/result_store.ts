@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { getApps } from "../utils/app/app_api";
+import { getApps, getUrl,getAppIconPath } from "../utils/app/app_api";
 import _ from "lodash";
-
+import { api_urls } from "@/common/common_const";
+// import {getUrl} from "../utils/app/app_api";
 export const userStore = defineStore("demo_result", {
     state: () => {
         return {
@@ -17,9 +18,12 @@ export const userStore = defineStore("demo_result", {
         initOptions() {
             getApps().then(({ data }) => {
                 _.each(data, (app: any) => {
-                    app.name = app._name || app.name;
+                    app.icon_path = getAppIconPath(app.icon);
                     this.apps.push(app);
                 })
+                if (!_.isEmpty(this.apps)) {
+                    this.options = [this.apps.shift()];
+                }
                 // this.options = this.apps
             })
         },

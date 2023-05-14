@@ -1,5 +1,6 @@
 import { ApiResponse } from "./ApiResponse";
 import { AppsList } from "./AppsList";
+import { Files } from "./Files";
 const base_path = "/api"
 function registerApi(router, api: ApiResponse) {
     if (api.action && (api.method === "get" || api.method === "post")) {
@@ -7,7 +8,8 @@ function registerApi(router, api: ApiResponse) {
         const path = base_path + api.path
         console.log(`register api ${method} ${path}`)
         router[method](path, api.action)
-    } else if (api.actions) {
+    }
+    if (api.actions) {
         api.actions.forEach(item => {
             registerApi(router, item)
         })
@@ -15,7 +17,8 @@ function registerApi(router, api: ApiResponse) {
 }
 function registerApis(router) {
     const list = [
-        new AppsList()
+        new AppsList(),
+        new Files()
     ]
     list.forEach(item => {
         registerApi(router, item)

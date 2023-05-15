@@ -26,6 +26,7 @@ import { ref } from 'vue'
 const nodeEnv = ref(isNodeEnv())
 </script>
 <style>
+@import url('./assets/css/common.css');
 body {
   -webkit-app-region: drag;
 }

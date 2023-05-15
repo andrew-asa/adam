@@ -43,7 +43,7 @@ const props = defineProps({
     height: 60px;
     line-height: 50px;
     max-height: 500px;
-    overflow: auto;
+    // overflow: auto;
     // background: var(--color-body-bg);
     // color: var(--color-text-content);
     // border-color: var(--color-border-light);

@@ -8,7 +8,7 @@ import { nativeImage } from 'electron';
 import { spawn } from "child_process";
 import translate from "@/main/common/utils/translate";
 import _ from "lodash";
-import { CONFIGURE_DIR } from "@/main/common/common_const";
+import { CONFIGURE_DIR, apps_user_files } from "@/main/common/common_const";
 import { createDir } from "@/main/common/utils/io_utils";
 const plist = require('plist');
 export class MacAppServices implements AppServices {
@@ -19,10 +19,10 @@ export class MacAppServices implements AppServices {
     private isZhRegex = /[\u4e00-\u9fa5]/
     constructor() {
         // this.icondir = path.join(os.tmpdir(), "ProcessIcon");
-        this.icondir = path.join(CONFIGURE_DIR, "cache/ProcessIcon");
+        this.icondir = path.join(CONFIGURE_DIR, apps_user_files.apps_icon_cache_dir);
         const exists = fs.existsSync(this.icondir);
         if (!exists) {
-            createDir(CONFIGURE_DIR, "/cache/ProcessIcon");
+            createDir(CONFIGURE_DIR, apps_user_files.apps_icon_cache_dir);
         }
     }
     async getAppIcon(
@@ -103,8 +103,7 @@ export class MacAppServices implements AppServices {
         if (await this.getAppIcon(app.path, app.name)) {
             app.icon =
                 path.join(
-                    "cache",
-                    "ProcessIcon",
+                    apps_user_files.apps_icon_cache_dir,
                     `${encodeURIComponent(app.name)}.png`
                 );
         }

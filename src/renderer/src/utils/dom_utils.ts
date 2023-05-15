@@ -38,8 +38,8 @@ const COMMON_KEYS = {
  * @example simulateKeyPress(document, KEYS.ENTER);
  * @returns {void}
  */
-export function simulateKeyPress(element: HTMLElement = document, key: string, options?: KeyboardEventInit) {
-    const event = new KeyboardEvent('keydown', { key, ...options });
-    element.dispatchEvent(event);
-}
+// export function simulateKeyPress(element: HTMLElement = document, key: string, options?: KeyboardEventInit) {
+//     const event = new KeyboardEvent('keydown', { key, ...options });
+//     element.dispatchEvent(event);
+// }
 

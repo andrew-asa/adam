@@ -1,17 +1,25 @@
-import { defineStore } from "pinia";
-import { getApps, getUrl,getAppIconPath } from "../utils/app/app_api";
+import { DefineStoreOptions, defineStore } from "pinia";
+import { getApps, getUrl, getAppIconPath } from "../utils/app/app_api";
 import _ from "lodash";
 import { api_urls } from "@/common/common_const";
-// import {getUrl} from "../utils/app/app_api";
-export const userStore = defineStore("demo_result", {
-    state: () => {
-        return {
-            searchValue: "",
-            options: [],
-            apps: [],
-        };
-    },
+
+export const userStore = defineStore({
+    id: "result_store",
+    state: () => ({
+        searchValue: "",
+        options: [],
+        apps: [],
+        pageCount: 5,
+    }),
     actions: {
+
+        setPageCount(pageCount: number) {
+            console.log(`setPageCount: ${pageCount}`);
+            if (pageCount > 0) {
+                this.pageCount = pageCount;
+                this._showOptions(this.apps);
+            }
+        },
         addOption(option: any) {
             this.options.push(option);
         },
@@ -22,15 +30,22 @@ export const userStore = defineStore("demo_result", {
                     this.apps.push(app);
                 })
                 if (!_.isEmpty(this.apps)) {
-                    this.options = [this.apps.shift()];
+                    // this.options = [this.apps.shift()];
+                    this._showOptions(this.apps);
                 }
                 // this.options = this.apps
             })
         },
         search(value: string) {
-            this.options = this.apps.filter((app: any) => {
+            this._showOptions(this.apps.filter((app: any) => {
                 return app.name.includes(value);
-            })
+            }));
+        },
+        _showOptions(apps, page = 0) {
+            this.options = apps.slice(page * this.pageCount, (page + 1) * this.pageCount);
+        },
+        reshowOptions() {
+            this._showOptions(this.apps);
         }
-    }
+    },
 })

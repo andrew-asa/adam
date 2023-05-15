@@ -36,7 +36,14 @@ export const MAX_LOG_SIZE = 1024 * 1024;
  * @Description 用户应用空间下的文件列表
  */
 export const apps_user_files = {
+  /**
+   * 应用列表文件
+   */
   apps_list: "apps_list.json",
+  /**
+   * 应用图标缓存文件
+   */
+  apps_icon_cache_dir: "cache/ProcessIcon",
 }
 
 

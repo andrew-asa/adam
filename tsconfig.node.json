@@ -24,7 +24,7 @@
       ],
       "@resources/*": [
         "resources/*"
-      ],
+      ]
     },
     "noUnusedLocals": false,
     "noUnusedParameters": false

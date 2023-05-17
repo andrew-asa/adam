@@ -7,7 +7,7 @@ function registerApi(router, api: ApiResponse) {
         const method = (api.method || "get").toLocaleLowerCase()
         const path = base_path + api.path
         console.log(`register api ${method} ${path}`)
-        router[method](path, api.action)
+        router[method](path, api.action.bind(api))
     }
     if (api.actions) {
         api.actions.forEach(item => {

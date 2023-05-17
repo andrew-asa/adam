@@ -30,29 +30,21 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Server",
-      // "runtimeExecutable": "nodemon",
-      // "program": "${workspaceFolder}/src/main/server/index.ts",
-      // "restart": true,
-      // "console": "integratedTerminal",
-      // "internalConsoleOptions": "neverOpen",
-      // "sourceMaps": true,
-      // "outFiles": ["${workspaceFolder}/dist/server/*.js"]
       "runtimeArgs": [
         "-r",
         "ts-node/register",
         "-r",
         "tsconfig-paths/register",
         "node_modules/ts-node-dev/lib/bin.js",
-        // "-p",
-        // "${workspaceFolder}/tsconfig.server.json",
         "--respawn",
         "--transpile-only",
         "${workspaceFolder}/src/main/server/index.ts"
       ],
       "restart": true,
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
-    }
+      "internalConsoleOptions": "neverOpen",
+      "args": ["--project", "${workspaceFolder}/tsconfig.server.json"]
+    },
   ],
   "compounds": [
     {

@@ -10,6 +10,7 @@ export const userStore = defineStore({
         options: [],
         apps: [],
         pageCount: 5,
+        _init: false
     }),
     actions: {
 
@@ -24,22 +25,30 @@ export const userStore = defineStore({
             this.options.push(option);
         },
         initOptions() {
-            getApps().then(({ data }) => {
-                _.each(data, (app: any) => {
-                    app.icon_path = getAppIconPath(app.icon);
-                    this.apps.push(app);
+            if (!this._init) {
+                getApps().then(({ data }) => {
+                    _.each(data, (app: any) => {
+                        app.icon_path = getAppIconPath(app.icon);
+                        app.zIndex = 0;
+                        this.apps.push(app);
+                    })
+                    if (!_.isEmpty(this.apps)) {
+                        // this.options = [this.apps.shift()];
+                        this._showOptions(this.apps);
+                    }
+                    this._init = true;
                 })
-                if (!_.isEmpty(this.apps)) {
-                    // this.options = [this.apps.shift()];
-                    this._showOptions(this.apps);
-                }
-                // this.options = this.apps
-            })
+            } else {
+                this._showOptions(this.apps);
+            }
         },
         search(value: string) {
-            this._showOptions(this.apps.filter((app: any) => {
+            this.searchValue = value;
+            const s = this.apps.filter((app: any) => {
                 return app.name.includes(value);
-            }));
+            })
+            // console.log(`search: ${value} result: ${JSON.stringify(s)}`);
+            this._showOptions(s);
         },
         _showOptions(apps, page = 0) {
             this.options = apps.slice(page * this.pageCount, (page + 1) * this.pageCount);

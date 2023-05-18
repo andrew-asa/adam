@@ -15,11 +15,14 @@ function registerApi(router, api: ApiResponse) {
         })
     }
 }
-function registerApis(router) {
-    const list = [
+function getApiProviders() {
+    return [
         new AppsList(),
         new Files()
     ]
+}
+function registerApis(router) {
+    const list = getApiProviders()
     list.forEach(item => {
         registerApi(router, item)
     })

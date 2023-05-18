@@ -1,15 +1,52 @@
 <template>
+  <!-- <div class="options">
+    <el-scrollbar>
+      <div
+        class="op-item"
+        v-for="item in options"
+      >
+        <span v-html="renderTitle(item.name)"></span>
+        <el-avatar
+          style="border-radius: 0"
+          shape="square"
+          :size="50"
+          :src="`${item.icon_path}`"
+        />
+      </div>
+    </el-scrollbar>
+  </div> -->
   <div class="options">
     <el-scrollbar>
-      
-      <div class= "op-item" v-for="option in options">
-        <el-avatar shape="square" :size="50" :src="`${option.icon_path}`" />
-        {{ option.name }}
-      </div>
+      <AList
+        item-layout="horizontal"
+        :dataSource="options"
+      >
+        <template #renderItem="{ item, index }">
+          <AListItem
+            @click="() => item.click && item.click()"
+            :class="currentSelect === index ? 'active op-item' : 'op-item'"
+          >
+            <AListItemMeta :description="renderDesc(item.path)">
+              <template #title>
+                <span v-html="renderTitle(item.name)"></span>
+              </template>
+              <template #avatar>
+                <a-avatar
+                  style="border-radius: 0"
+                  :src="item.icon_path"
+                />
+              </template>
+            </AListItemMeta>
+          </AListItem>
+        </template>
+      </AList>
     </el-scrollbar>
   </div>
 </template>
 <script setup lang="ts">
+import { List, ListItem, ListItemMeta } from 'ant-design-vue'
+import 'ant-design-vue/lib/button/style/css'
+
 const props = defineProps({
   searchValue: {
     type: [String, Number],
@@ -26,7 +63,35 @@ const props = defineProps({
   currentPlugin: {},
   clipboardFile: (() => [])()
 })
+const renderDesc = (desc) => {
+  if (desc.length > 80) {
+    return `${desc.substr(0, 63)}...${desc.substr(desc.length - 14, desc.length)}`
+  }
+  return desc
+}
+const renderTitle = (title) => {
+  if (typeof title !== 'string') return
+  if (!props.searchValue) return title
+  const result = title.toLowerCase().split(props.searchValue.toLowerCase())
+  if (result && result.length > 1) {
+    return `<div>${result[0]}<span style='color: red'>${props.searchValue}</span>${result[1]}</div>`
+  } else {
+    return `<div>${result[0]}</div>`
+  }
+}
 
+const sort = (options) => {
+  for (let i = 0; i < options.length; i++) {
+    for (let j = i + 1; j < options.length; j++) {
+      if (options[j].zIndex > options[i].zIndex) {
+        let temp = options[i]
+        options[i] = options[j]
+        options[j] = temp
+      }
+    }
+  }
+  return options
+}
 </script>
 <style scoped lang="less">
 .options {

@@ -32,7 +32,7 @@
     </template>
   </el-dialog>
   <div>
-    <result :options="options" :searchValue="searchValue"></result>
+    <result :options="options" :searchValue="searchValue" :currentSelect="currentSelect"></result>
   </div>
 </template>
 <script setup lang="ts">
@@ -42,7 +42,7 @@ import { userStore } from './result_store'
 import { storeToRefs } from 'pinia'
 import { onMounted, reactive, ref, watch } from 'vue'
 const store = userStore()
-const { options, pageCount,searchValue } = storeToRefs(store)
+const { options, pageCount,searchValue,currentSelect } = storeToRefs(store)
 const dialogVisible = ref(false)
 
 const form = reactive({

@@ -6,7 +6,7 @@ import { starter } from "./starter"
 import _ from 'lodash'
 const empty_fun = () => {
 }
-export const ctx = Object.freeze({
+const _ctx = {
     app: {
         controller: new AppController(),
         search: {
@@ -22,10 +22,11 @@ export const ctx = Object.freeze({
     utils: {
         dom: dom_utils
     },
-    lib:{
+    lib: {
         _
     }
-})
+}
+export const ctx = Object.freeze(_ctx)
 export class ctx_starter implements starter {
     name: string = "ctx_starter"
     start(app: App) {

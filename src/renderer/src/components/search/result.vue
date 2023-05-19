@@ -44,12 +44,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { List, ListItem, ListItemMeta } from 'ant-design-vue'
 import 'ant-design-vue/lib/button/style/css'
+import _ from 'lodash'
 
 const props = defineProps({
   searchValue: {
-    type: [String, Number],
+    type: [String],
     default: ''
   },
   options: {
@@ -61,7 +61,10 @@ const props = defineProps({
     default: 0
   },
   currentPlugin: {},
-  clipboardFile: (() => [])()
+  clipboardFile: {
+    type: Array,
+    default: (() => [])()
+  }
 })
 const renderDesc = (desc) => {
   if (desc.length > 80) {
@@ -70,9 +73,13 @@ const renderDesc = (desc) => {
   return desc
 }
 const renderTitle = (title) => {
-  if (typeof title !== 'string') return
-  if (!props.searchValue) return title
-  const result = title.toLowerCase().split(props.searchValue.toLowerCase())
+  if (typeof title !== 'string') {
+    return ''
+  }
+  if (!props.searchValue) {
+    return title
+  }
+  const result = _.toLower(title).split(_.toLower(props.searchValue))
   if (result && result.length > 1) {
     return `<div>${result[0]}<span style='color: red'>${props.searchValue}</span>${result[1]}</div>`
   } else {
@@ -102,25 +109,17 @@ const sort = (options) => {
   z-index: 99;
   max-height: calc(~'100vh - 64px');
   overflow: auto;
-  background: var(--color-body-bg);
+  // background: var(--color-body-bg);
   .op-item {
     padding: 0 10px;
     height: 60px;
     line-height: 50px;
     max-height: 500px;
-    // overflow: auto;
-    // background: var(--color-body-bg);
-    // color: var(--color-text-content);
-    // border-color: var(--color-border-light);
-    // &.active {
-    //   background: var(--color-list-hover);
-    // }
-    // .ant-list-item-meta-title {
-    //   color: var(--color-text-content);
-    // }
-    // .ant-list-item-meta-description {
-    //   color: var(--color-text-desc);
-    // }
+    overflow: auto;
+    background: #fafafa;
+    &.active {
+      background: #dee2e8;
+    }
   }
 }
 </style>

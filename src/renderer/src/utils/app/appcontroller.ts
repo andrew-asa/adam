@@ -73,4 +73,7 @@ export default class AppController {
     public sendSubInputChangeEvent(value: String) {
         this.sendSyncMessage("subInputChangeEvent", { text: value });
     }
+    public home() {
+        this.sendMessage("home", {});
+    }
 }

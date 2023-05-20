@@ -102,13 +102,13 @@ const sort = (options) => {
 </script>
 <style scoped lang="less">
 .options {
-  position: absolute;
-  top: 62px;
-  left: 0;
+  // position: absolute;
+  // top: 62px;
+  // left: 0;
   width: 100%;
   z-index: 99;
   max-height: calc(~'100vh - 64px');
-  overflow: auto;
+  // overflow: auto;
   // background: var(--color-body-bg);
   .op-item {
     padding: 0 10px;

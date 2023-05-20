@@ -2,6 +2,7 @@ import AppController from "@renderer/utils/app/appcontroller"
 import { App } from "vue"
 import * as commomConstant from "@renderer/utils/constants/common_const"
 import * as dom_utils from "@renderer/utils/dom_utils"
+import * as hook from '@renderer/core/hook'
 import { starter } from "./starter"
 import _ from 'lodash'
 const empty_fun = () => {
@@ -9,13 +10,14 @@ const empty_fun = () => {
 const _ctx = {
     app: {
         controller: new AppController(),
-        search: {
-            hooks: {
-                onShow: empty_fun,
-                onHide: empty_fun
-            }
-        }
+        // search: {
+        //     hooks: {
+        //         onShow: empty_fun,
+        //         onHide: empty_fun
+        //     }
+        // }
     },
+    hook,
     constant: {
         ...commomConstant
     },

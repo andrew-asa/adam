@@ -1,5 +1,7 @@
 <template>
-  <div class="search-container"><search> </search></div>
+  <div class="search-container">
+    <search> </search>
+  </div>
 </template>
 <script setup lang="ts">
 import search from '@renderer/components/search/index.vue'

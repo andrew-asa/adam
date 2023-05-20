@@ -5,19 +5,36 @@
       class="drag-bar"
     ></div>
     <div :class="isMacOS && 'drag'"></div>
-    <div class="adam-select">
-      <search @onSearch="onSearch"></search>
-      <result></result>
+    <div>
+      <search
+        :currentPlugin="currentPlugin"
+        :searchValue="searchValue"
+        :placeholder="placeholder"
+        @onSearch="(e) => store.search(e.target.value)"
+        @onKeydown="(e) => store.keydown(e)"
+      ></search>
+      <result
+        :options="options"
+        :searchValue="searchValue"
+        :currentSelect="currentSelect"
+      ></result>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { isMacOS, isWindows, isElectron } from '@renderer/utils/constants/common_const'
+import { storeToRefs } from 'pinia'
+import { onMounted, reactive, ref, watch } from 'vue'
 import search from './search.vue'
 import result from './result.vue'
-import { ref } from 'vue'
-import createPluginManager from './plugins/manager/plugin_manager'
-const { onSearch } = createPluginManager()
+import { userStore } from './plugins/plugins_store'
+import _ from 'lodash'
+const store = userStore()
+const {searchValue, currentPlugin, options, currentSelect,placeholder } = storeToRefs(store)
+onMounted(() => {
+  store.initOptions()
+})
+// const handleSearchDebounce = _.debounce(store.search.bind(store), 100)
 </script>
 <style scoped lang="less">
 .drag-bar {

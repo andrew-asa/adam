@@ -56,11 +56,6 @@ function _debugListener(win: BrowserWindow) {
     })
 }
 function setWindow(win: BrowserWindow) {
-    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-        win.loadURL(process.env['ELECTRON_RENDERER_URL'])
-    } else {
-        win.loadFile(path.join(__dirname, '../renderer/index.html'))
-    }
     // 设置窗口是否可移动
     win.setMovable(true)
     // 设置窗口是否总在最前
@@ -72,6 +67,12 @@ function setWindow(win: BrowserWindow) {
     })
     // 设置窗口显示的位置
     windowPositionManager(win)
+    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+        console.log(`setWindow ${process.env['ELECTRON_RENDERER_URL']}`);
+        win.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    } else {
+        win.loadFile(path.join(__dirname, '../renderer/index.html'))
+    }
 }
 
 function createDefaultWindow() {
@@ -91,7 +92,7 @@ function createDefaultWindow() {
         // 指定窗口是否在任务栏中显示。
         skipTaskbar: true,
         // autoHideMenuBar: true,
-        alwaysOnTop: true,
+        // alwaysOnTop: true,
         webPreferences: {
             // 指定是否启用 Web 安全性。
             webSecurity: false,

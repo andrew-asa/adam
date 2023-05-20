@@ -19,6 +19,12 @@ export class BrowserController implements Action, Controller {
     back(): void {
         history.go(-1)
     }
+    home(): void {
+        
+    }
+    refresh(): void {
+        history.go(0)
+    }
     action(action: string, data: any) {
         // console.log(action, data);
         const fn = this[action];

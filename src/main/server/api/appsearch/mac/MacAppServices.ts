@@ -80,6 +80,7 @@ export class MacAppServices implements AppServices {
 
             fs.writeFile(iconpath, result, "base64", () => {
                 // todo
+                // console.log(`write ${iconpath}`);
             });
 
             return true;

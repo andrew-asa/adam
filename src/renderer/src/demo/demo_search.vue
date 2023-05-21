@@ -8,7 +8,7 @@ import search from '@renderer/components/search/index.vue'
 </script>
 <style scoped>
 .search-container {
-  width: 600px;
+  width: 800px;
 }
 /* .search-container .adam-search-container {
   width: 600px;

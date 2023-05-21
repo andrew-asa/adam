@@ -1,32 +1,19 @@
 <template>
-  <!-- <div class="options">
-    <el-scrollbar>
-      <div
-        class="op-item"
-        v-for="item in options"
-      >
-        <span v-html="renderTitle(item.name)"></span>
-        <el-avatar
-          style="border-radius: 0"
-          shape="square"
-          :size="50"
-          :src="`${item.icon_path}`"
-        />
-      </div>
-    </el-scrollbar>
-  </div> -->
-  <div class="options">
-    <el-scrollbar>
-      <AList
+  <div ref="scrollDom">
+    <div
+      v-show="!!options.length && (searchValue || !!clipboardFile.length) && !currentPlugin.name"
+      class="options"
+    >
+      <a-list
         item-layout="horizontal"
-        :dataSource="options"
+        :dataSource="sort(options)"
       >
         <template #renderItem="{ item, index }">
-          <AListItem
-            @click="() => item.click && item.click()"
+          <a-list-item
+            @click="() => clickPlugin(item)"
             :class="currentSelect === index ? 'active op-item' : 'op-item'"
           >
-            <AListItemMeta :description="renderDesc(item.path)">
+            <a-list-item-meta :description="renderDesc(item.path)">
               <template #title>
                 <span v-html="renderTitle(item.name)"></span>
               </template>
@@ -36,20 +23,30 @@
                   :src="item.icon_path"
                 />
               </template>
-            </AListItemMeta>
-          </AListItem>
+            </a-list-item-meta>
+          </a-list-item>
         </template>
-      </AList>
-    </el-scrollbar>
+      </a-list>
+    </div>
   </div>
 </template>
-<script setup lang="ts">
-import 'ant-design-vue/lib/button/style/css'
-import _ from 'lodash'
+
+<script lang="ts" setup>
+import BScroll from '@better-scroll/core'
+import { defineProps, onMounted, ref } from 'vue'
+
+const scrollDom = ref(null)
+
+onMounted(() => {
+  console.log(`scrollDom`, scrollDom.value)
+  new BScroll(scrollDom.value, {
+    scrollbar: true
+  })
+})
 
 const props = defineProps({
   searchValue: {
-    type: [String],
+    type: [String, Number],
     default: ''
   },
   options: {
@@ -61,30 +58,25 @@ const props = defineProps({
     default: 0
   },
   currentPlugin: {},
-  clipboardFile: {
-    type: Array,
-    default: (() => [])()
-  }
+  clipboardFile: (() => [])()
 })
-const renderDesc = (desc) => {
-  if (desc.length > 80) {
-    return `${desc.substr(0, 63)}...${desc.substr(desc.length - 14, desc.length)}`
-  }
-  return desc
-}
+
 const renderTitle = (title) => {
-  if (typeof title !== 'string') {
-    return ''
-  }
-  if (!props.searchValue) {
-    return title
-  }
-  const result = _.toLower(title).split(_.toLower(props.searchValue))
+  if (typeof title !== 'string') return
+  if (!props.searchValue) return title
+  const result = title.toLowerCase().split(props.searchValue.toLowerCase())
   if (result && result.length > 1) {
     return `<div>${result[0]}<span style='color: red'>${props.searchValue}</span>${result[1]}</div>`
   } else {
     return `<div>${result[0]}</div>`
   }
+}
+
+const renderDesc = (desc) => {
+  if (desc.length > 80) {
+    return `${desc.substr(0, 63)}...${desc.substr(desc.length - 14, desc.length)}`
+  }
+  return desc
 }
 
 const sort = (options) => {
@@ -99,8 +91,10 @@ const sort = (options) => {
   }
   return options
 }
+const clickPlugin = (plugin) => {}
 </script>
-<style scoped lang="less">
+
+<style lang="less">
 .options {
   // position: absolute;
   // top: 62px;
@@ -109,7 +103,6 @@ const sort = (options) => {
   z-index: 99;
   max-height: calc(~'100vh - 64px');
   // overflow: auto;
-  // background: var(--color-body-bg);
   .op-item {
     padding: 0 10px;
     height: 60px;

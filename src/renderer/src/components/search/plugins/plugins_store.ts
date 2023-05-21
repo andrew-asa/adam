@@ -37,8 +37,8 @@ export const userStore = defineStore({
         /**
          * 粘贴板中文件
          */
-        clipbordFile: [],
-        pageCount: 5,
+        clipboardFile: [],
+        pageCount: 35,
         _init: false,
     }),
     actions: {
@@ -108,9 +108,28 @@ export const userStore = defineStore({
             this.searchValue = value;
         },
         _doSearch(value: string) {
-            console.log(`search: ${value}`);
-            const s = this.apps.filter((app: any) => {
-                return app.name.includes(value);
+            let options = this.apps
+            const descMap = new Map();
+            const s = options.filter((plugin: any) => {
+                if (!descMap.get(plugin)) {
+                    descMap.set(plugin, true);
+                    let has = false;
+                    plugin.keyWords.some((keyWord) => {
+                        if (
+                            keyWord
+                                .toLocaleUpperCase()
+                                .indexOf(value.toLocaleUpperCase()) >= 0
+                        ) {
+                            has = keyWord;
+                            plugin.name = keyWord;
+                            return true;
+                        }
+                        return false;
+                    });
+                    return has;
+                } else {
+                    return false;
+                }
             })
             this._showOptions(s);
         },
@@ -146,7 +165,7 @@ export const userStore = defineStore({
          * 上，下，tab键挑选应用
          */
         _checkSelectKeyPress(e: any) {
-           
+
             if (e.key === 'ArrowUp' || e.key === 'Up') {
                 this.changCurrentSelect(-1);
             }
@@ -172,6 +191,7 @@ export const userStore = defineStore({
             }
         },
         _showOptions(options, page = 0) {
+            this.currentSelect = 0
             this.options = []
             if (!_.isEmpty(options)) {
                 this.options = options.slice(page * this.pageCount, (page + 1) * this.pageCount);

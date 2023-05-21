@@ -8,12 +8,15 @@
     <div>
       <search
         :currentPlugin="currentPlugin"
+        :clipboardFile="clipboardFile"
         :searchValue="searchValue"
         :placeholder="placeholder"
         @onSearch="(e) => store.search(e.target.value)"
         @onKeydown="(e) => store.keydown(e)"
       ></search>
       <result
+        :currentPlugin="currentPlugin"
+        :clipboardFile="clipboardFile"
         :options="options"
         :searchValue="searchValue"
         :currentSelect="currentSelect"
@@ -30,7 +33,8 @@ import result from './result.vue'
 import { userStore } from './plugins/plugins_store'
 import _ from 'lodash'
 const store = userStore()
-const {searchValue, currentPlugin, options, currentSelect,placeholder } = storeToRefs(store)
+const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboardFile } =
+  storeToRefs(store)
 onMounted(() => {
   store.initOptions()
 })

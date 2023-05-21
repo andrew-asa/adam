@@ -85,15 +85,11 @@ class IconCacheProcess extends PngProcess {
         return false;
     }
     async process(filePath: string, ctx: any) {
-        // const maxage = 60 * 60;
-        // const lastModified = new Date(fs.statSync(this.getPath(filePath)).mtime);
-        // ctx.set('Last-Modified', lastModified.toUTCString()); // 设置 Last-Modified 响应头
-        // ctx.set('Cache-Control', `max-age=${maxage}`);
         ctx.set({
             'Cache-Control': 'max-age=3600', // 缓存时间为 1 小时
             'Expires': new Date(Date.now() + 3600 * 1000).toUTCString()
         });
-        console.log(`${filePath}`);
+        // console.log(`${filePath}`);
 
     }
 }

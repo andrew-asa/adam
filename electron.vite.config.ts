@@ -18,6 +18,9 @@ export default defineConfig({
     plugins: [externalizeDepsPlugin()]
   },
   renderer: {
+    // server: {
+    //   host: '0.0.0.0',
+    // },
     resolve: {
       alias: {
         '@': resolve('src'),

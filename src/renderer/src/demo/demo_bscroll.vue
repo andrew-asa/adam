@@ -1,73 +1,80 @@
 <template>
   <div
-    class="container"
-    ref="container"
+    class="wrapper options"
+    ref="wrapper"
   >
-    <a-list>
-      <a-list-item
-        v-for="(item, index) in list"
-        :key="index"
-        :class="currentSelect === index ? 'active op-item' : 'op-item'"
-      >
-        {{ item }}
-      </a-list-item>
-    </a-list>
+    <div
+      v-for="(item, index) in list"
+      :key="index"
+      :class="currentSelect === index ? 'active op-item' : 'op-item'"
+    >
+      {{ `index:${index} value:${item}` }}
+    </div>
   </div>
 </template>
-<script lang="ts">
-import BScrollCore from '@better-scroll/core'
-import MouseWheel from '@better-scroll/mouse-wheel'
-import ScrollBar from '@better-scroll/scroll-bar'
-import { onMounted, onUnmounted, ref } from 'vue'
-export default {
-  props: {},
-  components: {},
-  setup(props) {
-    const container = ref(null)
-    const list = Array.from({ length: 100 }, () => Math.random().toString(36).substring(2))
-    const currentSelect = ref(0)
-    let bs
-    const handleKeyDown = (event) => {
-      if (event.key === 'Tab') {
-        event.preventDefault()
-        currentSelect.value += 1
-        currentSelect.value %= list.length
-        const targetElement = container.querySelectorAll('.op-item')[currentSelect.value]
-        const targetRect = targetElement.getBoundingClientRect()
-        const containerRect = container.getBoundingClientRect()
-        if (targetRect.top < containerRect.top || targetRect.bottom > containerRect.bottom) {
-          bs.scrollToElement(targetElement, 300)
-        }
-      }
-    }
-    onMounted(() => {
-      bs = new BScrollCore(container.value, {
-        plugins: [MouseWheel, ScrollBar],
-        scrollY: true,
-        scrollbar: {
-          interactive: false, // 设置为false以禁用交互
-          fade: false // 设置为false以防止滚动条淡入淡出效果
-          //   offsetLeft: container.value.offsetWidth - 8 // 滚动条距离wrapper右侧的偏移量
-        }
-      })
-      window.addEventListener('keydown', handleKeyDown)
-    })
-    onUnmounted(() => {
-      window.removeEventListener('keydown', handleKeyDown)
-    })
-    return {
-      list,
-      currentSelect
-    }
+<script lang="ts" setup>
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+
+const list = Array.from({ length: 16 }, () => Math.random().toString(36).substring(2))
+const currentSelect = ref(0)
+const wrapper = ref(null)
+const setCurrentSelect = (index: number) => {
+  var len = list.length
+  if (len > 0) {
+    var i = (currentSelect.value + index) % len
+    currentSelect.value = i >= 0 ? i : len - 1
   }
 }
+const handleKeyDown = (event) => {
+  if (event.key === 'Tab') {
+    event.preventDefault()
+    setCurrentSelect(1) 
+    // event.preventDefault()
+  }
+  if (event.code === 'ArrowUp') {
+    setCurrentSelect(-1)
+  }
+  if (event.key === 'ArrowDown') {
+    setCurrentSelect(1)
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeyDown)
+})
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyDown)
+})
+
+const scrollToVisible = () => {
+  const wrapperEl = wrapper.value
+  const currentEl = wrapperEl.querySelector('.active')
+  if (!currentEl) {
+    return
+  }
+  const wrapperRect = wrapperEl.getBoundingClientRect()
+  const currentRect = currentEl.getBoundingClientRect()
+  if (currentRect.bottom > wrapperRect.bottom) {
+    wrapperEl.scrollTop += currentRect.bottom - wrapperRect.bottom
+  } else if (currentRect.top < wrapperRect.top) {
+    wrapperEl.scrollTop -= wrapperRect.top - currentRect.top
+  }
+}
+
+// 监听 currentSelect 的变化，并自动滚动到可见
+watch(currentSelect, scrollToVisible)
 </script>
 
-<style lang="less">
-.container {
-  width: 500px;
-  height: 500px;
+<style lang="less" scoped>
+.options {
+  // position: absolute;
+  // top: 62px;
+  // left: 0;
+  width: 600px;
+  height: 400px;
   z-index: 99;
+  // max-height: calc(~'100vh - 64px');
+  overflow: auto;
   .op-item {
     padding: 0 10px;
     height: 60px;

@@ -1,3 +1,4 @@
+import { Home } from "./api/Home";
 import registerApis from "./api/apis";
 
 const Koa = require('koa');
@@ -8,10 +9,11 @@ const bodyParser = require('koa-bodyparser');
 const server = (port = 3333) => {
     const app = new Koa();
     const router = new Router();
-
+    const home = new Home();
     // Define routes
     router.get('/', async (ctx) => {
-        ctx.body = 'Hello, Koa';
+        // ctx.body = 'Hello, Koa';
+        home.action(ctx);
     });
     registerApis(router);
     // Use middleware

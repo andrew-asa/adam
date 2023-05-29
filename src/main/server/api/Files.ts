@@ -64,6 +64,19 @@ class BaseExtResourceProcess implements ExtResourceProcess {
         return filePath;
     }
 }
+class TxtProcess extends BaseExtResourceProcess {
+    getExtension(): string {
+        return ".txt";
+    }
+    getContentType(): string {
+        return "text/plain";
+    }
+    async process(filePath: string, ctx: any) {
+        var basename = path.basename(filePath);
+        ctx.attachment(basename);
+        super.process(filePath, ctx);
+    }
+}
 class PngProcess extends BaseExtResourceProcess {
     getExtension(): string {
         return ".png";
@@ -101,7 +114,8 @@ export class Files implements ApiResponse {
     constructor() {
         this.exstProcess = [
             new PngProcess(),
-            new IconCacheProcess()
+            new IconCacheProcess(),
+            new TxtProcess()
         ]
     }
     action(ctx: any) {

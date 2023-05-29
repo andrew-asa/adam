@@ -1,0 +1,83 @@
+{
+    "root": {
+        "data": {
+            "id": "csuy3lsq0tk0",
+            "created": 1684975881407,
+            "text": "按键"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "csuy3x53g3s0",
+                    "created": 1684975906100,
+                    "text": "文本变化"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csuy4chlgf40",
+                            "created": 1684975939507,
+                            "text": "触发搜索"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "csuy48omu280",
+                    "created": 1684975931226,
+                    "text": "按键事件"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "csuy4gar9sw0",
+                            "created": 1684975947801,
+                            "text": "关键按键判断"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "csuy4shvhnk0",
+                                    "created": 1684975974353,
+                                    "text": "回车键"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "csuy4vaetog0",
+                                            "created": 1684975980432,
+                                            "text": "是否已经有选中的插件"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "csuy515yc940",
+                                            "created": 1684975993223,
+                                            "text": "没有选中插件"
+                                        },
+                                        "children": [
+                                            {
+                                                "data": {
+                                                    "id": "csuy55urra80",
+                                                    "created": 1684976003431,
+                                                    "text": "等同于点击插件"
+                                                },
+                                                "children": []
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

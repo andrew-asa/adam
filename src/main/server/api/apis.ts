@@ -1,6 +1,8 @@
 import { ApiResponse } from "./ApiResponse";
 import { AppsList } from "./AppsList";
 import { Files } from "./Files";
+import { Home } from "./Home";
+import { Plugins } from "./Plugins";
 const base_path = "/api"
 function registerApi(router, api: ApiResponse) {
     if (api.action && (api.method === "get" || api.method === "post")) {
@@ -15,10 +17,13 @@ function registerApi(router, api: ApiResponse) {
         })
     }
 }
+
 function getApiProviders() {
+    
     return [
         new AppsList(),
-        new Files()
+        new Files(),
+        new Plugins(),
     ]
 }
 function registerApis(router) {

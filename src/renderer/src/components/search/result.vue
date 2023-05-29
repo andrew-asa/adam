@@ -1,8 +1,9 @@
 <template>
-  <div ref="scrollDom">
+  <div>
     <div
       v-show="!!options.length && (searchValue || !!clipboardFile.length) && !currentPlugin.name"
       class="options"
+      ref="scrollDom"
     >
       <a-list
         item-layout="horizontal"
@@ -11,11 +12,12 @@
         <template #renderItem="{ item, index }">
           <a-list-item
             @click="() => clickPlugin(item)"
+            @dblclick="() => dblclickPlugin(item)"
             :class="currentSelect === index ? 'active op-item' : 'op-item'"
           >
-            <a-list-item-meta :description="renderDesc(item.path)">
+            <a-list-item-meta :description="renderDesc(item.path || item.desc)">
               <template #title>
-                <span v-html="renderTitle(item.name)"></span>
+                <span v-html="renderTitle(item.selectName || item.name)"></span>
               </template>
               <template #avatar>
                 <a-avatar
@@ -32,17 +34,9 @@
 </template>
 
 <script lang="ts" setup>
-import BScroll from '@better-scroll/core'
-import { defineProps, onMounted, ref } from 'vue'
+import { defineProps, onMounted, ref, watch, watchEffect } from 'vue'
 
 const scrollDom = ref(null)
-
-onMounted(() => {
-  console.log(`scrollDom`, scrollDom.value)
-  new BScroll(scrollDom.value, {
-    scrollbar: true
-  })
-})
 
 const props = defineProps({
   searchValue: {
@@ -91,7 +85,37 @@ const sort = (options) => {
   }
   return options
 }
-const clickPlugin = (plugin) => {}
+
+const scrollToVisible = (currentSelect) => {
+  const parent = scrollDom.value
+  const targetElement = parent.querySelectorAll('.op-item')[currentSelect]
+  const targetRect = targetElement.getBoundingClientRect()
+  const containerRect = scrollDom.value.getBoundingClientRect()
+  if (targetRect.top < containerRect.top || targetRect.bottom > containerRect.bottom) {
+    parent.scrollTop = targetElement.offsetTop - parent.offsetTop
+  }
+}
+watch(
+  () => props.currentSelect,
+  (newValue, oldValue) => {
+    scrollToVisible(newValue)
+  }
+)
+const emit = defineEmits([
+  // 单击插件
+  'onClickPlugin',
+  // 双击插件
+  'onDblclickPlugin'
+])
+
+const clickPlugin = (plugin) => {
+  // console.log(`${plugin.name} click`)
+  emit('onClickPlugin', plugin)
+}
+const dblclickPlugin = (plugin) => {
+  // console.log(`${plugin.name} dblclick`)
+  emit('onClickPlugin', plugin)
+}
 </script>
 
 <style lang="less">
@@ -102,7 +126,7 @@ const clickPlugin = (plugin) => {}
   width: 100%;
   z-index: 99;
   max-height: calc(~'100vh - 64px');
-  // overflow: auto;
+  overflow: auto;
   .op-item {
     padding: 0 10px;
     height: 60px;

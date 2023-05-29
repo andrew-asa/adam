@@ -44,7 +44,7 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "args": ["--project", "${workspaceFolder}/tsconfig.server.json"]
-    },
+    }
   ],
   "compounds": [
     {

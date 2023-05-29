@@ -42,4 +42,21 @@ const COMMON_KEYS = {
 //     const event = new KeyboardEvent('keydown', { key, ...options });
 //     element.dispatchEvent(event);
 // }
-
+/**
+ * 是一个用于获取元素在可视区域内相对位置
+    x：元素左上角相对于浏览器视口左侧的距离
+    y：元素左上角相对于浏览器视口顶部的距离
+    width：元素的宽度
+    height：元素的高度
+    top：元素的上边缘相对于浏览器视口顶部的距离
+    right：元素的右边缘相对于浏览器视口左侧的距离
+    bottom：元素的下边缘相对于浏览器视口顶部的距离
+    left：元素的左边缘相对于浏览器视口左侧的距离
+ */
+export function getTextNodeBoundingClientRect(textNode) {
+    const range = document.createRange();
+    range.setStart(textNode, 0);
+    range.setEnd(textNode, 0);
+    const rect = range.getBoundingClientRect();
+    return rect;
+}

@@ -64,7 +64,7 @@
     "electron": "18.1.0",
     "electron-builder": "^23.6.0",
     "electron-icon-builder": "^2.0.1",
-    "electron-vite": "^1.0.21",
+    "electron-vite": "1.0.22",
     "eslint": "^8.36.0",
     "eslint-plugin-vue": "^9.10.0",
     "less": "^4.1.3",

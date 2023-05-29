@@ -42,6 +42,19 @@ export const userStore = defineStore({
         _init: false,
     }),
     actions: {
+        selectPlugin(plugin: any) {
+            let setCurrentSelect = _.findIndex(this.options, plugin)
+            if (setCurrentSelect > -1) {
+                this.setCurrentSelect(setCurrentSelect)
+                this.setCurrentPlugin(plugin);
+                this._setSearchValue("");
+            }
+            console.log(`selectPlugin: ${plugin.name}`);
+        },
+        onClickPlugin(plugin: any) {
+            console.log(`onClickPlugin: ${plugin.name}`);
+            this.selectPlugin(plugin);
+        },
         /**
          * 改变当前选中
          * @param index 向上选还是向下选[1,-1]
@@ -121,7 +134,8 @@ export const userStore = defineStore({
                                 .indexOf(value.toLocaleUpperCase()) >= 0
                         ) {
                             has = keyWord;
-                            plugin.name = keyWord;
+                            // plugin.name = keyWord;
+                            plugin.selectName = keyWord
                             return true;
                         }
                         return false;
@@ -137,14 +151,14 @@ export const userStore = defineStore({
             this._showOptions(this.apps);
         },
         keydown(e: any) {
-            // console.log(`keydown: ${e.key} keyCode: ${e.keyCode}`);
+            // 当前插件插件不存在的情况
             this._checkBackspace(e)
             this._checkPaste(e)
             this._checkSelectKeyPress(e)
             this._checkChooseKeyPress(e)
         },
         /**
-         * 判断是否为空格
+         * 判断是否为退格键
          */
         _checkBackspace(e: any) {
             if (e.target.value === '' && e.keyCode === 8) {
@@ -168,6 +182,7 @@ export const userStore = defineStore({
 
             if (e.key === 'ArrowUp' || e.key === 'Up') {
                 this.changCurrentSelect(-1);
+                e.preventDefault();
             }
             if (e.key === 'ArrowDown' || e.key === 'Down') {
                 this.changCurrentSelect(1);
@@ -185,8 +200,7 @@ export const userStore = defineStore({
             if (e.key === 'Enter') {
                 var cp = this.options[this.currentSelect]
                 if (cp) {
-                    this.setCurrentPlugin(cp);
-                    this._setSearchValue("");
+                    this.selectPlugin(cp);
                 }
             }
         },
@@ -197,5 +211,8 @@ export const userStore = defineStore({
                 this.options = options.slice(page * this.pageCount, (page + 1) * this.pageCount);
             }
         },
+        clickPlugin(plugin: any) {
+            this.setCurrentPlugin(plugin);
+        }
     },
 })

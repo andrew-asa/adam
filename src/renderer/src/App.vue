@@ -10,6 +10,7 @@
       <context-menu-item @click="ctx.app.controller.openConsole()"> 控制台 </context-menu-item>
       <context-menu-item @click="ctx.app.controller.forward()"> 前进 </context-menu-item>
       <context-menu-item @click="ctx.app.controller.back()"> 后退 </context-menu-item>
+      <context-menu-item @click="ctx.app.controller.back()"> 主页 </context-menu-item>
     </context-menu>
   </div>
   <div

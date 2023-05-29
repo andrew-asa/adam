@@ -1,5 +1,5 @@
 import { Menu } from "electron";
-import { hideMainWin, openConsole, openInBrowser, quit, relaunch, showMainWin, toggleBall } from "@main/services/contronler";
+import { hideMainWin, openConsole, openInBrowser, quit, refresh, relaunch, showMainWin, toggleBall } from "@main/services/contronler";
 
 export const getMainMenus = () => Menu.buildFromTemplate([
     {
@@ -40,6 +40,11 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
                 label: '重新启动',
                 click: relaunch
             },
+            {
+                type: 'normal',
+                label: '主页',
+                click: refresh
+            }
         ]
     },
     {

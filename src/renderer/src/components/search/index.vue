@@ -20,6 +20,7 @@
         :options="options"
         :searchValue="searchValue"
         :currentSelect="currentSelect"
+        @onClickPlugin="(e) => store.onClickPlugin(e)"
       ></result>
     </div>
   </div>

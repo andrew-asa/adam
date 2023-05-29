@@ -1,6 +1,8 @@
 import { shell } from "electron";
 import { getAction } from "@main/common/action";
 import { isMacOS } from "@main/common/common_const";
+import { is } from "@electron-toolkit/utils";
+import path from "path";
 
 /**
  * 打开控制台
@@ -122,4 +124,22 @@ export function forward() {
 export function back() {
     let win = getAction('get-main-window')()
     win && win.webContents.goBack()
+}
+
+export function refresh() {
+    home()
+}
+
+export function home() {
+    console.log('home');
+    let win = getAction('get-main-window')()
+    if (!win) {
+        return
+    }
+    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+        // console.log(`setWindow ${process.env['ELECTRON_RENDERER_URL']}`);
+        win.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    } else {
+        win.loadFile(path.join(__dirname, '../renderer/index.html'))
+    }
 }

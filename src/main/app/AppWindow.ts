@@ -68,7 +68,7 @@ function setWindow(win: BrowserWindow) {
     // 设置窗口显示的位置
     windowPositionManager(win)
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-        console.log(`setWindow ${process.env['ELECTRON_RENDERER_URL']}`);
+        // console.log(`setWindow ${process.env['ELECTRON_RENDERER_URL']}`);
         win.loadURL(process.env['ELECTRON_RENDERER_URL'])
     } else {
         win.loadFile(path.join(__dirname, '../renderer/index.html'))

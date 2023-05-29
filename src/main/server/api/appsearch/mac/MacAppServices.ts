@@ -102,6 +102,7 @@ export class MacAppServices implements AppServices {
     }
     async addAppIconField(app) {
         if (await this.getAppIcon(app.path, app.name)) {
+            // 设置地址
             app.icon =
                 path.join(
                     apps_user_files.apps_icon_cache_dir,
@@ -111,9 +112,9 @@ export class MacAppServices implements AppServices {
     }
     addAppTypeAndAction(app) {
         _.extend(app, {
-            value: "plugin",
+            // value: "plugin",
             // desc: app.path,
-            pluginType: "app",
+            // pluginType: "app",
             // action: `open ${app.path.replace(/ /g, "\\ ") as string}`,
         })
     }
@@ -138,7 +139,6 @@ export class MacAppServices implements AppServices {
                 // 中文
                 app.keyWords.push(app.name);
             }
-            app.names = JSON.parse(JSON.stringify(app.keyWords));
         }
     }
     async fixAppsFields(orginApps) {
@@ -153,7 +153,7 @@ export class MacAppServices implements AppServices {
         }
         apps = apps.filter((app: any) => !!app.icon);
         apps = apps.map((app: any) => {
-            this.addAppTypeAndAction(app);
+            // this.addAppTypeAndAction(app);
             this.addAppKeywordsAndNames(app);
             return app
         })

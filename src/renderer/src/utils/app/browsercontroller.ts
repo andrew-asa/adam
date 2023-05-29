@@ -20,7 +20,7 @@ export class BrowserController implements Action, Controller {
         history.go(-1)
     }
     home(): void {
-        
+        location.href = location.origin
     }
     refresh(): void {
         history.go(0)

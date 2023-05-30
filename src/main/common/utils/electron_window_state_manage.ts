@@ -154,7 +154,6 @@ export class ElectronWindowStateManage {
     }
 
 
-
     public unmanage() {
         if (this.win) {
             // this.win.removeListener('resize', this.stateChangeHandler);

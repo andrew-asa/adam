@@ -20,6 +20,9 @@ class defaultDevRenderer implements Renderer {
         // console.log(channel, data);
     }
 }
+/**
+ * main/services/RendererAPI => main/services/controller
+ */
 const renderer_msg_name = "renderer-msg-trigger"
 export default class AppController {
     private renderer: Renderer
@@ -75,5 +78,11 @@ export default class AppController {
     }
     public home() {
         this.sendMessage("home", {});
+    }
+    public setWindowSize({ width, height }: { width: number, height: number }) {
+        this.sendMessage("setWindowSize", { width, height });
+    }
+    public show() {
+        this.sendMessage("show", {});
     }
 }

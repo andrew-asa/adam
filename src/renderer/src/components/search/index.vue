@@ -1,5 +1,8 @@
 <template>
-  <div class="adam-search-container">
+  <div
+    class="adam-search-container"
+    ref="container"
+  >
     <div
       v-if="isWindows"
       class="drag-bar"
@@ -28,17 +31,39 @@
 <script setup lang="ts">
 import { isMacOS, isWindows, isElectron } from '@renderer/utils/constants/common_const'
 import { storeToRefs } from 'pinia'
-import { onMounted, reactive, ref, watch } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import search from './search.vue'
 import result from './result.vue'
 import { userStore } from './plugins/plugins_store'
 import _ from 'lodash'
+import { ctx } from '@renderer/startup/ctx_starter'
+import { isNodeEnv } from '@renderer/utils/app/app_utils'
 const store = userStore()
 const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboardFile } =
   storeToRefs(store)
+const container = ref(null)
+
+function resizeWindowSize() {
+  if (isNodeEnv()) {
+    const width = container.value.scrollWidth
+    const height = container.value.scrollHeight
+    ctx.app.controller.setWindowSize({ width, height })
+  }
+}
+
 onMounted(() => {
-  store.initOptions()
+  // store.initOptions()
+  resizeWindowSize()
+  if (isNodeEnv()) {
+    ctx.app.controller.show()
+    // container.value.addEventListener('resize', resizeWindowSize)
+  }
 })
+// onUnmounted(() => {
+//   if (isNodeEnv()) {
+//     container.value.removeEventListener('resize', resizeWindowSize)
+//   }
+// }),
 // const handleSearchDebounce = _.debounce(store.search.bind(store), 100)
 </script>
 <style scoped lang="less">

@@ -4,8 +4,6 @@ import { isDev, isMacOS, isProduction } from '@main/common/common_const';
 import { registerMainWindow } from './applistener';
 import * as main from './AppWindow'
 
-import createTray from './menus/tray';
-import renderer_api from '@main/services/renderer_api';
 import { setupApp } from './startup/startup';
 export class App {
     public windowCreator: { init: () => void; getWindow: () => BrowserWindow | null };
@@ -80,7 +78,7 @@ export class App {
                 this.createWindow();
             }
         });
-        app.setAppUserModelId("com.asa.jerry")
+        app.setAppUserModelId("com.asa.adam")
         // Default open or close DevTools by F12 in development
         // and ignore CommandOrControl + R in production.
         // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils

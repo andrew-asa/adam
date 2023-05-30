@@ -22,7 +22,7 @@
               <template #avatar>
                 <a-avatar
                   style="border-radius: 0"
-                  :src="item.icon_path"
+                  :src="item.icon_path || item.icon"
                 />
               </template>
             </a-list-item-meta>

@@ -1,9 +1,8 @@
 import { BrowserWindow, shell, screen } from "electron";
-import path from "path";
 
-import { is } from '@electron-toolkit/utils'
 import { registerAction } from "@main/common/action";
-import { windowPositionManager } from "@main/common/utils/electron_window_utils";
+import { windowStateManager } from "@main/common/utils/electron_window_utils";
+import path from "path";
 let win: BrowserWindow | null = null;
 export const init = () => {
     createWindow()
@@ -13,6 +12,7 @@ function regWindowListener(win: BrowserWindow) {
 
     win.on("close", () => {
     })
+
 
     win.on("closed", () => {
         // @ts-ignore
@@ -27,8 +27,7 @@ function regWindowListener(win: BrowserWindow) {
         // win.show()
     })
     win.on('ready-to-show', () => {
-
-        win.show()
+        // win.show()
     })
 
 
@@ -66,32 +65,26 @@ function setWindow(win: BrowserWindow) {
         return { action: 'deny' }
     })
     // 设置窗口显示的位置
-    windowPositionManager(win)
-    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-        // console.log(`setWindow ${process.env['ELECTRON_RENDERER_URL']}`);
-        win.loadURL(process.env['ELECTRON_RENDERER_URL'])
-    } else {
-        win.loadFile(path.join(__dirname, '../renderer/index.html'))
-    }
+    windowStateManager(win)
 }
 
 function createDefaultWindow() {
     return new BrowserWindow({
-        // width: 900,
-        // height: 670,
+        // width: 800,
+        // height: 60,
         // 指定窗口的尺寸是否包括窗口边框。
-        // useContentSize: true,
+        useContentSize: true,
         // 指定窗口是否可以调整大小。
         resizable: true,
         // 指定窗口是否显示边框和标题栏。
-        // frame: false,
+        frame: false,
         // 指定窗口是否在创建后立即显示。
         show: false,
         // 窗口的标题。
         title: 'adam',
         // 指定窗口是否在任务栏中显示。
         skipTaskbar: true,
-        // autoHideMenuBar: true,
+        autoHideMenuBar: true,
         // alwaysOnTop: true,
         webPreferences: {
             // 指定是否启用 Web 安全性。

@@ -17,7 +17,12 @@ export function openConsole() {
         }
     }
 }
-
+export function show(){
+    const win = getAction('get-main-window')()
+    if (win) {
+        win.show()
+    }
+}
 /**
  * @Author andrew
  * @Description 显示主窗口
@@ -142,4 +147,15 @@ export function home() {
     } else {
         win.loadFile(path.join(__dirname, '../renderer/index.html'))
     }
+}
+/**
+ * @Author andrew
+ * 设置窗口大小
+ */
+export function setWindowSize({ width, height }, win) {
+    console.log(`setWindowSize ${width} ${height}`);
+    if (!win) {
+        win = getAction('get-main-window')()
+    }
+    win && win?.setSize(width, height)
 }

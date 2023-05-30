@@ -110,6 +110,7 @@ export const userStore = defineStore({
                     this.setApps(data);
                     // this._showOptions(this.apps);
                     this._init = true;
+                    console.log(`initOptions done`);
                 })
             }
         },
@@ -156,6 +157,12 @@ export const userStore = defineStore({
             this._checkPaste(e)
             this._checkSelectKeyPress(e)
             this._checkChooseKeyPress(e)
+            this._checkEscape(e)
+        },
+        _checkEscape(e: any) {
+            if (e.key === 'Escape') {
+                console.log(`esc`);
+            }
         },
         /**
          * 判断是否为退格键

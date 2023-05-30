@@ -157,6 +157,7 @@ export class MacAppServices implements AppServices {
             this.addAppKeywordsAndNames(app);
             return app
         })
+        console.log(`fixAppsFields ${apps.length}`);
         this.cacheApps(apps)
         return apps
     }

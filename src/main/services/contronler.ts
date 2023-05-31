@@ -23,6 +23,9 @@ export function show(){
         win.show()
     }
 }
+export function hide(){
+    hideMainWin()
+}
 /**
  * @Author andrew
  * @Description 显示主窗口
@@ -153,7 +156,7 @@ export function home() {
  * 设置窗口大小
  */
 export function setWindowSize({ width, height }, win) {
-    console.log(`setWindowSize ${width} ${height}`);
+    // console.log(`setWindowSize ${width} ${height}`);
     if (!win) {
         win = getAction('get-main-window')()
     }

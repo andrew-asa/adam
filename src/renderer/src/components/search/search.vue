@@ -54,7 +54,7 @@
           <div
             @click="() => emit('openMenu')"
             v-else
-            class="rubick-logo"
+            class="adam-logo"
           >
             <img src="../../assets/jarvis.png" />
           </div>
@@ -83,9 +83,15 @@ const props: any = defineProps({
     type: String,
     default: ''
   },
-  currentPlugin: {},
+  currentPlugin: {
+    type: Object,
+    default: {}
+  },
   pluginLoading: Boolean,
-  clipboardFile: []
+  clipboardFile: {
+    type: Array,
+    default: []
+  }
 })
 
 const emit = defineEmits([
@@ -104,73 +110,6 @@ const changeValue = (e) => {
 }
 const keydown = (e) => {
   emit('onKeydown', e)
-}
-
-const keydownEvent = (e, key: string) => {
-  // const { ctrlKey, shiftKey, altKey, metaKey } = e;
-  // const modifiers: Array<string> = [];
-  // ctrlKey && modifiers.push('control');
-  // shiftKey && modifiers.push('shift');
-  // altKey && modifiers.push('alt');
-  // metaKey && modifiers.push('meta');
-  // ipcRenderer.send('msg-trigger', {
-  //   type: 'sendPluginSomeKeyDownEvent',
-  //   data: {
-  //     keyCode: e.code,
-  //     modifiers,
-  //   },
-  // });
-  // const runPluginDisable = e.target.value === '' || props.currentPlugin.name;
-  // switch (key) {
-  //   case 'up':
-  //     emit('changeCurrent', -1);
-  //     break;
-  //   case 'down':
-  //     emit('changeCurrent', 1);
-  //     break;
-  //   case 'enter':
-  //     if (runPluginDisable) return;
-  //     emit('choosePlugin');
-  //     break;
-  //   case 'space':
-  //     if (runPluginDisable || !opConfig.get().perf.common.space) return;
-  //     emit('choosePlugin');
-  //     break;
-  //   default:
-  //     break;
-  // }
-}
-
-/**
- * 判断是否粘贴
- */
-function checkCtrlV(e) {
-  const { ctrlKey, metaKey } = e
-  // 文本框没有值且按退格键
-  if (e.target.value === '' && e.keyCode === 8) {
-    closeTag()
-  }
-  // 手动粘贴
-  if ((ctrlKey || metaKey) && e.key === 'v') {
-    // emit('readClipboardContent')
-  }
-}
-
-const targetSearch = ({ value }) => {
-  // if (props.currentPlugin.name) {
-  //   return ipcRenderer.sendSync('msg-trigger', {
-  //     type: 'sendSubInputChangeEvent',
-  //     data: { text: value },
-  //   });
-  // }
-}
-
-const closeTag = () => {
-  // emit('changeSelect', {});
-  // emit('clearClipbord');
-  // ipcRenderer.send('msg-trigger', {
-  //   type: 'removePlugin',
-  // });
 }
 
 const showSeparate = () => {
@@ -289,8 +228,7 @@ const mainInput = ref(null)
       border: none !important;
     }
   }
-
-  .rubick-logo,
+  .adam-logo,
   .icon-tool {
     width: 40px;
     height: 40px;

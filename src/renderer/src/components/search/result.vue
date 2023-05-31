@@ -45,14 +45,20 @@ const props = defineProps({
   },
   options: {
     type: Array,
-    default: (() => [])()
+    default: []
   },
   currentSelect: {
     type: Number,
     default: 0
   },
-  currentPlugin: {},
-  clipboardFile: (() => [])()
+  currentPlugin: {
+    type: Object,
+    default: {}
+  },
+  clipboardFile: {
+    type: Array,
+    default: []
+  }
 })
 
 const renderTitle = (title) => {
@@ -101,6 +107,7 @@ watch(
     scrollToVisible(newValue)
   }
 )
+
 const emit = defineEmits([
   // 单击插件
   'onClickPlugin',

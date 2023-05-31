@@ -10,6 +10,7 @@
     <div :class="isMacOS && 'drag'"></div>
     <div>
       <search
+        ref="searchContainer"
         :currentPlugin="currentPlugin"
         :clipboardFile="clipboardFile"
         :searchValue="searchValue"
@@ -29,9 +30,9 @@
   </div>
 </template>
 <script setup lang="ts">
-import { isMacOS, isWindows, isElectron } from '@renderer/utils/constants/common_const'
+import { isMacOS, isWindows } from '@renderer/utils/constants/common_const'
 import { storeToRefs } from 'pinia'
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import search from './search.vue'
 import result from './result.vue'
 import { userStore } from './plugins/plugins_store'
@@ -42,29 +43,28 @@ const store = userStore()
 const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboardFile } =
   storeToRefs(store)
 const container = ref(null)
+const searchContainer = ref(null)
 
-function resizeWindowSize() {
+function resizeWindowSize(resultHight = 0) {
   if (isNodeEnv()) {
     const width = container.value.scrollWidth
-    const height = container.value.scrollHeight
+    const height = resultHight > 0 ? 600 : 60
     ctx.app.controller.setWindowSize({ width, height })
   }
 }
 
 onMounted(() => {
-  // store.initOptions()
   resizeWindowSize()
   if (isNodeEnv()) {
     ctx.app.controller.show()
-    // container.value.addEventListener('resize', resizeWindowSize)
   }
 })
-// onUnmounted(() => {
-//   if (isNodeEnv()) {
-//     container.value.removeEventListener('resize', resizeWindowSize)
-//   }
-// }),
-// const handleSearchDebounce = _.debounce(store.search.bind(store), 100)
+watch(
+  () => options.value.length,
+  (newValue, oldValue) => {
+    resizeWindowSize(newValue * 60)
+  }
+)
 </script>
 <style scoped lang="less">
 .drag-bar {

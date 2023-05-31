@@ -85,4 +85,8 @@ export default class AppController {
     public show() {
         this.sendMessage("show", {});
     }
+
+    public hide() {
+        this.sendMessage("hide", {});
+    }
 }

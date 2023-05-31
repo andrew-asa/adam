@@ -2,7 +2,7 @@ import { DefineStoreOptions, defineStore } from "pinia";
 import _ from "lodash";
 import { api_urls } from "@/common/common_const";
 import { getAppIconPath, getApps } from "@/renderer/src/utils/app/app_api";
-
+import { ctx } from '@renderer/startup/ctx_starter'
 export const userStore = defineStore({
     id: "plugins_store",
     state: () => ({
@@ -25,7 +25,7 @@ export const userStore = defineStore({
         /**
          * 搜索框提示文件
          */
-        placeholder: "",
+        placeholder: "Hi Adam",
         /**
          * 当前选中标签
          */
@@ -122,6 +122,10 @@ export const userStore = defineStore({
             this.searchValue = value;
         },
         _doSearch(value: string) {
+            if (!value) {
+                this._showOptions([]);
+                return;
+            }
             let options = this.apps
             const descMap = new Map();
             const s = options.filter((plugin: any) => {
@@ -159,9 +163,12 @@ export const userStore = defineStore({
             this._checkChooseKeyPress(e)
             this._checkEscape(e)
         },
+        /**
+         * 判断是否为esc 直接隐藏
+         */
         _checkEscape(e: any) {
             if (e.key === 'Escape') {
-                console.log(`esc`);
+                ctx.app.controller.hide()
             }
         },
         /**

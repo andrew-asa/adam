@@ -31,7 +31,7 @@ export const api_urls = {
     // 获取文件
     get_file: "/file",
     // 获取所有插件
-    get_plugin: "/plugin/list",
+    get_plugin_list: "/plugin/list",
     // 安装插件
     load_plugin: "/plugin/load",
     // 卸载插件

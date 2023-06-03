@@ -1,14 +1,16 @@
+import { openPlugin } from "@/renderer/src/utils/app/app_api";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
 
 export class SystemAppHandler extends DefaultPluginHandler {
     constructor(store) {
         super(store)
     }
-    needHandler(plugin: plugin): boolean {
+    needHandle(plugin: plugin): boolean {
         return plugin.type === 'app'
     }
-    handler(plugin: plugin, store: any): void {
-        super.handler(plugin, store);
-        // console.log(`SystemAppHandler: ${plugin.name}`);
+    handle(plugin: plugin,): void {
+        this.store.emptyShow();
+        this.store._setSearchValue("");
+        openPlugin(plugin)
     }
 }

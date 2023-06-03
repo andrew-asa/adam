@@ -26,7 +26,7 @@ export class MacAppServices implements AppServices {
             createDir(CONFIGURE_DIR, apps_user_files.apps_icon_cache_dir);
         }
     }
-    openApp(app: any) {
+    openApp(app: app) {
         if (!app.path) return
         const cmd = `open ${app.path.replace(/ /g, "\\ ") as string}`
         execSync(cmd);

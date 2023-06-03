@@ -1,8 +1,8 @@
-import { DefaultPluginHandler } from "./DefaultPluginHandler";
+import { AbstractPluginHandler } from "./AbstractPluginHandler";
 
-export class CodePluginHandler extends DefaultPluginHandler {
-    constructor(store) {
-        super(store)
+export class CodePluginHandler extends AbstractPluginHandler {
+    constructor() {
+        super()
     }
     needHandle(plugin: plugin): boolean {
         return plugin.type === 'code'

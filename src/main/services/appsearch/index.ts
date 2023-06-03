@@ -1,4 +1,4 @@
-import { isMacOS, isWindows, isLinux } from "../../../common/common_const";
+import { isMacOS, isWindows, isLinux } from "../../common/common_const";
 import { AppServices } from "./AppServices";
 import { LinuxAppServices } from "./linux/LinuxAppServices";
 import { MacAppServices } from "./mac/MacAppServices";
@@ -12,12 +12,7 @@ if (isMacOS) {
 } else if (isLinux) {
     appservices = new LinuxAppServices();
 }
-/**
- * 获取所有插件
- */
-export function getPlugins() {
-    return getApps()
-}
+
 /**
  * 获取所有系统应用
  */

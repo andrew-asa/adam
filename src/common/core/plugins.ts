@@ -9,5 +9,9 @@ interface plugin {
 }
 
 interface option extends plugin {
-    
+
+}
+
+interface app extends plugin {
+
 }

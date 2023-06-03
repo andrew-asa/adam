@@ -17,7 +17,7 @@ export interface AppServices {
     /**
      * 打开应用程序
      */
-    openApp(app: any): any
+    openApp(app: app): any
 }
 export interface PluginServices {
     /**

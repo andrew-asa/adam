@@ -1,9 +1,7 @@
-import { DefineStoreOptions, defineStore } from "pinia";
+import { defineStore } from "pinia";
 import _ from "lodash";
-import { api_urls } from "@/common/common_const";
-import { getApps, getPlugins } from "@/renderer/src/utils/app/app_api";
+import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
-import { getAppIconPath } from "@/common/common_utils";
 import { getHandler } from "./handler/handlers";
 interface PluginsState {
     displayCards: any[];
@@ -65,7 +63,7 @@ export const userStore = defineStore({
             // }
             const handler = getHandler(plugin)
             if (handler) {
-                handler.handler(plugin,this);
+                handler.handle(plugin);
             }
         },
         onClickPlugin(plugin: plugin) {
@@ -169,8 +167,11 @@ export const userStore = defineStore({
             })
             this._showOptions(s);
         },
-        reshowOptions() {
-            this._showOptions(this.plugins);
+        /**
+         * 清空可选项展示
+         */
+        emptyShow() {
+            this._showOptions([]);
         },
         keydown(e: any) {
             // 当前插件插件不存在的情况

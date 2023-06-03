@@ -54,8 +54,5 @@ export const userStore = defineStore({
         _showOptions(apps, page = 0) {
             this.options = apps.slice(page * this.pageCount, (page + 1) * this.pageCount);
         },
-        reshowOptions() {
-            this._showOptions(this.apps);
-        }
     },
 })

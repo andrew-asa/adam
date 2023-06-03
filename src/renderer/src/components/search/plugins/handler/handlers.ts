@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { CodePluginHandler } from "./CodePluginHandler";
-import { PluginHandler } from "./PluginHandler";
 import { SystemAppHandler } from "./SystemAppHandler";
+import { PluginHandler } from "@/common/core/PluginHandler";
 
 const handlers = [];
 export function addHandler(handler: PluginHandler) {
@@ -17,6 +17,6 @@ export function init(store) {
             new CodePluginHandler(store)
         ]);
 }
-export function getHandler(plugin: plugin) {
-    return _.find(handlers, h => h.needHandler(plugin));
+export function getHandler(plugin: plugin): PluginHandler {
+    return _.find(handlers, h => h.needHandle(plugin));
 }

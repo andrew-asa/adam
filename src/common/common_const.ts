@@ -36,6 +36,21 @@ export const api_urls = {
     load_plugin: "/plugin/load",
     // 卸载插件
     unload_plugin: "/plugin/unload",
+    // 打开插件
+    open_plugin: "/plugin/open",
 }
 
+
+/**
+ * 默认本地地址
+ */
+export const default_host = "http://127.0.0.1";
+/**
+ * 默认url前缀
+ */
+export const default_url_prefix = "/api";
+/**
+ * 默认端口
+ */
+export const default_port = backendpor;
 

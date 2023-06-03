@@ -10,19 +10,15 @@ const empty_fun = () => {
 const _ctx = {
     app: {
         controller: new AppController(),
-        // search: {
-        //     hooks: {
-        //         onShow: empty_fun,
-        //         onHide: empty_fun
-        //     }
-        // }
+        search: {
+        }
     },
     hook,
     constant: {
         ...commomConstant
     },
     utils: {
-        dom: dom_utils
+        dom: dom_utils,
     },
     lib: {
         _

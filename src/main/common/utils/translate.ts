@@ -1,4 +1,8 @@
-function translate(sourceStr: string): string {
+export const isZhRegex = /[\u4e00-\u9fa5]/
+/**
+ * 中文转拼音
+ */
+export function translate(sourceStr: string): string {
   // 目标数据
   let targetStr = "";
   // 匹配中文
@@ -23,7 +27,24 @@ function translate(sourceStr: string): string {
   }
   return targetStr;
 }
-
+const upperRegex = /[A-Z]/g
+export function keywords(name) {
+  const keyWords = []
+  if (name && isZhRegex.test(name)) {
+    const py = translate(name);
+    const pinyinArr = py.split(",");
+    const firstLatter = pinyinArr.map((py) => py[0]);
+    // 拼音
+    keyWords.push(pinyinArr.join(""));
+    // 首字母缩写
+    keyWords.push(firstLatter.join(""));
+    // 拼音首字母
+    keyWords.push(py.match(upperRegex).join(""))
+    // 中文
+    keyWords.push(name);
+  }
+  return keyWords
+}
 /**
  * 检索拼音
  *
@@ -483,4 +504,4 @@ const PinYin = {
   fou: "\u7f36",
   bia: "\u9adf",
 };
-export default translate;
+

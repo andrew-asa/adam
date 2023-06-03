@@ -12,10 +12,27 @@ if (isMacOS) {
 } else if (isLinux) {
     appservices = new LinuxAppServices();
 }
-
+/**
+ * 获取所有插件
+ */
+export function getPlugins() {
+    return getApps()
+}
+/**
+ * 获取所有系统应用
+ */
 export function getApps() {
     return new Promise((resolve, reject) => appservices.getApps(resolve, reject, ""));
 }
+/**
+ * 判断应用是否安装
+ */
 export function isInstalled(appName) {
     return new Promise((resolve, reject) => appservices.getApps(resolve, reject, appName));
+}
+/**
+ * 打开应用
+ */
+export function openApp(app: any): any {
+    return appservices.openApp(app);
 }

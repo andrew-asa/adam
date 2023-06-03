@@ -1,15 +1,29 @@
 import { DefineStoreOptions, defineStore } from "pinia";
 import _ from "lodash";
 import { api_urls } from "@/common/common_const";
-import { getAppIconPath, getApps } from "@/renderer/src/utils/app/app_api";
+import { getApps, getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
+import { getAppIconPath } from "@/common/common_utils";
+import { getHandler } from "./handler/handlers";
+interface PluginsState {
+    displayCards: any[];
+    plugins: plugin[];
+    options: option[];
+    searchValue: string;
+    placeholder: string;
+    currentSelect: number;
+    currentPlugin: any;
+    clipboardFile: any[];
+    pageCount: number;
+    _init: boolean;
+}
 export const userStore = defineStore({
     id: "plugins_store",
-    state: () => ({
+    state: (): PluginsState => ({
         /**
-         * 系统应用
+         * 展示小卡片
          */
-        apps: [],
+        displayCards: [],
         /**
          * 插件
          */
@@ -42,16 +56,19 @@ export const userStore = defineStore({
         _init: false,
     }),
     actions: {
-        selectPlugin(plugin: any) {
-            let setCurrentSelect = _.findIndex(this.options, plugin)
-            if (setCurrentSelect > -1) {
-                this.setCurrentSelect(setCurrentSelect)
-                this.setCurrentPlugin(plugin);
-                this._setSearchValue("");
+        selectPlugin(plugin: plugin) {
+            // let setCurrentSelect = _.findIndex(this.options, plugin)
+            // if (setCurrentSelect > -1) {
+            //     this.setCurrentSelect(setCurrentSelect)
+            //     this.setCurrentPlugin(plugin);
+            //     this._setSearchValue("");
+            // }
+            const handler = getHandler(plugin)
+            if (handler) {
+                handler.handler(plugin,this);
             }
-            console.log(`selectPlugin: ${plugin.name}`);
         },
-        onClickPlugin(plugin: any) {
+        onClickPlugin(plugin: plugin) {
             console.log(`onClickPlugin: ${plugin.name}`);
             this.selectPlugin(plugin);
         },
@@ -69,7 +86,7 @@ export const userStore = defineStore({
         setCurrentSelect(index: number) {
             this.currentSelect = index;
         },
-        setCurrentPlugin(plugin: any) {
+        setCurrentPlugin(plugin: plugin) {
             this.currentPlugin = plugin;
         },
         setPlaceholder(placeholder: string) {
@@ -79,7 +96,7 @@ export const userStore = defineStore({
             console.log(`setPageCount: ${pageCount}`);
             if (pageCount > 0) {
                 this.pageCount = pageCount;
-                this._showOptions(this.apps);
+                this._showOptions(this.plugins);
             }
         },
         addOption(option: any) {
@@ -89,26 +106,26 @@ export const userStore = defineStore({
          * 更新应用列表
          * @param apps[{
          *     name: string,
+         *     desc: string,
          *     icon: string,
          *     path: string,
          *     keywords:[string],
-         *     pluginType: string
+         *     type: string
          *     version: string
          * }]
          */
-        setApps(apps) {
-            this.apps = [];
-            _.each(apps, (app: any) => {
-                app.icon_path = getAppIconPath(app.icon);
+        setPlugins(plugins) {
+            this.plugins = []
+            _.each(plugins, (app: any) => {
                 app.zIndex = 0;
-                this.apps.push(app);
+                let p = app as plugin
+                this.plugins.push(p);
             })
         },
         initOptions() {
             if (!this._init) {
-                getApps().then(({ data }) => {
-                    this.setApps(data);
-                    // this._showOptions(this.apps);
+                getPlugins().then(({ data }) => {
+                    this.setPlugins(data);
                     this._init = true;
                     console.log(`initOptions done`);
                 })
@@ -126,7 +143,7 @@ export const userStore = defineStore({
                 this._showOptions([]);
                 return;
             }
-            let options = this.apps
+            let options = this.plugins
             const descMap = new Map();
             const s = options.filter((plugin: any) => {
                 if (!descMap.get(plugin)) {
@@ -140,7 +157,7 @@ export const userStore = defineStore({
                         ) {
                             has = keyWord;
                             // plugin.name = keyWord;
-                            plugin.selectName = keyWord
+                            plugin.selectName = keyWord + " | " + plugin.name;
                             return true;
                         }
                         return false;
@@ -153,7 +170,7 @@ export const userStore = defineStore({
             this._showOptions(s);
         },
         reshowOptions() {
-            this._showOptions(this.apps);
+            this._showOptions(this.plugins);
         },
         keydown(e: any) {
             // 当前插件插件不存在的情况

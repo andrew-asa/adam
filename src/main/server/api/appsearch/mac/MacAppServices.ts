@@ -5,11 +5,12 @@ import path from "path";
 import os from "os";
 import { nativeImage } from 'electron';
 
-import { spawn } from "child_process";
-import translate from "@/main/common/utils/translate";
+import { execSync, spawn } from "child_process";
+import { keywords, translate } from "@/main/common/utils/translate";
 import _ from "lodash";
 import { CONFIGURE_DIR, apps_user_files } from "@/main/common/common_const";
 import { createDir } from "@/main/common/utils/io_utils";
+import { getAppIconPath } from "@/common/common_utils";
 const plist = require('plist');
 export class MacAppServices implements AppServices {
     private apps;
@@ -24,6 +25,11 @@ export class MacAppServices implements AppServices {
         if (!exists) {
             createDir(CONFIGURE_DIR, apps_user_files.apps_icon_cache_dir);
         }
+    }
+    openApp(app: any) {
+        if (!app.path) return
+        const cmd = `open ${app.path.replace(/ /g, "\\ ") as string}`
+        execSync(cmd);
     }
     async getAppIcon(
         appPath: string,
@@ -103,18 +109,16 @@ export class MacAppServices implements AppServices {
     async addAppIconField(app) {
         if (await this.getAppIcon(app.path, app.name)) {
             // 设置地址
-            app.icon =
-                path.join(
-                    apps_user_files.apps_icon_cache_dir,
-                    `${encodeURIComponent(app.name)}.png`
-                );
+            const sf = path.join(
+                apps_user_files.apps_icon_cache_dir,
+                `${encodeURIComponent(app.name)}.png`
+            );
+            app.icon = getAppIconPath(sf);
         }
     }
     addAppTypeAndAction(app) {
         _.extend(app, {
-            // value: "plugin",
-            // desc: app.path,
-            // pluginType: "app",
+            type: "app",
             // action: `open ${app.path.replace(/ /g, "\\ ") as string}`,
         })
     }
@@ -123,22 +127,10 @@ export class MacAppServices implements AppServices {
             const appName: any = app.path.split("/").pop();
             const extname = path.extname(appName);
             const appSubStr = appName.split(extname)[0];
-
+            const kws = [appSubStr, ...keywords(app.name)]
             _.extend(app, {
-                keyWords: [appSubStr],
+                keyWords: kws
             })
-
-            if (app.name && this.isZhRegex.test(app.name)) {
-                const py = translate(app.name);
-                const pinyinArr = py.split(",");
-                const firstLatter = pinyinArr.map((py) => py[0]);
-                // 拼音
-                app.keyWords.push(pinyinArr.join(""));
-                // 缩写
-                app.keyWords.push(firstLatter.join(""));
-                // 中文
-                app.keyWords.push(app.name);
-            }
         }
     }
     async fixAppsFields(orginApps) {
@@ -153,7 +145,7 @@ export class MacAppServices implements AppServices {
         }
         apps = apps.filter((app: any) => !!app.icon);
         apps = apps.map((app: any) => {
-            // this.addAppTypeAndAction(app);
+            this.addAppTypeAndAction(app);
             this.addAppKeywordsAndNames(app);
             return app
         })

@@ -129,7 +129,7 @@ export class MacAppServices implements AppServices {
             const appSubStr = appName.split(extname)[0];
             const kws = [appSubStr, ...keywords(app.name)]
             _.extend(app, {
-                keyWords: kws
+                keywords: kws
             })
         }
     }

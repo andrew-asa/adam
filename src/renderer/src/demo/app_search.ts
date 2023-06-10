@@ -6,7 +6,7 @@ export const fakeAppDatas = [
         "icon": "cache/ProcessIcon/%E8%B0%83%E5%BA%A6%E4%B8%AD%E5%BF%83.png",
         "value": "plugin",
         "pluginType": "app",
-        "keyWords": [
+        "keywords": [
             "Mission Control",
             "DiaoDuZhongXin",
             "D",
@@ -26,7 +26,7 @@ export const fakeAppDatas = [
         "icon": "cache/ProcessIcon/%E5%BE%AE%E4%BF%A1.png",
         "value": "plugin",
         "pluginType": "app",
-        "keyWords": [
+        "keywords": [
             "WeChat",
             "WeiXin",
             "W",
@@ -46,7 +46,7 @@ export const fakeAppDatas = [
         "icon": "cache/ProcessIcon/%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90.png",
         "value": "plugin",
         "pluginType": "app",
-        "keyWords": [
+        "keywords": [
             "NeteaseMusic",
             "WangYiYunYinLe",
             "W",
@@ -66,7 +66,7 @@ export const fakeAppDatas = [
         "icon": "cache/ProcessIcon/%E7%88%B1%E5%A5%87%E8%89%BA.png",
         "value": "plugin",
         "pluginType": "app",
-        "keyWords": [
+        "keywords": [
             "爱奇艺",
             "AiQiYi",
             "A",
@@ -86,7 +86,7 @@ export const fakeAppDatas = [
         "icon": "cache/ProcessIcon/Sublime%20Text.png",
         "value": "plugin",
         "pluginType": "app",
-        "keyWords": [
+        "keywords": [
             "Sublime Text"
         ],
         "names": [
@@ -100,7 +100,7 @@ export const fakeAppDatas = [
         "icon": "cache/ProcessIcon/%E5%BF%AB%E6%8D%B7%E6%8C%87%E4%BB%A4.png",
         "value": "plugin",
         "pluginType": "app",
-        "keyWords": [
+        "keywords": [
             "Shortcuts",
             "KuaiJieZhiLing",
             "K",

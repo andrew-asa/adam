@@ -18,6 +18,8 @@ export class DefaultPluginHandler implements PluginHandler {
             store.setCurrentSelect(setCurrentSelect)
             store.setCurrentPlugin(plugin);
             store._setSearchValue("");
+            store.setPlaceholder("");
+            store.setOptions([])
         }
     }
 }

@@ -3,6 +3,7 @@ import _ from "lodash";
 import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
 import { getHandler } from "./handler/handlers";
+import { default_plugin } from "./market/plugin";
 interface PluginsState {
     displayCards: any[];
     plugins: plugin[];
@@ -87,8 +88,15 @@ export const userStore = defineStore({
         setCurrentPlugin(plugin: plugin) {
             this.currentPlugin = plugin;
         },
+        removeCurrentPlugin() {
+            this.currentPlugin = {};
+            this.resetPlaceholder();
+        },
         setPlaceholder(placeholder: string) {
             this.placeholder = placeholder;
+        },
+        resetPlaceholder() {
+            this.placeholder = "Hi Adam";
         },
         setPageCount(pageCount: number) {
             console.log(`setPageCount: ${pageCount}`);
@@ -99,6 +107,9 @@ export const userStore = defineStore({
         },
         addOption(option: any) {
             this.options.push(option);
+        },
+        setOptions(options: any[]) {
+            this.options = options
         },
         /**
          * 更新应用列表
@@ -113,12 +124,15 @@ export const userStore = defineStore({
          * }]
          */
         setPlugins(plugins) {
-            this.plugins = []
+            this.plugins = this.getDefaultPlugins();
             _.each(plugins, (app: any) => {
                 app.zIndex = 0;
                 let p = app as plugin
                 this.plugins.push(p);
             })
+        },
+        getDefaultPlugins() {
+            return default_plugin
         },
         initOptions() {
             if (!this._init) {
@@ -147,7 +161,7 @@ export const userStore = defineStore({
                 if (!descMap.get(plugin)) {
                     descMap.set(plugin, true);
                     let has = false;
-                    plugin.keyWords.some((keyWord) => {
+                    plugin.keywords.some((keyWord) => {
                         if (
                             keyWord
                                 .toLocaleUpperCase()
@@ -194,7 +208,8 @@ export const userStore = defineStore({
          */
         _checkBackspace(e: any) {
             if (e.target.value === '' && e.keyCode === 8) {
-                this.setCurrentPlugin({});
+                // this.setCurrentPlugin({}); 
+                this.removeCurrentPlugin();
             }
         },
 

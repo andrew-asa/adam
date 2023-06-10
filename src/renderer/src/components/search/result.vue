@@ -15,7 +15,7 @@
             @dblclick="() => dblclickPlugin(item)"
             :class="currentSelect === index ? 'active op-item' : 'op-item'"
           >
-            <a-list-item-meta :description="renderDesc(item.path || item.desc)">
+            <a-list-item-meta :description="renderDesc(item.desc || item.path )">
               <template #title>
                 <span v-html="renderTitle(item.selectName || item.name)"></span>
               </template>

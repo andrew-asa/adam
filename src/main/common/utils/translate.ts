@@ -29,21 +29,21 @@ export function translate(sourceStr: string): string {
 }
 const upperRegex = /[A-Z]/g
 export function keywords(name) {
-  const keyWords = []
+  const keywords = []
   if (name && isZhRegex.test(name)) {
     const py = translate(name);
     const pinyinArr = py.split(",");
     const firstLatter = pinyinArr.map((py) => py[0]);
     // 拼音
-    keyWords.push(pinyinArr.join(""));
+    keywords.push(pinyinArr.join(""));
     // 首字母缩写
-    keyWords.push(firstLatter.join(""));
+    keywords.push(firstLatter.join(""));
     // 拼音首字母
-    keyWords.push(py.match(upperRegex).join(""))
+    keywords.push(py.match(upperRegex).join(""))
     // 中文
-    keyWords.push(name);
+    keywords.push(name);
   }
-  return keyWords
+  return keywords
 }
 /**
  * 检索拼音

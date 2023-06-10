@@ -22,7 +22,7 @@
       id="search"
       ref="mainInput"
       class="main-input"
-      :placeholder="placeholder || 'Hi, Adam'"
+      :placeholder="placeholder"
       :value="searchValue"
       @input="changeValue"
       @keydown="keydown"

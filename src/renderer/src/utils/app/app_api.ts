@@ -20,6 +20,12 @@ export function getPlugins() {
 export function openPlugin(plugin: plugin) {
     return post(api_urls.open_plugin, plugin)
 }
+/**
+ * 关闭插件
+ */
+export function closePlugin(plugin: plugin) {
+    return post(api_urls.close_plugin, plugin)
+}
 export function get(url: string, params?: any) {
     // return axios.get(getUrl(url), { params: params })
     return AXIOS.get(url, { params: params })

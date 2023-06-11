@@ -5,9 +5,8 @@ export const default_plugin: plugin[] = [{
   icon: "/src/assets/jarvis.png",
   path: "#/search/plugins/market",
   keywords: [
-    "ChaJianGuanLi",
-    "C",
     "CJGL",
+    "ChaJianGuanLi",
     "插件管理"
   ],
   type: "web",

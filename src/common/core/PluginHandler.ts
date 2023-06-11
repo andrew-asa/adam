@@ -4,7 +4,11 @@ export interface PluginHandler {
      */
     needHandle(plugin: plugin): boolean
     /**
-     * 进行处理
+     * 打开插件
      */
-    handle(plugin: plugin): void
+    open(plugin: plugin, ext?: any): void
+    /**
+     * 关闭插件
+     */
+    close(plugin: plugin, ext?: any): void
 }

@@ -1,6 +1,6 @@
 import { api_urls } from "@/common/common_const";
 import { ApiResponse } from "./ApiResponse";
-import { getPlugins, openPlugin } from "@/main/services/plugins";
+import { closePlugin, getPlugins, openPlugin } from "@/main/services/plugins/handlers";
 export class Plugins implements ApiResponse {
     actions = [
         {
@@ -17,6 +17,14 @@ export class Plugins implements ApiResponse {
             action: async (ctx: any) => {
                 const p = ctx.request.body as plugin;
                 ctx.body = openPlugin(p);
+            }
+        },
+        {
+            method: "post",
+            path: api_urls.close_plugin,
+            action: async (ctx: any) => {
+                const p = ctx.request.body as plugin;
+                ctx.body = closePlugin(p);
             }
         }
     ]

@@ -62,10 +62,10 @@ export const userStore = defineStore({
             //     this.setCurrentPlugin(plugin);
             //     this._setSearchValue("");
             // }
-            const handler = getHandler(plugin)
-            if (handler) {
-                handler.handle(plugin);
-            }
+            getHandler(plugin).open(plugin);
+            // if (handler) {
+            //     handler.open(plugin);
+            // }
         },
         onClickPlugin(plugin: plugin) {
             console.log(`onClickPlugin: ${plugin.name}`);
@@ -161,19 +161,34 @@ export const userStore = defineStore({
                 if (!descMap.get(plugin)) {
                     descMap.set(plugin, true);
                     let has = false;
-                    plugin.keywords.some((keyWord) => {
-                        if (
-                            keyWord
-                                .toLocaleUpperCase()
-                                .indexOf(value.toLocaleUpperCase()) >= 0
-                        ) {
-                            has = keyWord;
-                            // plugin.name = keyWord;
-                            plugin.selectName = keyWord + " | " + plugin.name;
-                            return true;
+                    let keywords = plugin.keywords || [];
+                    for (let i = 0; i < keywords.length; i++) {
+                        let keyword = keywords[i];
+                        if (keyword.toLocaleUpperCase().indexOf(value.toLocaleUpperCase()) >= 0) {
+                            has = true;
+                            if (value !== keyword && keyword !== plugin.name) {
+                                plugin.selectName = keyword + " | " + plugin.name;
+                            }
+                            break;
                         }
-                        return false;
-                    });
+                    }
+                    // plugin.keywords.some((keyWord) => {
+                    //     if (
+                    //         keyWord
+                    //             .toLocaleUpperCase()
+                    //             .indexOf(value.toLocaleUpperCase()) >= 0
+                    //     ) {
+                    //         has = keyWord;
+                    //         // plugin.name = keyWord;
+                    //         // plugin.selectName = keyWord + " | " + plugin.name;
+                    //         if (value !== keyWord && keyWord !== plugin.name) {
+                    //             // plugin.name = keyWord;
+                    //             plugin.selectName = keyWord + " | " + plugin.name;
+                    //         }
+                    //         return true;
+                    //     }
+                    //     return false;
+                    // });
                     return has;
                 } else {
                     return false;
@@ -209,7 +224,11 @@ export const userStore = defineStore({
         _checkBackspace(e: any) {
             if (e.target.value === '' && e.keyCode === 8) {
                 // this.setCurrentPlugin({}); 
-                this.removeCurrentPlugin();
+                // this.removeCurrentPlugin();
+                if (this.currentPlugin && this.currentPlugin.name) {
+                    // this.removeCurrentPlugin();
+                    getHandler(this.currentPlugin).close(this.currentPlugin);
+                }
             }
         },
 

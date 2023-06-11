@@ -6,10 +6,13 @@ export class DefaultPluginHandler implements PluginHandler {
     constructor(store) {
         this.store = store
     }
+    close(plugin: plugin): void {
+        // throw new Error("Method not implemented.")
+    }
     needHandle(plugin: plugin): boolean {
         return false
     }
-    handle(plugin: plugin): void {
+    open(plugin: plugin): void {
         this.updateCurrentPlugin(plugin, this.store)
     }
     updateCurrentPlugin(plugin: plugin, store: any): void {

@@ -4,6 +4,7 @@ import * as controller from "./contronler";
 
 /**
  * 提供给前端的接口
+ * ==> contronler
  */
 class RendererAPI {
     public setup() {

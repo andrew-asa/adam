@@ -8,7 +8,7 @@ export class SystemAppHandler extends DefaultPluginHandler {
     needHandle(plugin: plugin): boolean {
         return plugin.type === 'app'
     }
-    handle(plugin: plugin,): void {
+    open(plugin: plugin,): void {
         this.store.emptyShow();
         this.store._setSearchValue("");
         openPlugin(plugin)

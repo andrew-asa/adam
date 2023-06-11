@@ -38,6 +38,8 @@ export const api_urls = {
     unload_plugin: "/plugin/unload",
     // 打开插件
     open_plugin: "/plugin/open",
+    // 关闭插件
+    close_plugin: "/plugin/close",
 }
 
 

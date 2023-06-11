@@ -4,9 +4,12 @@ import _ from "lodash"
 export class AbstractPluginHandler implements PluginHandler {
     constructor() {
     }
+    close(plugin: plugin, ext: any): void {
+        // throw new Error("Method not implemented.")
+    }
     needHandle(plugin: plugin): boolean {
         return false
     }
-    handle(plugin: plugin): void {
+    open(plugin: plugin,ext: any): void {
     }
 }

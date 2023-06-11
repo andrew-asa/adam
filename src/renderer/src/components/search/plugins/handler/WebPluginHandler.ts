@@ -1,4 +1,4 @@
-import { openPlugin } from "@/renderer/src/utils/app/app_api";
+import { closePlugin, openPlugin } from "@/renderer/src/utils/app/app_api";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
 
 export class WebPluginHandler extends DefaultPluginHandler {
@@ -8,8 +8,12 @@ export class WebPluginHandler extends DefaultPluginHandler {
     needHandle(plugin: plugin): boolean {
         return plugin.type === 'web'
     }
-    handle(plugin: plugin): void {
-        super.handle(plugin)
+    open(plugin: plugin): void {
+        super.open(plugin)
         openPlugin(plugin)
+    }
+    close(plugin: plugin): void {
+        closePlugin(plugin)
+        this.store.removeCurrentPlugin()
     }
 }

@@ -70,8 +70,8 @@ function setWindow(win: BrowserWindow) {
 
 function createDefaultWindow() {
     return new BrowserWindow({
-        // width: 800,
-        // height: 60,
+        width: 800,
+        height: 60,
         // 指定窗口的尺寸是否包括窗口边框。
         useContentSize: true,
         // 指定窗口是否可以调整大小。

@@ -7,7 +7,7 @@ export class CodePluginHandler extends AbstractPluginHandler {
     needHandle(plugin: plugin): boolean {
         return plugin.type === 'code'
     }
-    handle(plugin: plugin): void {
+    open(plugin: plugin): void {
         console.log(`CodePluginHandler: ${plugin.name}`);
     }
 }

@@ -3,8 +3,11 @@ import { CodePluginHandler } from "./CodePluginHandler";
 import { SystemAppHandler } from "./SystemAppHandler";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { WebPluginHandler } from "./WebPluginHandler";
+import { DefaultPluginHandler } from "./DefaultPluginHandler";
 
 const handlers = [];
+
+var DH: PluginHandler
 export function addHandler(handler: PluginHandler) {
     handlers.push(handler);
 }
@@ -18,7 +21,8 @@ export function init(store) {
             new CodePluginHandler(store),
             new WebPluginHandler(store),
         ]);
+    DH = new DefaultPluginHandler(store);
 }
 export function getHandler(plugin: plugin): PluginHandler {
-    return _.find(handlers, h => h.needHandle(plugin));
+    return _.find(handlers, h => h.needHandle(plugin)) || DH;
 }

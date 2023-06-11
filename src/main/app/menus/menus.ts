@@ -32,7 +32,7 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
             { type: 'separator' },
             {
                 type: 'normal',
-                label: '主窗口开发工具',
+                label: '控制台',
                 click: openConsole
             },
             {

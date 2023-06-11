@@ -8,8 +8,8 @@ export class SystemAppHandler extends AbstractPluginHandler {
     needHandle(plugin: plugin): boolean {
         return plugin.type === 'app'
     }
-    handle(plugin: plugin): void {
-        super.handle(plugin);
+    open(plugin: plugin): void {
+        super.open(plugin);
         openApp(plugin as app)
     }
 }

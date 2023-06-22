@@ -5,6 +5,7 @@ import * as dom_utils from "@renderer/utils/dom_utils"
 import * as hook from '@renderer/core/hook'
 import { starter } from "./starter"
 import _ from 'lodash'
+import { switchToRoute } from "../router"
 const empty_fun = () => {
 }
 const _ctx = {
@@ -22,6 +23,9 @@ const _ctx = {
     },
     lib: {
         _
+    },
+    services:{
+        switchToRoute: switchToRoute,
     }
 }
 export const ctx = Object.freeze(_ctx)

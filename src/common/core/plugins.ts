@@ -1,7 +1,7 @@
-interface plugin_ext {
-
+export interface plugin_ext {
+    [key: string]: any
 }
-interface plugin {
+export interface AdamPlugin {
     name: string;
     desc: string;
     icon: string;
@@ -12,16 +12,16 @@ interface plugin {
     ext?: plugin_ext
 }
 
-interface option extends plugin {
+export interface option extends AdamPlugin {
 
 }
 
-interface app extends plugin {
+export interface SystemApp extends AdamPlugin {
     type: 'app';
 }
-interface code extends plugin {
+export interface AdamCode extends AdamPlugin {
     type: 'code';
 }
-interface web extends plugin {
+export interface AdamWeb extends AdamPlugin {
     type: 'web';
 }

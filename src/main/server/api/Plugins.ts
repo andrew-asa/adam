@@ -1,6 +1,7 @@
 import { api_urls } from "@/common/common_const";
 import { ApiResponse } from "./ApiResponse";
 import { closePlugin, getPlugins, openPlugin } from "@/main/services/plugins/handlers";
+import { AdamPlugin } from "@/common/core/plugins";
 export class Plugins implements ApiResponse {
     actions = [
         {
@@ -15,7 +16,7 @@ export class Plugins implements ApiResponse {
             method: "post",
             path: api_urls.open_plugin,
             action: async (ctx: any) => {
-                const p = ctx.request.body as plugin;
+                const p = ctx.request.body as AdamPlugin;
                 ctx.body = openPlugin(p);
             }
         },
@@ -23,7 +24,7 @@ export class Plugins implements ApiResponse {
             method: "post",
             path: api_urls.close_plugin,
             action: async (ctx: any) => {
-                const p = ctx.request.body as plugin;
+                const p = ctx.request.body as AdamPlugin;
                 ctx.body = closePlugin(p);
             }
         }

@@ -135,8 +135,11 @@ class TencentTranslator {
          * Create a tab to start requesting https://fanyi.qq.com
          */
         const tabId: number = await new Promise((resolve, reject) =>
+            // @ts-ignore
             chrome.tabs.create({ url: this.BASE_URL, active: false }, (tab) => {
+                // @ts-ignore
                 if (chrome.runtime.lastError) {
+                    // @ts-ignore
                     reject(chrome.runtime.lastError.message);
                     return;
                 }
@@ -150,6 +153,7 @@ class TencentTranslator {
          * so that TencentTranslator will know that it can go on translating.
          */
         await new Promise<void>((resolve, reject) =>
+        // @ts-ignore
             chrome.tabs.executeScript(
                 tabId,
                 {
@@ -157,10 +161,13 @@ class TencentTranslator {
                     runAt: "document_end",
                 },
                 () => {
+                    // @ts-ignore
                     if (chrome.runtime.lastError) {
+                        // @ts-ignore
                         reject(chrome.runtime.lastError.message);
 
                         // Try removing the tab and check runtime.lastError incase it has been removed.
+                        // @ts-ignore
                         chrome.tabs.remove(tabId, () => chrome.runtime.lastError);
                     } else {
                         resolve();
@@ -191,6 +198,7 @@ class TencentTranslator {
 
         // Get qtk and qrv from cookies.
         return new Promise<void>((resolve) => {
+            // @ts-ignore
             chrome.cookies.getAll({ url: this.BASE_URL }, (cookies) => {
                 for (let cookie of cookies) {
                     if (cookie.name === "qtv") {
@@ -396,6 +404,7 @@ class TencentTranslator {
             try {
                 // Get Tencent guid.
                 let guid = await new Promise((resolve, reject) => {
+                    // @ts-ignore
                     chrome.cookies.get({ url: this.BASE_URL, name: "fy_guid" }, (cookie) => {
                         if (!cookie || !cookie.value) {
                             reject("Tencent guid not found!");
@@ -406,11 +415,10 @@ class TencentTranslator {
                 });
 
                 // Construct src url.
-                this.AUDIO.src = `${
-                    this.BASE_URL
-                }/api/tts?platform=PC_Website&lang=${this.LAN_TO_CODE.get(
-                    language
-                )}&text=${encodeURIComponent(text)}&guid=${guid}`;
+                this.AUDIO.src = `${this.BASE_URL
+                    }/api/tts?platform=PC_Website&lang=${this.LAN_TO_CODE.get(
+                        language
+                    )}&text=${encodeURIComponent(text)}&guid=${guid}`;
 
                 await this.AUDIO.play();
             } catch (error: any) {

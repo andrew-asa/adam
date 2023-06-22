@@ -4,10 +4,11 @@ import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
 import { getHandler } from "./handler/handlers";
 import { default_plugin } from "./market/plugin";
+import { AdamPlugin } from "@/common/core/plugins";
 interface PluginsState {
     displayCards: any[];
-    plugins: plugin[];
-    options: option[];
+    plugins: AdamPlugin[];
+    options: AdamPlugin[];
     searchValue: string;
     placeholder: string;
     currentSelect: number;
@@ -55,7 +56,7 @@ export const userStore = defineStore({
         _init: false,
     }),
     actions: {
-        selectPlugin(plugin: plugin) {
+        selectPlugin(plugin: AdamPlugin) {
             // let setCurrentSelect = _.findIndex(this.options, plugin)
             // if (setCurrentSelect > -1) {
             //     this.setCurrentSelect(setCurrentSelect)
@@ -67,7 +68,7 @@ export const userStore = defineStore({
             //     handler.open(plugin);
             // }
         },
-        onClickPlugin(plugin: plugin) {
+        onClickPlugin(plugin: AdamPlugin) {
             console.log(`onClickPlugin: ${plugin.name}`);
             this.selectPlugin(plugin);
         },
@@ -85,7 +86,7 @@ export const userStore = defineStore({
         setCurrentSelect(index: number) {
             this.currentSelect = index;
         },
-        setCurrentPlugin(plugin: plugin) {
+        setCurrentPlugin(plugin: AdamPlugin) {
             this.currentPlugin = plugin;
         },
         removeCurrentPlugin() {
@@ -127,7 +128,7 @@ export const userStore = defineStore({
             this.plugins = this.getDefaultPlugins();
             _.each(plugins, (app: any) => {
                 app.zIndex = 0;
-                let p = app as plugin
+                let p = app as AdamPlugin
                 this.plugins.push(p);
             })
         },

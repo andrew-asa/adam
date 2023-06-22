@@ -279,10 +279,12 @@ class BingTranslator {
 
         try {
             const translations = result[0].translations;
+            // @ts-ignore
             parsed.mainMeaning = translations[0].text;
+            // @ts-ignore
             parsed.tPronunciation = translations[0].transliteration.text;
             // eslint-disable-next-line no-empty
-        } catch (error) {}
+        } catch (error) { }
 
         return parsed;
     }
@@ -295,14 +297,18 @@ class BingTranslator {
      *
      * @returns Parsed result
      */
+
     parseLookupResult(result: any, extras: TranslationResult) {
         const parsed = extras || new Object();
 
         try {
+            // @ts-ignore
             parsed.originalText = result[0].displaySource;
-
+            // @ts-ignore
             const translations = result[0].translations;
+            // @ts-ignore
             parsed.mainMeaning = translations[0].displayTarget;
+            // @ts-ignore
             parsed.tPronunciation = translations[0].transliteration;
 
             const detailedMeanings = [];
@@ -318,10 +324,10 @@ class BingTranslator {
                     synonyms,
                 });
             }
-
+            // @ts-ignore
             parsed.detailedMeanings = detailedMeanings;
             // eslint-disable-next-line no-empty
-        } catch (error) {}
+        } catch (error) { }
 
         return parsed;
     }
@@ -338,6 +344,7 @@ class BingTranslator {
         const parsed = extras || new Object();
 
         try {
+            // @ts-ignore
             parsed.examples = result[0].examples.map(
                 (example: {
                     sourcePrefix: string;
@@ -352,7 +359,7 @@ class BingTranslator {
                 })
             );
             // eslint-disable-next-line no-empty
-        } catch (error) {}
+        } catch (error) { }
 
         return parsed;
     }
@@ -367,9 +374,8 @@ class BingTranslator {
             return {
                 method: "POST",
                 baseURL: this.HOST,
-                url: `tfetspktok?isVertical=1&&IG=${this.IG}&IID=${
-                    this.IID
-                }.${this.count.toString()}`,
+                url: `tfetspktok?isVertical=1&&IG=${this.IG}&IID=${this.IID
+                    }.${this.count.toString()}`,
                 headers: this.HEADERS,
                 data: `&token=${encodeURIComponent(this.token)}&key=${encodeURIComponent(
                     this.key
@@ -426,8 +432,7 @@ class BingTranslator {
      * @returns constructed parameters
      */
     constructDetectParams(text: string): AxiosRequestConfig {
-        const url = `ttranslatev3?isVertical=1&IG=${this.IG}&IID=${
-                this.IID
+        const url = `ttranslatev3?isVertical=1&IG=${this.IG}&IID=${this.IID
             }.${this.count.toString()}`,
             data = `&fromLang=auto-detect&to=zh-Hans&text=${encodeURIComponent(
                 text
@@ -452,8 +457,7 @@ class BingTranslator {
      * @returns constructed parameters
      */
     constructTranslateParams(text: string, from: string, to: string): AxiosRequestConfig {
-        const translateURL = `ttranslatev3?isVertical=1&IG=${this.IG}&IID=${
-                this.IID
+        const translateURL = `ttranslatev3?isVertical=1&IG=${this.IG}&IID=${this.IID
             }.${this.count.toString()}`,
             translateData = `&fromLang=${this.LAN_TO_CODE.get(from)}&to=${this.LAN_TO_CODE.get(
                 to
@@ -480,15 +484,14 @@ class BingTranslator {
      * @returns constructed parameters
      */
     constructLookupParams(text: string, from: string, to: string): AxiosRequestConfig {
-        const lookupURL = `tlookupv3?isVertical=1&IG=${this.IG}&IID=${
-                this.IID
+        const lookupURL = `tlookupv3?isVertical=1&IG=${this.IG}&IID=${this.IID
             }.${this.count.toString()}`,
             lookupData = `&from=${
                 // Use detected language.
                 from
-            }&to=${this.LAN_TO_CODE.get(to)}&text=${encodeURIComponent(
-                text
-            )}&token=${encodeURIComponent(this.token)}&key=${encodeURIComponent(this.key)}`;
+                }&to=${this.LAN_TO_CODE.get(to)}&text=${encodeURIComponent(
+                    text
+                )}&token=${encodeURIComponent(this.token)}&key=${encodeURIComponent(this.key)}`;
 
         return {
             method: "POST",
@@ -515,17 +518,16 @@ class BingTranslator {
         text: string,
         translation: string
     ): AxiosRequestConfig {
-        const exampleURL = `texamplev3?isVertical=1&IG=${this.IG}&IID=${
-                this.IID
+        const exampleURL = `texamplev3?isVertical=1&IG=${this.IG}&IID=${this.IID
             }.${this.count.toString()}`,
             exampleData = `&from=${
                 // Use detected language.
                 from
-            }&to=${this.LAN_TO_CODE.get(to)}&text=${encodeURIComponent(
-                text
-            )}&translation=${encodeURIComponent(translation)}&token=${encodeURIComponent(
-                this.token
-            )}&key=${encodeURIComponent(this.key)}`;
+                }&to=${this.LAN_TO_CODE.get(to)}&text=${encodeURIComponent(
+                    text
+                )}&translation=${encodeURIComponent(translation)}&token=${encodeURIComponent(
+                    this.token
+                )}&key=${encodeURIComponent(this.key)}`;
 
         return {
             method: "POST",
@@ -738,6 +740,7 @@ class BingTranslator {
                 [text, transResponse[0].detectedLanguage.language, to],
                 false
             );
+            // @ts-ignore
             const lookupResult = this.parseLookupResult(lookupResponse, transResult);
 
             /**
@@ -745,9 +748,11 @@ class BingTranslator {
              */
             const exampleResponse = await this.request(
                 this.constructExampleParams,
+                // @ts-ignore
                 [transResponse[0].detectedLanguage.language, to, text, lookupResult.mainMeaning],
                 false
             );
+            // @ts-ignore
             return this.parseExampleResult(exampleResponse, lookupResult);
         } catch (e) {
             return transResult;

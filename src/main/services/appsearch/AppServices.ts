@@ -1,3 +1,5 @@
+import { SystemApp } from "@/common/core/plugins";
+
 export interface AppServices {
     /**
      * @param resolve 成功回调函数
@@ -17,7 +19,7 @@ export interface AppServices {
     /**
      * 打开应用程序
      */
-    openApp(app: app): any
+    openApp(app: SystemApp): any
 }
 export interface PluginServices {
     /**

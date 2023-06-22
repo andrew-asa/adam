@@ -34,13 +34,14 @@
 </template>
 
 <script lang="ts" setup>
+import _ from 'lodash'
 import { defineProps, onMounted, ref, watch, watchEffect } from 'vue'
 
 const scrollDom = ref(null)
 
 const props = defineProps({
   searchValue: {
-    type: [String, Number],
+    type: String,
     default: ''
   },
   options: {
@@ -62,9 +63,9 @@ const props = defineProps({
 })
 
 const renderTitle = (title) => {
-  if (typeof title !== 'string') return
+  if (typeof title !== 'string') return ''
   if (!props.searchValue) return title
-  const result = title.toLowerCase().split(props.searchValue.toLowerCase())
+  const result = title.toLowerCase().split(_.toLower(props.searchValue))
   if (result && result.length > 1) {
     return `<div>${result[0]}<span style='color: red'>${props.searchValue}</span>${result[1]}</div>`
   } else {

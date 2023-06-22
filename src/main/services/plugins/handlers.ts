@@ -6,6 +6,7 @@ import { CodePluginHandler } from "./handler/CodePluginHandler";
 import { DefaultPluginHandler } from "./handler/DefaultPluginHandler";
 import { WebPluginHandler } from "./handler/WebPluginHandler";
 import { getAction } from "@/main/common/action";
+import { AdamPlugin } from "@/common/core/plugins";
 const DH: PluginHandler = new DefaultPluginHandler();
 const handlers: PluginHandler[] = [
     new SystemAppHandler(),
@@ -19,7 +20,7 @@ export function addHandlers(handlers: PluginHandler[]) {
     handlers.forEach(h => addHandler(h));
 }
 
-export function getHandler(plugin: plugin): PluginHandler {
+export function getHandler(plugin: AdamPlugin): PluginHandler {
     return _.find(handlers, h => h.needHandle(plugin)) || DH;
 }
 
@@ -31,14 +32,14 @@ export function getHandlers(): PluginHandler[] {
 /**
  * 打开插件
  */
-export function openPlugin(plugin: plugin) {
+export function openPlugin(plugin: AdamPlugin) {
     getHandler(plugin).open(plugin, { mainWindow: getAction('get-main-window')() })
     return "success"
 }
 /**
  * 关闭插件
  */
-export function closePlugin(plugin: plugin) {
+export function closePlugin(plugin: AdamPlugin) {
     getHandler(plugin).close(plugin, { mainWindow: getAction('get-main-window')() })
     return "success"
 }

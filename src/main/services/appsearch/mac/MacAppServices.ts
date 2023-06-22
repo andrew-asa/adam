@@ -11,6 +11,7 @@ import _ from "lodash";
 import { CONFIGURE_DIR, apps_user_files } from "@/main/common/common_const";
 import { createDir } from "@/main/common/utils/io_utils";
 import { getAppIconPath } from "@/common/common_utils";
+import { SystemApp } from "@/common/core/plugins";
 const plist = require('plist');
 export class MacAppServices implements AppServices {
     private apps;
@@ -26,7 +27,7 @@ export class MacAppServices implements AppServices {
             createDir(CONFIGURE_DIR, apps_user_files.apps_icon_cache_dir);
         }
     }
-    openApp(app: app) {
+    openApp(app: SystemApp) {
         if (!app.path) return
         const cmd = `open ${app.path.replace(/ /g, "\\ ") as string}`
         execSync(cmd);

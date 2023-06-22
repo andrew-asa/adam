@@ -1,15 +1,16 @@
 import { openApp } from "@main/services/appsearch";
 import { AbstractPluginHandler } from "./AbstractPluginHandler";
+import { AdamPlugin, SystemApp } from "@/common/core/plugins";
 
 export class SystemAppHandler extends AbstractPluginHandler {
     constructor() {
         super()
     }
-    needHandle(plugin: plugin): boolean {
+    needHandle(plugin: AdamPlugin): boolean {
         return plugin.type === 'app'
     }
-    open(plugin: plugin): void {
+    open(plugin: AdamPlugin): void {
         super.open(plugin);
-        openApp(plugin as app)
+        openApp(plugin as SystemApp)
     }
 }

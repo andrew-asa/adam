@@ -28,18 +28,24 @@ export function translate(sourceStr: string): string {
   return targetStr;
 }
 const upperRegex = /[A-Z]/g
-export function keywords(name) {
-  const keywords = []
+export function keywords(name: string) {
+  const keywords: string[] = []
   if (name && isZhRegex.test(name)) {
-    const py = translate(name);
-    const pinyinArr = py.split(",");
-    const firstLatter = pinyinArr.map((py) => py[0]);
-    // 拼音
-    keywords.push(pinyinArr.join(""));
-    // 首字母缩写
-    keywords.push(firstLatter.join(""));
-    // 拼音首字母
-    keywords.push(py.match(upperRegex).join(""))
+    const py: string = translate(name);
+    if (py) {
+
+      const pinyinArr = py.split(",");
+      const firstLatter = pinyinArr.map((py) => py[0]);
+      // 拼音
+      keywords.push(pinyinArr.join(""));
+      // 首字母缩写
+      keywords.push(firstLatter.join(""));
+      // 拼音首字母
+      const matchResult = py.match(upperRegex);
+      if (matchResult) { // 检查 matchResult 是否为 null 或 undefined
+        keywords.push(matchResult.join(""));
+      }
+    }
     // 中文
     keywords.push(name);
   }

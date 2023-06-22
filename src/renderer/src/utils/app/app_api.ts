@@ -1,5 +1,6 @@
 import { api_urls } from "@/common/common_const";
 import { getUrl } from "@/common/common_utils";
+import { AdamPlugin } from "@/common/core/plugins";
 import axios from "axios";
 
 const AXIOS = axios.create({
@@ -17,13 +18,13 @@ export function getPlugins() {
 /**
  * 打开插件
  */
-export function openPlugin(plugin: plugin) {
+export function openPlugin(plugin: AdamPlugin) {
     return post(api_urls.open_plugin, plugin)
 }
 /**
  * 关闭插件
  */
-export function closePlugin(plugin: plugin) {
+export function closePlugin(plugin: AdamPlugin) {
     return post(api_urls.close_plugin, plugin)
 }
 export function get(url: string, params?: any) {

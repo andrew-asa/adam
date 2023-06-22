@@ -1,3 +1,4 @@
+import { SystemApp } from "@/common/core/plugins";
 import { isMacOS, isWindows, isLinux } from "../../common/common_const";
 import { AppServices } from "./AppServices";
 import { LinuxAppServices } from "./linux/LinuxAppServices";
@@ -28,6 +29,6 @@ export function isInstalled(appName) {
 /**
  * 打开应用
  */
-export function openApp(app: any): any {
+export function openApp(app: SystemApp): any {
     return appservices.openApp(app);
 }

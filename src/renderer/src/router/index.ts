@@ -3,7 +3,8 @@ import { createRouter, createWebHashHistory } from "vue-router"
 const routes = [{
     path: "/",
     name: "home",
-    component: () => import("@renderer/home.vue")
+    // component: () => import("@renderer/home.vue")
+    component: () => import("@renderer/components/search/index.vue")
 }, {
     path: "/search",
     name: "search",
@@ -56,7 +57,9 @@ function _fixRoute() {
         }
     }
 }
-
+export function switchToRoute(path: string) {
+    router.push({ path: path })
+}
 addDemoRoutes()
 export default router
 export { routes, router }

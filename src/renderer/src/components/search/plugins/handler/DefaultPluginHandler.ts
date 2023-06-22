@@ -1,4 +1,5 @@
 import { PluginHandler } from "@/common/core/PluginHandler"
+import { AdamPlugin } from "@/common/core/plugins"
 import _ from "lodash"
 
 export class DefaultPluginHandler implements PluginHandler {
@@ -6,16 +7,16 @@ export class DefaultPluginHandler implements PluginHandler {
     constructor(store) {
         this.store = store
     }
-    close(plugin: plugin): void {
+    close(plugin: AdamPlugin): void {
         // throw new Error("Method not implemented.")
     }
-    needHandle(plugin: plugin): boolean {
+    needHandle(plugin: AdamPlugin): boolean {
         return false
     }
-    open(plugin: plugin): void {
+    open(plugin: AdamPlugin): void {
         this.updateCurrentPlugin(plugin, this.store)
     }
-    updateCurrentPlugin(plugin: plugin, store: any): void {
+    updateCurrentPlugin(plugin: AdamPlugin, store: any): void {
         let setCurrentSelect = _.findIndex(store.options, plugin)
         if (setCurrentSelect > -1) {
             store.setCurrentSelect(setCurrentSelect)

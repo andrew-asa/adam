@@ -4,6 +4,7 @@ import { SystemAppHandler } from "./SystemAppHandler";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { WebPluginHandler } from "./WebPluginHandler";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
+import { AdamPlugin } from "@/common/core/plugins";
 
 const handlers = [];
 
@@ -23,6 +24,6 @@ export function init(store) {
         ]);
     DH = new DefaultPluginHandler(store);
 }
-export function getHandler(plugin: plugin): PluginHandler {
+export function getHandler(plugin: AdamPlugin): PluginHandler {
     return _.find(handlers, h => h.needHandle(plugin)) || DH;
 }

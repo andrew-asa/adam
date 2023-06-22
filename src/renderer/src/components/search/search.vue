@@ -6,18 +6,6 @@
     >
       {{ currentPlugin && currentPlugin.name }}
     </div>
-    <div
-      :class="clipboardFile[0].name ? 'clipboard-tag' : 'clipboard-img'"
-      v-if="clipboardFile && !!clipboardFile.length"
-    >
-      <img :src="getIcon()" />
-      <div class="ellipse">{{ clipboardFile[0].name }}</div>
-      <a-tag
-        color="#aaa"
-        v-if="clipboardFile.length > 1"
-        >{{ clipboardFile.length }}</a-tag
-      >
-    </div>
     <a-input
       id="search"
       ref="mainInput"
@@ -96,9 +84,9 @@ const props: any = defineProps({
 
 const emit = defineEmits([
   'onSearch',
-  'onKeydown'
+  'onKeydown',
   // 'changeCurrent',
-  // 'openMenu',
+  'openMenu',
   // 'changeSelect',
   // 'choosePlugin',
   // 'focus',

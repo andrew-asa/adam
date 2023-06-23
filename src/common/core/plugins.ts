@@ -2,6 +2,10 @@ export interface plugin_ext {
     [key: string]: any
 }
 export interface AdamPlugin {
+    /**
+     * 
+     * id
+     */
     name: string;
     desc: string;
     icon: string;
@@ -24,4 +28,62 @@ export interface AdamCode extends AdamPlugin {
 }
 export interface AdamWeb extends AdamPlugin {
     type: 'web';
+}
+export interface ThirdPluginFeature {
+    /**
+     * 代码
+     */
+    code: string
+    /**
+     * 解释
+     */
+    explain: string
+    /**
+     * 触发命令列表
+     */
+    cmds: any[]
+}
+/**
+ * 第三方插件
+ */
+export interface ThirdPlugin {
+    /**
+     * 相当于id
+     */
+    name: string;
+    /**
+    * 插件名字
+    */
+    pluginName: string;
+    /**
+     * 简介
+     */
+    description: string;
+    /**
+     * 作者
+     */
+    author?: string;
+    version: string;
+    /**
+     * 主入口文件
+     */
+    main?: string;
+    /**
+     * 主页
+     */
+    homePage?: string;
+    /**
+     * 图标
+     */
+    logo?: string;
+    /**
+     * 预先加载文件
+     */
+    preload?: string;
+    /**
+     * 特征
+     */
+    features?: Array<ThirdPluginFeature>
+    isloading?: boolean
+    isdownload?: boolean
 }

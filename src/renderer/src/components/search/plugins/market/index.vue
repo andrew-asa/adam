@@ -51,6 +51,7 @@ import appstore from './views/appstore/index.vue'
 import dev from './views/dev/index.vue'
 import installed from './views/installed/index.vue'
 import settings from './views/settings/index.vue'
+import "./assets/ant_reset.less";
 import {
   HeartOutlined,
   UserOutlined,
@@ -71,7 +72,7 @@ const Components = {
   settings: settings
 }
 </script>
-<style lang="less" scoped>
+<style lang="less" >
 * {
   margin: 0;
   padding: 0;

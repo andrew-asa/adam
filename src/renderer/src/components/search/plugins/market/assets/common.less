@@ -1,38 +1,46 @@
 .left-menu {
-    width: 200px;
-    height: 100vh;
-    border-right: 1px solid var(--color-border-light);
-    .search-container {
-      padding: 10px;
+  width: 200px;
+  height: 100vh;
+  border-right: 1px solid var(--color-border-light);
+
+  .search-container {
+    padding: 10px;
+  }
+
+  .ant-input-affix-wrapper {
+    border: none;
+    background: var(--color-input-hover);
+
+    :deep(input) {
+      background: none;
+      color: var(--color-text-desc);
     }
-    .ant-input-affix-wrapper {
-      border: none;
-      background: var(--color-input-hover);
-      :deep(input) {
+
+    :deep(.anticon) {
+      color: var(--color-text-desc);
+    }
+  }
+
+  :deep(.ant-menu) {
+    background: var(--color-menu-bg);
+    height: 100%;
+    border-right: none;
+
+    .ant-menu-item {
+      color: var(--color-text-content);
+
+      &:active {
         background: none;
-        color: var(--color-text-desc);
-      }
-      :deep(.anticon) {
-        color: var(--color-text-desc);
       }
     }
-    :deep(.ant-menu) {
-      background: var(--color-menu-bg);
-      height: 100%;
-      border-right: none;
-      .ant-menu-item {
-        color: var(--color-text-content);
-        &:active {
-          background: none;
-        }
-      }
-      .ant-menu-item-selected {
-        background-color: var(--color-list-hover);
-        color: var(--color-text-primary);
-        &:after {
-          display: none;
-        }
+
+    .ant-menu-item-selected {
+      background-color: var(--color-list-hover);
+      color: var(--color-text-primary);
+
+      &:after {
+        display: none;
       }
     }
   }
-  
+}

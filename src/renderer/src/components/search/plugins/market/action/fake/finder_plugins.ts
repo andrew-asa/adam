@@ -1,0 +1,43 @@
+export const recomend_plugins = [
+    "rubick-doutu",
+    "rubick-plugin-rename",
+    "rubick-json-editor",
+    "rubick-plugin-calc",
+    "rubick-nat",
+    "rubick-xunfei-ocr",
+    "mossgpt-rubick",
+    "rubick-plugin-network",
+    "rubick-hoppscotch-app",
+    "rubick-host",
+    "rubick-ui-clipboard",
+    "rubick-system-color-picker",
+    "rubick-ui-webpage-open",
+    "rubick-ui-plugin-saladic",
+    "rubick-ctool"
+]
+
+export const new_plugins = [
+    "ai-copilot-plugin",
+    "rubick-plugin-calc",
+    "rubick-plugin-rename",
+    "rubick-json-editor",
+    "rubick-nat",
+    "rubick-xunfei-ocr",
+    "rubick-ui-picture-bed",
+    "mossgpt-rubick",
+    "rubick-host",
+    "rubick-hoppscotch-app",
+    "rubick-ui-clipboard",
+    "rubick-system-color-picker",
+    "rubick-game-tank",
+    "rubick-ui-plugin-mverything",
+    "rubick-ui-plugin-saladic",
+    "rubick-ui-webpage-open",
+    "rubick-tpl-calc",
+    "rubick-qrcode",
+    "rubick-ctool",
+    "rubick-ui-plugin-wallhaven",
+    "rubick-system-mac-touchbar",
+    "rubick-system-super-panel",
+    "rubick-tpl-bookmarks-search"
+]

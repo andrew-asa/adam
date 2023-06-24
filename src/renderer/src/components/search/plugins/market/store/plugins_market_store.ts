@@ -7,7 +7,9 @@ interface PluginsMarketState {
     newPlugins: Array<string>,
 }
 import { total_plugins, recomend_plugins, new_plugins } from '../action/fake/apps';
-import { ThirdPlugin } from "@/common/core/plugins";
+import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
+import { ctx } from "@/renderer/src/startup/ctx_starter";
+import { copyPlugin, copyThirdPlugin } from "../../utils/plugins_utils";
 export const userStore = defineStore({
     id: "plugins_market_store",
     state: (): PluginsMarketState => ({
@@ -31,13 +33,22 @@ export const userStore = defineStore({
          * 安装
          */
         install(plugin: ThirdPlugin) {
+            let find = false
+            let el
             this.totalPlugins.forEach(element => {
-                if(element.name === plugin.name) {
+                if (element.name === plugin.name) {
                     element.isloading = true
+                    find = true
+                    el=element
                 }
             });
+            if (el) {
+                // ctx.app.controller.installPlugin(plugin)
+                const cp = copyThirdPlugin(plugin)
+                 ctx.app.controller.installPlugin(cp).then(() => {
+                     el.isdownload=true
+                 })
+            }
         }
-        
-
     },
 })

@@ -34,25 +34,4 @@ export class DefaultPluginHandler implements PluginHandler {
         }
     }
 
-    copyPlugin(plugin: AdamPlugin): AdamPlugin {
-        return {
-            name: plugin.name,
-            desc: plugin.desc,
-            icon: plugin.icon,
-            path: plugin.path,
-            keywords: this.copyKeywords(plugin.keywords),
-            type: plugin.type,
-            version: plugin.version,
-            ext: plugin.ext
-        }
-    }
-    copyKeywords(keywords: string[]): string[] {
-        const r = []
-        if (keywords) {
-            keywords.forEach(k => {
-                r.push(k)
-            })
-        }
-        return r
-    }
 }

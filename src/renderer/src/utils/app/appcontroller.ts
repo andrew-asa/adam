@@ -1,7 +1,7 @@
 import { useTransitionFallthroughEmits } from "element-plus";
 import { isNodeEnv } from "./app_utils";
 import { Action, BrowserController, Controller } from "./browsercontroller";
-import { AdamPlugin } from "@/common/core/plugins";
+import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
 import { renderer_fun_call_msg_name, renderer_msg_name } from "@/common/common_const";
 
 interface Renderer {
@@ -145,5 +145,9 @@ export default class AppController {
 
     public async getPlugins() {
         return this.invokeMessageSync("getPlugins", {});
+    }
+
+    public async installPlugin(plugin: ThirdPlugin) {
+        return this.invokeMessageSync("installPlugin", { plugin });
     }
 }

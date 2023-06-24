@@ -11,6 +11,10 @@ export const USER_HOME_PATH = os.homedir() || process.env.USERPROFILE || process
 export const CONFIGURE_DIR = path.join(USER_HOME_PATH, "./.adam");
 // 插件安装目录
 export const PLUGINS_INSTALL_DIR = path.join(CONFIGURE_DIR, "./plugins");
+/**
+ * 默认插件仓库地址
+ */
+export const DEFAULT_PLUGIN_REGISTRY = "https://registry.npm.taobao.org";
 // 配置文件目录
 export const CONFIGURE_PATH = "./adam-configure.json";
 

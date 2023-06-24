@@ -199,14 +199,14 @@ import { openFile } from "./appsearch";
  * 
  * 打开插件
  */
-export function openPlugin({ plugin: AdamPlugin, ext }) {
-    op(AdamPlugin, ext)
+export function openPlugin({ plugin, ext }) {
+    op(plugin, ext)
 }
 /**
  * 关闭插件
  */
-export function closePlugin({ plugin: AdamPlugin }) {
-    cl(AdamPlugin)
+export function closePlugin({ plugin }) {
+    cl(plugin)
 }
 
 /**
@@ -221,6 +221,6 @@ const pluginManager: ThirdPluginManager = new DefaultThirdPluginManager({})
 /**
  * 安装插件
  */
-export function installPlugin(plugin: ThirdPlugin) {
+export function installPlugin({ plugin }) {
     pluginManager.install(plugin)
 }

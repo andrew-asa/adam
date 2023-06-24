@@ -164,46 +164,42 @@ export class MacAppServices extends AbstractAppServices {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         let resultBuffer = new Buffer.from([]);
-
-        const profileInstalledApps = spawn("/usr/sbin/system_profiler", [
+        this.evalCommand("/usr/sbin/system_profiler", [
             "-xml",
             "-detailLevel",
             "mini",
             "SPApplicationsDataType",
-        ]);
-
-        profileInstalledApps.stdout.on("data", (chunckBuffer) => {
-            resultBuffer = Buffer.concat([resultBuffer, chunckBuffer]);
-        });
-
-        profileInstalledApps.on("exit", async (exitCode) => {
-            if (exitCode !== 0) {
-                reject([]);
-                return;
-            }
-
-            try {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                const [installedApps] = plist.parse(resultBuffer.toString());
-                const items = installedApps._items.map((item) => {
-                    return {
-                        name: item._name,
-                        path: item.path,
-                        version: item.version,
-                    }
-                })
-                this.fixAppsFields(items).then(() => {
-                    this.resolveApps(this.apps, resolve, filterByAppName);
-                })
-            } catch (err) {
+        ], {
+            "data": (chunckBuffer) => {
+                resultBuffer = Buffer.concat([resultBuffer, chunckBuffer]);
+            },
+            "exit": async (exitCode) => {
+                if (exitCode !== 0) {
+                    reject([]);
+                    return;
+                }
+                try {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    const [installedApps] = plist.parse(resultBuffer.toString());
+                    const items = installedApps._items.map((item) => {
+                        return {
+                            name: item._name,
+                            path: item.path,
+                            version: item.version,
+                        }
+                    })
+                    this.fixAppsFields(items).then(() => {
+                        this.resolveApps(this.apps, resolve, filterByAppName);
+                    })
+                } catch (err) {
+                    reject(err);
+                }
+            },
+            "error": (err) => {
                 reject(err);
             }
-        });
-
-        profileInstalledApps.on("error", (err) => {
-            reject(err);
-        });
+        })
     }
 
     openFile(path: string) {

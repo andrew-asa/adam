@@ -1,6 +1,6 @@
-import { closePlugin, openPlugin } from "@/renderer/src/utils/app/app_api";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
 import { AdamPlugin } from "@/common/core/plugins";
+import { ctx } from "@/renderer/src/startup/ctx_starter";
 
 export class WebPluginHandler extends DefaultPluginHandler {
     constructor(store) {
@@ -11,10 +11,14 @@ export class WebPluginHandler extends DefaultPluginHandler {
     }
     open(plugin: AdamPlugin): void {
         super.open(plugin)
-        openPlugin(plugin)
+        const cp = this.copyPlugin(plugin)
+        // openPlugin(cp)
+        ctx.app.controller.openPlugin(cp)
     }
     close(plugin: AdamPlugin): void {
-        closePlugin(plugin)
+        const cp = this.copyPlugin(plugin)
+        ctx.app.controller.closePlugin(cp)
         this.store.removeCurrentPlugin()
+        // closePlugin(plugin)
     }
 }

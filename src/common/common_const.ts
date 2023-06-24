@@ -16,6 +16,16 @@
 //     },
 
 // };
+
+/**
+ * 渲染消息
+ */
+export const renderer_msg_name = "renderer-msg-trigger"
+
+/**
+ * 方法调用信息
+ */
+export const renderer_fun_call_msg_name = "renderer-fun-call-msg-trigger"
 /**
  * 后端端口
  */

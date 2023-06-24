@@ -22,4 +22,7 @@ function setShowPage(win) {
     } else {
         win.loadFile(path.join(__dirname, '../renderer/index.html'))
     }
+    win.on('ready-to-show', () => {
+        win.show()
+    })
 }

@@ -32,3 +32,9 @@ export function isInstalled(appName) {
 export function openApp(app: SystemApp): any {
     return appservices.openApp(app);
 }
+/**
+ * 打开文件
+ */
+export function openFile(path:string) {
+    return appservices.openFile(path);
+}

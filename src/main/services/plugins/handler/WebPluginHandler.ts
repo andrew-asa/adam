@@ -3,6 +3,8 @@ import { DefaultPluginHandler } from "./DefaultPluginHandler";
 import { is } from "@electron-toolkit/utils";
 import { AdamPlugin } from "@/common/core/plugins";
 import path from "path";
+import { default_plugin_window_height, default_window_height, stores_name } from "@/main/common/common_const";
+import { registerStore } from "@/main/common/strore";
 
 export class WebPluginHandler extends DefaultPluginHandler {
     private view: BrowserView | null = null
@@ -14,30 +16,34 @@ export class WebPluginHandler extends DefaultPluginHandler {
     }
     open(plugin: AdamPlugin, { mainWindow }): void {
         console.log(`WebPluginHandler open: ${plugin.name}`);
+
         const { name, path } = plugin;
         const wm: BrowserWindow = mainWindow
         const view = this.createDefaultView(plugin)
         wm.addBrowserView(view);
         // view.webContents.openDevTools();
         const { width, height } = wm.getBounds()
+        wm.setSize(width, default_window_height);
         this.loadUrl(view, plugin)
-        view.webContents.once('dom-ready', () => {
-            view.setBounds({ x: 0, y: height, width: width, height: height + 600 });
-            wm.setSize(width, height + 600);
+        //  dom-ready
+        view.webContents.once('did-finish-load', () => {
+            view.setBounds({ x: 0, y: default_window_height, width: width, height: default_plugin_window_height });
+            wm.setSize(width, default_window_height + default_plugin_window_height);
             view.setAutoResize({ width: true });
         });
         this.view = view
+        registerStore(stores_name.current_plugin_view, view)
     }
 
     close(plugin: AdamPlugin, { mainWindow }): void {
         console.log(`WebPluginHandler close: ${plugin.name}`);
-        if (!this.view) {
-            return
-        }
-        mainWindow.removeBrowserView(this.view);
-        mainWindow.setSize(800, 60);
+        this.closeCurrentView()
         this.view = null
     }
+    /**
+     * 如果当前有打开的插件则进行关闭
+     */
+
 
     loadUrl(view: BrowserView, plugin: AdamPlugin): void {
         // 内部模块
@@ -51,6 +57,7 @@ export class WebPluginHandler extends DefaultPluginHandler {
         // 在页面加载完成后向 Vue 组件发送路由信息
         view.webContents.on('did-finish-load', () => {
             view.webContents.executeJavaScript(`ctx.services.switchToRoute('${routerPath}')`)
+            // view.webContents.openDevTools()
         })
     }
 

@@ -26,6 +26,18 @@ export const userStore = defineStore({
          */
         init() {
 
+        },
+        /**
+         * 安装
+         */
+        install(plugin: ThirdPlugin) {
+            this.totalPlugins.forEach(element => {
+                if(element.name === plugin.name) {
+                    element.isloading = true
+                }
+            });
         }
+        
+
     },
 })

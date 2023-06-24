@@ -87,3 +87,19 @@ export interface ThirdPlugin {
     isloading?: boolean
     isdownload?: boolean
 }
+
+/**
+ * 第三方插件管理器
+ */
+export interface ThirdPluginManager{
+    /**
+     * 安装
+     * @param plugin 
+     */
+    install(plugin: ThirdPlugin): void
+    /**
+     * 卸载
+     * @param plugin 
+     */
+    uninstall(plugin: ThirdPlugin): void
+}

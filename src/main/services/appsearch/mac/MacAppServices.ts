@@ -12,14 +12,16 @@ import { CONFIGURE_DIR, apps_user_files } from "@/main/common/common_const";
 import { createDir } from "@/main/common/utils/io_utils";
 import { getAppIconPath } from "@/common/common_utils";
 import { SystemApp } from "@/common/core/plugins";
+import { AbstractAppServices } from "../AbstractAppServices";
 const plist = require('plist');
-export class MacAppServices implements AppServices {
+export class MacAppServices extends AbstractAppServices {
     private apps;
     private icondir;
 
 
     private isZhRegex = /[\u4e00-\u9fa5]/
     constructor() {
+        super();
         // this.icondir = path.join(os.tmpdir(), "ProcessIcon");
         this.icondir = path.join(CONFIGURE_DIR, apps_user_files.apps_icon_cache_dir);
         const exists = fs.existsSync(this.icondir);
@@ -27,6 +29,7 @@ export class MacAppServices implements AppServices {
             createDir(CONFIGURE_DIR, apps_user_files.apps_icon_cache_dir);
         }
     }
+
     openApp(app: SystemApp) {
         if (!app.path) return
         const cmd = `open ${app.path.replace(/ /g, "\\ ") as string}`
@@ -201,5 +204,9 @@ export class MacAppServices implements AppServices {
         profileInstalledApps.on("error", (err) => {
             reject(err);
         });
+    }
+
+    openFile(path: string) {
+        this.evalCommand("open", [path])
     }
 }

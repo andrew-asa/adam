@@ -1,7 +1,7 @@
 import { SystemApp } from "@/common/core/plugins";
-import { AppServices } from "../AppServices";
+import { AbstractAppServices } from "../AbstractAppServices";
 
-export class WindowAppServices implements AppServices {
+export class WindowAppServices extends AbstractAppServices {
     openApp(app: SystemApp) {
         throw new Error("Method not implemented.");
     }

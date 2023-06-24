@@ -102,6 +102,9 @@ import { message } from 'ant-design-vue'
 import MarkdownIt from 'markdown-it'
 import { getPluginDetail } from '../../action/plugins_market_require'
 import { ThirdPlugin } from '@/common/core/plugins'
+import { userStore } from '../../store/plugins_market_store'
+import { storeToRefs } from 'pinia'
+const store = userStore()
 const startDownload = () => {}
 const successDownload = () => {}
 
@@ -114,11 +117,12 @@ defineProps({
 })
 
 const downloadPlugin = async (plugin: ThirdPlugin) => {
-  startDownload(plugin.name)
+  // startDownload(plugin.name)
   // plugin.isloading = true
+  store.install(plugin)
   // await window.market.downloadPlugin(plugin);
   message.success(`${plugin.name}安装成功！`)
-  successDownload(plugin.name)
+  // successDownload(plugin.name)
 }
 
 const visible = ref(false)

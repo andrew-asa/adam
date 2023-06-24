@@ -9,6 +9,8 @@ export const isDev = process.env.NODE_ENV === "development";
 export const USER_HOME_PATH = os.homedir() || process.env.USERPROFILE || process.env.HOME || "";
 // app主目录
 export const CONFIGURE_DIR = path.join(USER_HOME_PATH, "./.adam");
+// 插件安装目录
+export const PLUGINS_INSTALL_DIR = path.join(CONFIGURE_DIR, "./plugins");
 // 配置文件目录
 export const CONFIGURE_PATH = "./adam-configure.json";
 
@@ -45,6 +47,26 @@ export const apps_user_files = {
    */
   apps_icon_cache_dir: "cache/ProcessIcon",
 }
+/**
+ * 全局变量名字
+ */
+export const stores_name = {
+  current_plugin_view: 'current_plugin_view'
+}
+/**
+ * 全局函数名字
+ */
+export const actions_name = {
+  get_main_window:"get_main_window"
+}
+/**
+ * 默认窗口高度
+ */
+export const default_window_height = 60
+/**
+ * 默认插件窗口宽度
+ */
+export const default_plugin_window_height = 600
 
 
 

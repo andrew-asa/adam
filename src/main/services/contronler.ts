@@ -1,6 +1,6 @@
 import { shell } from "electron";
 import { getAction } from "@main/common/action";
-import { isMacOS } from "@main/common/common_const";
+import { CONFIGURE_DIR, actions_name, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
 
@@ -8,7 +8,7 @@ import path from "path";
  * 打开控制台
  */
 export function openConsole() {
-    const win = getAction('get-main-window')()
+    const win = getAction(actions_name.get_main_window)()
     if (win) {
         if (win.webContents.isDevToolsOpened()) {
             win.webContents.closeDevTools()
@@ -17,13 +17,27 @@ export function openConsole() {
         }
     }
 }
-export function show(){
-    const win = getAction('get-main-window')()
+/**
+ * 当前插件控制台
+ */
+export function openCurrentPluginConsole() {
+    const win = getStore(stores_name.current_plugin_view)
+    if (win) {
+        if (win.webContents.isDevToolsOpened()) {
+            win.webContents.closeDevTools()
+        } else {
+            win.webContents.openDevTools()
+        }
+    }
+}
+
+export function show() {
+    const win = getAction(actions_name.get_main_window)()
     if (win) {
         win.show()
     }
 }
-export function hide(){
+export function hide() {
     hideMainWin()
 }
 /**
@@ -32,7 +46,7 @@ export function hide(){
  * @Date 2023-03-25 12:09:48
  */
 export function showMainWin() {
-    const win = getAction('get-main-window')()
+    const win = getAction(actions_name.get_main_window)()
     if (win) {
         let app = getAction('get-main-app')()
         if (isMacOS) {
@@ -57,7 +71,7 @@ export function showMainWin() {
  * @description 隐藏
  */
 export function hideMainWin() {
-    let win = getAction('get-main-window')()
+    let win = getAction(actions_name.get_main_window)()
     if (win) {
         win.hide()
         win.setSkipTaskbar(true)
@@ -98,6 +112,7 @@ export function relaunch() {
 
 
 /**
+ * 浏览器中打开
  * @Author andrew
  * @Description
  * @Date 2023-03-28 07:57:45
@@ -106,6 +121,13 @@ export function openInBrowser() {
     let url = process.env['ELECTRON_RENDERER_URL'] || ""
     // console.log(url);
     shell.openExternal(url)
+}
+
+/**
+ * 打开用户目录
+ */
+export function openUserHome() {
+    openFile(CONFIGURE_DIR)
 }
 
 
@@ -122,7 +144,7 @@ export function toggleBall() {
  * 浏览器前进
  */
 export function forward() {
-    let win = getAction('get-main-window')()
+    let win = getAction(actions_name.get_main_window)()
     win && win.webContents.goForward()
 }
 
@@ -130,14 +152,16 @@ export function forward() {
  * 浏览器后退
  */
 export function back() {
-    let win = getAction('get-main-window')()
+    let win = getAction(actions_name.get_main_window)()
     win && win.webContents.goBack()
 }
 
 export function refresh() {
     home()
 }
-
+/**
+ * 显示主页
+ */
 export function home() {
     console.log('home');
     let win = getAction('get-main-window')()
@@ -158,7 +182,45 @@ export function home() {
 export function setWindowSize({ width, height }, win) {
     // console.log(`setWindowSize ${width} ${height}`);
     if (!win) {
-        win = getAction('get-main-window')()
+        win = getAction(actions_name.get_main_window)()
     }
     win && win?.setSize(width, height)
+}
+
+/**
+ * 打开插件
+ */
+import { openPlugin as op, closePlugin as cl, getPlugins as gp } from "@/main/services/plugins/handlers";
+import { getStore } from "../common/strore";
+import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
+import { DefaultThirdPluginManager } from "./plugins/manager/DefaultThirdPluginManager";
+import { openFile } from "./appsearch";
+/**
+ * 
+ * 打开插件
+ */
+export function openPlugin({ plugin: AdamPlugin, ext }) {
+    op(AdamPlugin, ext)
+}
+/**
+ * 关闭插件
+ */
+export function closePlugin({ plugin: AdamPlugin }) {
+    cl(AdamPlugin)
+}
+
+/**
+ * 获取所有插件
+ */
+export function getPlugins() {
+    return gp()
+}
+
+
+const pluginManager: ThirdPluginManager = new DefaultThirdPluginManager({})
+/**
+ * 安装插件
+ */
+export function installPlugin(plugin: ThirdPlugin) {
+    pluginManager.install(plugin)
 }

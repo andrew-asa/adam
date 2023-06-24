@@ -59,9 +59,9 @@ function resizeWindowSize(resultHight = 0) {
 }
 
 onMounted(() => {
-  resizeWindowSize()
+  // resizeWindowSize()
   if (isNodeEnv()) {
-    ctx.app.controller.show()
+    // ctx.app.controller.show()
   }
 })
 watch(

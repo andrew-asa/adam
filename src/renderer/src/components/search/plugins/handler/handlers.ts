@@ -4,7 +4,7 @@ import { SystemAppHandler } from "./SystemAppHandler";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { WebPluginHandler } from "./WebPluginHandler";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
-import { AdamPlugin } from "@/common/core/plugins";
+import { AdamPlugin, ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
 
 const handlers = [];
 
@@ -26,4 +26,15 @@ export function init(store) {
 }
 export function getHandler(plugin: AdamPlugin): PluginHandler {
     return _.find(handlers, h => h.needHandle(plugin)) || DH;
+}
+
+
+
+export class DefaultThirdPluginHandler implements ThirdPluginManager{
+    install(plugin: ThirdPlugin): void {
+        throw new Error("Method not implemented.");
+    }
+    uninstall(plugin: ThirdPlugin): void {
+        throw new Error("Method not implemented.");
+    }
 }

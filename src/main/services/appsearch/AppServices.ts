@@ -20,6 +20,11 @@ export interface AppServices {
      * 打开应用程序
      */
     openApp(app: SystemApp): any
+
+    /**
+     * 打开文件
+     */
+    openFile(path:string): any
 }
 export interface PluginServices {
     /**

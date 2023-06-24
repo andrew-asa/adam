@@ -3,6 +3,7 @@ import { BrowserWindow, shell, screen } from "electron";
 import { registerAction } from "@main/common/action";
 import { windowStateManager } from "@main/common/utils/electron_window_utils";
 import path from "path";
+import { actions_name } from "../common/common_const";
 let win: BrowserWindow | null = null;
 export const init = () => {
     createWindow()
@@ -17,7 +18,7 @@ function regWindowListener(win: BrowserWindow) {
     win.on("closed", () => {
         // @ts-ignore
         win = null;
-        registerAction('get-main-window', () => win)
+        registerAction(actions_name.get_main_window, () => win)
     });
 
     win.on("show", () => {
@@ -103,6 +104,7 @@ function createDefaultWindow() {
             preload: path.join(__dirname, '../preload/index.js')
         }
     })
+    
 }
 function createWindow(): void {
     win = createDefaultWindow();

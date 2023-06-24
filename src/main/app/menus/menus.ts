@@ -1,5 +1,5 @@
 import { Menu } from "electron";
-import { hideMainWin, openConsole, openInBrowser, quit, refresh, relaunch, showMainWin, toggleBall } from "@main/services/contronler";
+import { hideMainWin, openConsole, openCurrentPluginConsole, openInBrowser, openUserHome, quit, refresh, relaunch, showMainWin, toggleBall } from "@main/services/contronler";
 
 export const getMainMenus = () => Menu.buildFromTemplate([
     {
@@ -32,18 +32,27 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
             { type: 'separator' },
             {
                 type: 'normal',
-                label: '控制台',
+                label: '主控制台',
                 click: openConsole
+            }, {
+                type: 'normal',
+                label: '当前插件控制台',
+                click: openCurrentPluginConsole
             },
             {
                 type: 'normal',
                 label: '重新启动',
                 click: relaunch
             },
+            // {
+            //     type: 'normal',
+            //     label: '主页',
+            //     click: refresh
+            // },
             {
                 type: 'normal',
-                label: '主页',
-                click: refresh
+                label: '用户目录',
+                click: openUserHome
             }
         ]
     },

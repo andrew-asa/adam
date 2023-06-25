@@ -52,7 +52,7 @@ export interface ThirdPlugin {
      */
     name: string;
     /**
-    * 插件名字
+    * 插件名字 可读插件名
     */
     pluginName: string;
     /**
@@ -86,6 +86,7 @@ export interface ThirdPlugin {
     features?: Array<ThirdPluginFeature>
     isloading?: boolean
     isdownload?: boolean
+    engineType?: string
 }
 
 /**

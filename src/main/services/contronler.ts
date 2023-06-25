@@ -48,7 +48,7 @@ export function hide() {
 export function showMainWin() {
     const win = getAction(actions_name.get_main_window)()
     if (win) {
-        let app = getAction('get-main-app')()
+        let app = getAction(actions_name.get_main_app)()
         if (isMacOS) {
             app && app.dock.show()
             //  win.setVisibleOnAllWorkspaces(true)
@@ -56,10 +56,9 @@ export function showMainWin() {
         win.setSkipTaskbar(false)
         win.show()
         // win.focus()
-
     } else {
         // 创建窗口
-        let app = getAction('get-app')()
+        let app = getAction(actions_name.get_app)()
         if (app) {
             app.createWindow()
         }
@@ -75,7 +74,7 @@ export function hideMainWin() {
     if (win) {
         win.hide()
         win.setSkipTaskbar(true)
-        isMacOS && getAction('get-main-app')()?.dock.hide()
+        isMacOS && getAction(actions_name.get_main_app)()?.dock.hide()
     }
 }
 
@@ -85,7 +84,7 @@ export function hideMainWin() {
  * @Date 2023-03-25 12:15:51
  */
 export function quit() {
-    const app = getAction('get-main-app')()
+    const app = getAction(actions_name.get_main_app)()
     app && app.quit()
 }
 /**
@@ -93,7 +92,7 @@ export function quit() {
  * @deprecated 退出程序
  */
 export function exit() {
-    const app = getAction('get-main-app')()
+    const app = getAction(actions_name.get_main_app)()
     app && app.exit(-1)
 }
 
@@ -103,7 +102,7 @@ export function exit() {
  * @Date 2023-03-25 12:16:59
  */
 export function relaunch() {
-    const app = getAction('get-main-app')()
+    const app = getAction(actions_name.get_main_app)()
     if (app) {
         app.relaunch()
         app.exit(1)

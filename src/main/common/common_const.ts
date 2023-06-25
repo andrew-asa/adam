@@ -55,13 +55,28 @@ export const apps_user_files = {
  * 全局变量名字
  */
 export const stores_name = {
+  /**
+   * 当前正在运行的插件，指挂载在搜索窗口上面的插件
+   */
   current_plugin_view: 'current_plugin_view'
 }
 /**
  * 全局函数名字
  */
 export const actions_name = {
-  get_main_window:"get_main_window"
+  /**
+   * 主窗口
+   */
+  get_main_window: "get_main_window",
+  /**
+   * 应用程序
+   */
+  get_app: "get_app",
+
+  /**
+   * Electron原生的app对象
+   */
+  get_main_app: "get_main_app"
 }
 /**
  * 默认窗口高度

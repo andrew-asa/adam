@@ -1,16 +1,26 @@
 import { optimizer } from '@electron-toolkit/utils';
 import electron, { app, BrowserWindow, globalShortcut } from 'electron';
-import { isDev, isMacOS, isProduction } from '@main/common/common_const';
+import { actions_name, isDev, isMacOS, isProduction } from '@main/common/common_const';
 import { registerMainWindow } from './applistener';
-import * as main from './AppWindow'
+import { AppMainWindowCreator } from './AppWindow'
 
-import { setupApp } from './startup/startup';
+import { AppStarter } from './startup/AppStarter';
+import { registerAction } from '../common/action';
+import { Starter, WindowCreator } from './type';
 export class App {
-    public windowCreator: { init: () => void; getWindow: () => BrowserWindow | null };
-    private systemPlugins: any;
+    /**
+     * 主窗口生成器
+     */
+    public windowCreator: WindowCreator;
+    /**
+     * 额外工作启动器
+     */
+    public appExtWordStarter:Starter
     constructor() {
-        // 
-        this.windowCreator = main
+        this.windowCreator = new AppMainWindowCreator()
+        this.appExtWordStarter = new AppStarter()
+    }
+    start() {
         const gotTheLock = app.requestSingleInstanceLock();
         if (!gotTheLock) {
             app.quit();
@@ -42,15 +52,17 @@ export class App {
     }
     createWindow() {
         this.windowCreator.init();
-        registerMainWindow(app, this.windowCreator.getWindow())
+        registerAction(actions_name.get_main_window, () => this.windowCreator.getWindow())
     }
     onReady() {
         const readyFunction = () => {
             this.createWindow();
             // const mainWindow = this.windowCreator.getWindow();
             // API.init(mainWindow);
-            setupApp(app);
-
+            // setupApp(app);
+            registerAction(actions_name.get_main_app, () => app)
+            registerAction(actions_name.get_app, () => this)
+            this.appExtWordStarter.start();
             // registerHotKey(this.windowCreator.getWindow());
             // this.systemPlugins.triggerReadyHooks(
             //     Object.assign(electron, { mainWindow: this.windowCreator.getWindow() })

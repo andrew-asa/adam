@@ -2,9 +2,11 @@ import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
 import { DEFAULT_PLUGIN_REGISTRY, PLUGINS_INSTALL_DIR } from "@/main/common/common_const";
 import { spawn } from "child_process";
 import fs from 'fs-extra';
+import axios from "axios";
 export class DefaultThirdPluginManager implements ThirdPluginManager {
     private baseDir: string = "";
     readonly registry: string;
+    pluginCaches = {};
     constructor(options: { baseDir?: string, registry?: string }) {
         console.log(`init DefaultThirdPluginManager`);
         let baseDir = options.baseDir || PLUGINS_INSTALL_DIR
@@ -18,8 +20,9 @@ export class DefaultThirdPluginManager implements ThirdPluginManager {
                 '{"dependencies":{}}'
             );
         }
-        
+
     }
+
     install(plugin: ThirdPlugin): void {
         console.log(`install ${plugin.name}`);
         this.installInternal([plugin.name], { isDev: false });
@@ -28,6 +31,48 @@ export class DefaultThirdPluginManager implements ThirdPluginManager {
         console.log(`uninstall ${plugin.name}`);
     }
 
+    /**
+   * 列出所有已安装插件
+   * @memberof AdapterHandler
+   */
+    async list() {
+        const installInfo = JSON.parse(
+            await fs.readFile(`${this.baseDir}/package.json`, 'utf-8')
+        );
+        const adapters: string[] = [];
+        for (const adapter in installInfo.dependencies) {
+            adapters.push(adapter);
+        }
+        return adapters;
+    }
+
+    /**
+     * 更新
+     * @param {string} name
+     */
+    async upgrade(name: string): Promise<void> {
+        // 创建一个npm-registry-client实例
+        const packageJSON = JSON.parse(
+            fs.readFileSync(`${this.baseDir}/package.json`, 'utf-8')
+        );
+        const registryUrl = `https://registry.npm.taobao.org/${name}`;
+
+        // 从npm源中获取依赖包的最新版本
+        try {
+            const installedVersion = packageJSON.dependencies[name].replace('^', '');
+            let latestVersion = this.pluginCaches[name];
+            if (!latestVersion) {
+                const { data } = await axios.get(registryUrl, { timeout: 2000 });
+                latestVersion = data['dist-tags'].latest;
+                this.pluginCaches[name] = latestVersion;
+            }
+            if (latestVersion > installedVersion) {
+                await this.installInternal([name], { isDev: false });
+            }
+        } catch (e) {
+            // ...
+        }
+    }
 
     async installInternal(adapters: Array<string>, options: { isDev: boolean }) {
         const installCmd = options.isDev ? 'link' : 'install';
@@ -77,4 +122,5 @@ export class DefaultThirdPluginManager implements ThirdPluginManager {
             });
         });
     }
+
 }

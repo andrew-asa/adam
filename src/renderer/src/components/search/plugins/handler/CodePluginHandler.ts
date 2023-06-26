@@ -6,7 +6,7 @@ export class CodePluginHandler extends DefaultPluginHandler {
         super(store)
     }
     needHandle(plugin: AdamPlugin): boolean {
-        return plugin.type === 'code'
+        return plugin.pluginType === 'code'
     }
     open(plugin: AdamPlugin): void {
         console.log(`CodePluginHandler: ${plugin.name}`);

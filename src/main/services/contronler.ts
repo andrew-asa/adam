@@ -194,6 +194,7 @@ import { getStore } from "../common/strore";
 import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
 import { DefaultThirdPluginManager } from "./plugins/manager/DefaultThirdPluginManager";
 import { openFile } from "./appsearch";
+import { CompositePluginManager } from "./plugins/CompositePluginManager";
 /**
  * 
  * 打开插件
@@ -216,7 +217,7 @@ export function getPlugins() {
 }
 
 
-const pluginManager: ThirdPluginManager = new DefaultThirdPluginManager({})
+const pluginManager: ThirdPluginManager = new CompositePluginManager()
 /**
  * 安装插件
  */

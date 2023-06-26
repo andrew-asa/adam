@@ -2,9 +2,9 @@
   <div class="adam-select">
     <div
       class="select-tag"
-      v-show="currentPlugin && currentPlugin.name"
+      v-show="currentPlugin && currentPlugin.pluginName"
     >
-      {{ currentPlugin && currentPlugin.name }}
+      {{ currentPlugin && currentPlugin.pluginName }}
     </div>
     <a-input
       id="search"

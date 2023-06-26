@@ -3,6 +3,9 @@ import createTray from "@main/app/menus/tray";
 import server from "@/main/server/server";
 import { backendpor } from "@/common/common_const";
 import { Starter } from "../type";
+import { AppControllerContext } from "@/main/services/AppControllerContext";
+import { registerStore } from "@/main/common/strore";
+import { stores_name } from "@/main/common/common_const";
 function startServer() {
     try {
         const handler = server(backendpor);
@@ -12,8 +15,12 @@ function startServer() {
 }
 
 
-
 export class AppStarter implements Starter {
+
+    registerGlobalStore() {
+
+        registerStore(stores_name.app_controller_context, new AppControllerContext())
+    }
     /**
      * 应用，窗口都启动好之后的启动逻辑
      */
@@ -24,5 +31,6 @@ export class AppStarter implements Starter {
         renderer_api.setup();
         // 启动后端服务器提供服务
         startServer();
+        this.registerGlobalStore();
     }
 }

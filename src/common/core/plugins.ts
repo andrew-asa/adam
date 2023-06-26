@@ -1,43 +1,28 @@
-export interface plugin_ext {
+export interface PluginExtMessage {
     [key: string]: any
-}
-export interface AdamPlugin {
     /**
-     * 
-     * id
+     * 正在加载
      */
-    name: string;
-    desc: string;
-    icon: string;
-    path: string;
-    keywords: string[];
-    type: 'app' | 'web' | 'code';
-    version: string;
-    ext?: plugin_ext
+    isloading?: boolean
+    /**
+     * 是否已经完成下载
+     */
+    isdownload?: boolean
+    /**
+     * 适配处理引擎
+     */
+    adapterEngine?: string
 }
 
-export interface option extends AdamPlugin {
-
-}
-
-export interface SystemApp extends AdamPlugin {
-    type: 'app';
-}
-export interface AdamCode extends AdamPlugin {
-    type: 'code';
-}
-export interface AdamWeb extends AdamPlugin {
-    type: 'web';
-}
 export interface ThirdPluginFeature {
     /**
      * 代码
      */
-    code: string
+    code?: string
     /**
      * 解释
      */
-    explain: string
+    explain?: string
     /**
      * 触发命令列表
      */
@@ -60,9 +45,16 @@ export interface ThirdPlugin {
      */
     description: string;
     /**
+     * 插件类型
+     */
+    pluginType: 'app' | 'web' | 'code' | 'ui';
+    /**
      * 作者
      */
     author?: string;
+    /**
+     * 版本
+     */
     version: string;
     /**
      * 主入口文件
@@ -83,16 +75,21 @@ export interface ThirdPlugin {
     /**
      * 特征
      */
-    features?: Array<ThirdPluginFeature>
-    isloading?: boolean
-    isdownload?: boolean
-    engineType?: string
+    features?: Array<ThirdPluginFeature>;
+    /**
+     * 关键字，如系统app只需要搜索关键字而无需搜索features
+     */
+    keywords?: string[];
+    /**
+     * 额外的信息
+     */
+    ext?: PluginExtMessage
 }
 
 /**
  * 第三方插件管理器
  */
-export interface ThirdPluginManager{
+export interface ThirdPluginManager {
     /**
      * 安装
      * @param plugin 
@@ -103,4 +100,27 @@ export interface ThirdPluginManager{
      * @param plugin 
      */
     uninstall(plugin: ThirdPlugin): void
+
+    /**
+     * 列出所有管理的插件
+     */
+    listAllPlugin(): ThirdPlugin[]
+}
+
+export interface AdamPlugin extends ThirdPlugin {
+
+}
+
+
+/**
+ * 系统app
+ */
+export interface SystemApp extends AdamPlugin {
+    pluginType: 'app';
+}
+export interface AdamCode extends AdamPlugin {
+    pluginType: 'code';
+}
+export interface AdamWeb extends AdamPlugin {
+    pluginType: 'web';
 }

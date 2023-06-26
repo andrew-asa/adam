@@ -14,8 +14,7 @@ export class DefaultPluginHandler implements PluginHandler {
         return false
     }
     close(plugin: AdamPlugin): void {
-        // throw new Error("Method not implemented.")
-        
+        this.store.removeCurrentPlugin()
     }
     needHandle(plugin: AdamPlugin): boolean {
         return false

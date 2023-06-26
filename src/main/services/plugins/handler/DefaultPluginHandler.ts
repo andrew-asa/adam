@@ -1,11 +1,11 @@
-import { AdamPlugin } from "@/common/core/plugins";
+import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
 import { AbstractPluginHandler } from "./AbstractPluginHandler";
 import { getStore, registerStore } from "@/main/common/strore";
 import { actions_name, stores_name } from "@/main/common/common_const";
 import { getAction } from "@/main/common/action";
 
 export class DefaultPluginHandler extends AbstractPluginHandler{
-    needHandle(plugin: AdamPlugin): boolean {
+    needHandle(plugin: ThirdPlugin): boolean {
         return true
     }
 

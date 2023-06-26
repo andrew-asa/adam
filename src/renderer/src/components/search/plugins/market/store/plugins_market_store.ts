@@ -7,9 +7,9 @@ interface PluginsMarketState {
     newPlugins: Array<string>,
 }
 import { total_plugins, recomend_plugins, new_plugins } from '../action/fake/apps';
-import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
+import { ThirdPlugin } from "@/common/core/plugins";
 import { ctx } from "@/renderer/src/startup/ctx_starter";
-import { copyPlugin, copyThirdPlugin } from "../../utils/plugins_utils";
+import { copyThirdPlugin } from "../../utils/plugins_utils";
 export const userStore = defineStore({
     id: "plugins_market_store",
     state: (): PluginsMarketState => ({

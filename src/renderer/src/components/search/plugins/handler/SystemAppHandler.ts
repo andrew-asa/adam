@@ -7,7 +7,7 @@ export class SystemAppHandler extends DefaultPluginHandler {
         super(store)
     }
     needHandle(plugin: AdamPlugin): boolean {
-        return plugin.type === 'app'
+        return plugin.pluginType === 'app'
     }
     open(plugin: AdamPlugin): void {
         this.store.emptyShow();

@@ -58,7 +58,12 @@ export const stores_name = {
   /**
    * 当前正在运行的插件，指挂载在搜索窗口上面的插件
    */
-  current_plugin_view: 'current_plugin_view'
+  current_plugin_view: 'current_plugin_view',
+
+  /**
+   * app控制上下文
+   */
+  app_controller_context: "app_controller_context",
 }
 /**
  * 全局函数名字

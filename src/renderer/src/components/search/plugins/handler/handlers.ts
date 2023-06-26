@@ -24,7 +24,7 @@ export function init(store) {
         ]);
     DH = new DefaultPluginHandler(store);
 }
-export function getHandler(plugin: AdamPlugin): PluginHandler {
+export function getHandler(plugin: ThirdPlugin): PluginHandler {
     return _.find(handlers, h => h.needHandle(plugin)) || DH;
 }
 
@@ -36,5 +36,9 @@ export class DefaultThirdPluginHandler implements ThirdPluginManager{
     }
     uninstall(plugin: ThirdPlugin): void {
         throw new Error("Method not implemented.");
+    }
+
+    listAllPlugin(): ThirdPlugin[] {
+        return [];
     }
 }

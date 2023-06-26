@@ -1,7 +1,7 @@
 import { BrowserView, BrowserWindow, session } from "electron";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
 import { is } from "@electron-toolkit/utils";
-import { AdamPlugin } from "@/common/core/plugins";
+import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
 import path from "path";
 import { default_plugin_window_height, default_window_height, stores_name } from "@/main/common/common_const";
 import { registerStore } from "@/main/common/strore";
@@ -11,13 +11,13 @@ export class WebPluginHandler extends DefaultPluginHandler {
     constructor() {
         super()
     }
-    needHandle(plugin: AdamPlugin): boolean {
-        return plugin.type === 'web'
+    needHandle(plugin: ThirdPlugin): boolean {
+        return plugin.pluginType === 'web'
     }
-    open(plugin: AdamPlugin, { mainWindow }): void {
+    open(plugin: ThirdPlugin, { mainWindow }): void {
         console.log(`WebPluginHandler open: ${plugin.name}`);
 
-        const { name, path } = plugin;
+        const { name, main } = plugin;
         const wm: BrowserWindow = mainWindow
         const view = this.createDefaultView(plugin)
         wm.addBrowserView(view);
@@ -45,20 +45,22 @@ export class WebPluginHandler extends DefaultPluginHandler {
      */
 
 
-    loadUrl(view: BrowserView, plugin: AdamPlugin): void {
+    loadUrl(view: BrowserView, plugin: ThirdPlugin): void {
         // 内部模块
-        if (plugin.path.startsWith("#")) {
+        if (plugin.main && plugin.main.startsWith("#")) {
             this.loadIndex(view)
             this.switchToInnerRouter(view, plugin)
         }
     }
-    private switchToInnerRouter(view: BrowserView, plugin: AdamPlugin): void {
-        const routerPath = plugin.path.substring(1)
-        // 在页面加载完成后向 Vue 组件发送路由信息
-        view.webContents.on('did-finish-load', () => {
-            view.webContents.executeJavaScript(`ctx.services.switchToRoute('${routerPath}')`)
-            // view.webContents.openDevTools()
-        })
+    private switchToInnerRouter(view: BrowserView, plugin: ThirdPlugin): void {
+        if (plugin.main) {
+            const routerPath = plugin.main.substring(1)
+            // 在页面加载完成后向 Vue 组件发送路由信息
+            view.webContents.on('did-finish-load', () => {
+                view.webContents.executeJavaScript(`ctx.services.switchToRoute('${routerPath}')`)
+                // view.webContents.openDevTools()
+            })
+        }
     }
 
     loadIndex(view: BrowserView): void {
@@ -70,8 +72,8 @@ export class WebPluginHandler extends DefaultPluginHandler {
         }
     }
 
-    createDefaultView(plugin: AdamPlugin): BrowserView {
-        const { name, path } = plugin;
+    createDefaultView(plugin: ThirdPlugin): BrowserView {
+        const { name } = plugin;
         const ses = session.fromPartition('<' + name + '>');
         return new BrowserView({
             webPreferences: {

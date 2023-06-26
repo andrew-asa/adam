@@ -22,6 +22,9 @@ export class DefaultThirdPluginManager implements ThirdPluginManager {
         }
 
     }
+    listAllPlugin(): ThirdPlugin[] {
+        throw new Error("Method not implemented.");
+    }
 
     install(plugin: ThirdPlugin): void {
         console.log(`install ${plugin.name}`);
@@ -122,5 +125,4 @@ export class DefaultThirdPluginManager implements ThirdPluginManager {
             });
         });
     }
-
 }

@@ -1,7 +1,6 @@
 import { optimizer } from '@electron-toolkit/utils';
 import electron, { app, BrowserWindow, globalShortcut } from 'electron';
 import { actions_name, isDev, isMacOS, isProduction } from '@main/common/common_const';
-import { registerMainWindow } from './applistener';
 import { AppMainWindowCreator } from './AppWindow'
 
 import { AppStarter } from './startup/AppStarter';

@@ -1,16 +1,16 @@
 import { PluginHandler } from "@/common/core/PluginHandler"
-import { AdamPlugin } from "@/common/core/plugins"
+import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins"
 import _ from "lodash"
 
 export class AbstractPluginHandler implements PluginHandler {
     constructor() {
     }
-    close(plugin: AdamPlugin, ext: any): void {
+    close(plugin: ThirdPlugin, ext: any): void {
         // throw new Error("Method not implemented.")
     }
-    needHandle(plugin: AdamPlugin): boolean {
+    needHandle(plugin: ThirdPlugin): boolean {
         return false
     }
-    open(plugin: AdamPlugin,ext?: any): void {
+    open(plugin: ThirdPlugin, ext?: any): void {
     }
 }

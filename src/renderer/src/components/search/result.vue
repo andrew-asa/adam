@@ -15,14 +15,14 @@
             @dblclick="() => dblclickPlugin(item)"
             :class="currentSelect === index ? 'active op-item' : 'op-item'"
           >
-            <a-list-item-meta :description="renderDesc(item.desc || item.path )">
+            <a-list-item-meta :description="renderDesc(item.description)">
               <template #title>
-                <span v-html="renderTitle(item.selectName || item.name)"></span>
+                <span v-html="renderTitle(item?.selectName || item.pluginName || item.name)"></span>
               </template>
               <template #avatar>
                 <a-avatar
                   style="border-radius: 0"
-                  :src="item.icon"
+                  :src="item.logo"
                 />
               </template>
             </a-list-item-meta>

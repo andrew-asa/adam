@@ -1,14 +1,14 @@
-import { AdamPlugin } from "@/common/core/plugins";
+import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
 import { AbstractPluginHandler } from "./AbstractPluginHandler";
 
 export class CodePluginHandler extends AbstractPluginHandler {
     constructor() {
         super()
     }
-    needHandle(plugin: AdamPlugin): boolean {
-        return plugin.type === 'code'
+    needHandle(plugin: ThirdPlugin): boolean {
+        return plugin.pluginType === 'code'
     }
-    open(plugin: AdamPlugin): void {
+    open(plugin: ThirdPlugin): void {
         console.log(`CodePluginHandler: ${plugin.name}`);
     }
 }

@@ -4,15 +4,16 @@ import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
 import { getHandler } from "./handler/handlers";
 import { default_plugin } from "./market/plugin";
-import { AdamPlugin } from "@/common/core/plugins";
+import { ThirdPlugin } from "@/common/core/plugins";
+import { copyThirdPlugin } from "./utils/plugins_utils";
 interface PluginsState {
     displayCards: any[];
-    plugins: AdamPlugin[];
-    options: AdamPlugin[];
+    plugins: ThirdPlugin[];
+    options: any[];
     searchValue: string;
     placeholder: string;
     currentSelect: number;
-    currentPlugin: any;
+    currentPlugin: ThirdPlugin | null | {};
     clipboardFile: any[];
     pageCount: number;
     _init: boolean;
@@ -56,19 +57,10 @@ export const userStore = defineStore({
         _init: false,
     }),
     actions: {
-        selectPlugin(plugin: AdamPlugin) {
-            // let setCurrentSelect = _.findIndex(this.options, plugin)
-            // if (setCurrentSelect > -1) {
-            //     this.setCurrentSelect(setCurrentSelect)
-            //     this.setCurrentPlugin(plugin);
-            //     this._setSearchValue("");
-            // }
+        selectPlugin(plugin: ThirdPlugin) {
             getHandler(plugin).open(plugin);
-            // if (handler) {
-            //     handler.open(plugin);
-            // }
         },
-        onClickPlugin(plugin: AdamPlugin) {
+        onClickPlugin(plugin: ThirdPlugin) {
             console.log(`onClickPlugin: ${plugin.name}`);
             this.selectPlugin(plugin);
         },
@@ -86,7 +78,7 @@ export const userStore = defineStore({
         setCurrentSelect(index: number) {
             this.currentSelect = index;
         },
-        setCurrentPlugin(plugin: AdamPlugin) {
+        setCurrentPlugin(plugin: ThirdPlugin) {
             this.currentPlugin = plugin;
         },
         removeCurrentPlugin() {
@@ -99,13 +91,7 @@ export const userStore = defineStore({
         resetPlaceholder() {
             this.placeholder = "Hi Adam";
         },
-        setPageCount(pageCount: number) {
-            console.log(`setPageCount: ${pageCount}`);
-            if (pageCount > 0) {
-                this.pageCount = pageCount;
-                this._showOptions(this.plugins);
-            }
-        },
+
         addOption(option: any) {
             this.options.push(option);
         },
@@ -128,7 +114,7 @@ export const userStore = defineStore({
             this.plugins = this.getDefaultPlugins();
             _.each(plugins, (app: any) => {
                 app.zIndex = 0;
-                let p = app as AdamPlugin
+                let p = app as ThirdPlugin
                 this.plugins.push(p);
             })
         },
@@ -156,46 +142,79 @@ export const userStore = defineStore({
                 this._showOptions([]);
                 return;
             }
-            let options = this.plugins
-            const descMap = new Map();
-            const s = options.filter((plugin: any) => {
-                if (!descMap.get(plugin)) {
-                    descMap.set(plugin, true);
-                    let has = false;
+            let options = []
+            this.plugins.forEach((plugin: ThirdPlugin) => {
+                //系统应用搜索的是关键字
+                if ('app' == plugin.pluginType) {
                     let keywords = plugin.keywords || [];
                     for (let i = 0; i < keywords.length; i++) {
                         let keyword = keywords[i];
                         if (keyword.toLocaleUpperCase().indexOf(value.toLocaleUpperCase()) >= 0) {
-                            has = true;
-                            if (value !== keyword && keyword !== plugin.name) {
-                                plugin.selectName = keyword + " | " + plugin.name;
+                            let item: any = copyThirdPlugin(plugin, false);
+                            if (value !== keyword && keyword !== plugin.pluginName) {
+                                item.selectName = keyword + " | " + plugin.pluginName;
                             }
+                            options.push(item);
                             break;
                         }
                     }
-                    // plugin.keywords.some((keyWord) => {
-                    //     if (
-                    //         keyWord
-                    //             .toLocaleUpperCase()
-                    //             .indexOf(value.toLocaleUpperCase()) >= 0
-                    //     ) {
-                    //         has = keyWord;
-                    //         // plugin.name = keyWord;
-                    //         // plugin.selectName = keyWord + " | " + plugin.name;
-                    //         if (value !== keyWord && keyWord !== plugin.name) {
-                    //             // plugin.name = keyWord;
-                    //             plugin.selectName = keyWord + " | " + plugin.name;
-                    //         }
-                    //         return true;
-                    //     }
-                    //     return false;
-                    // });
-                    return has;
                 } else {
-                    return false;
+                    // 插件搜索的是fetatures中的cmds看是否有匹配
+                    let features = plugin.features || [];
+                    for (let i = 0; i < features.length; i++) {
+                        let feature = features[i];
+                        const cmds = feature.cmds || [];
+                        for (let j = 0; j < cmds.length; j++) {
+                            let cmd = cmds[j];
+                            if ((typeof cmd === 'string' && cmd.toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                || (cmd.type === 'regex' && this.formatReg(cmd.match).test(value))
+                            ) {
+
+                                let item: any = {
+                                    name: plugin.name,
+                                    pluginName: cmd.label || plugin.pluginName,
+                                    main: plugin.main,
+                                    description: feature.explain || plugin.description,
+                                    logo: plugin.logo,
+                                    pluginType: plugin.pluginType,
+                                    zIndex: cmd.label ? 0 : 1, // 排序权重
+                                    ext: {
+                                        ...plugin.ext,
+                                        code: feature.code,
+                                        playload: value,
+                                        type: cmd.type || 'text'
+                                    }
+                                }
+                                if (typeof cmd === 'string' && value !== item && item !== plugin.pluginName) {
+                                    item.selectName = cmd + " | " + plugin.pluginName;
+                                }
+                                options.push(item);
+                                break;
+                            }
+                        }
+                    }
                 }
             })
-            this._showOptions(s);
+            this._showOptions(options);
+        },
+        searchKeyValues(lists, value, strict = false) {
+            return lists.filter((item) => {
+                if (typeof item === 'string') {
+                    return item.toLowerCase().indexOf(value.toLowerCase()) >= 0;
+                }
+                if (item.type === 'regex' && !strict) {
+                    return this.formatReg(item.match).test(value);
+                }
+                if (item.type === 'over') {
+                    return true;
+                }
+                return false;
+            });
+        },
+        formatReg(regStr) {
+            const flags = regStr.replace(/.*\/([gimy]*)$/, '$1');
+            const pattern = flags.replace(new RegExp('^/(.*?)/' + flags + '$'), '$1');
+            return new RegExp(pattern, flags);
         },
         /**
          * 清空可选项展示

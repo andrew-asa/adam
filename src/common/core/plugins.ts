@@ -43,7 +43,7 @@ export interface ThirdPlugin {
     /**
      * 简介
      */
-    description: string;
+    description?: string;
     /**
      * 插件类型
      */
@@ -55,7 +55,7 @@ export interface ThirdPlugin {
     /**
      * 版本
      */
-    version: string;
+    version?: string;
     /**
      * 主入口文件
      */
@@ -90,6 +90,12 @@ export interface ThirdPlugin {
  * 第三方插件管理器
  */
 export interface ThirdPluginManager {
+
+    /**
+     * 是否需要处理
+     */
+    needHandle(plugin: ThirdPlugin): boolean
+
     /**
      * 安装
      * @param plugin 
@@ -117,6 +123,8 @@ export interface AdamPlugin extends ThirdPlugin {
  */
 export interface SystemApp extends AdamPlugin {
     pluginType: 'app';
+    // 应用路径
+    path: string
 }
 export interface AdamCode extends AdamPlugin {
     pluginType: 'code';

@@ -1,28 +1,30 @@
 import { PluginHandler } from "@/common/core/PluginHandler"
-import { AdamPlugin } from "@/common/core/plugins"
+import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins"
 import _ from "lodash"
+import { copyThirdPlugin } from "../utils/plugins_utils"
+import { ctx } from "@/renderer/src/startup/ctx_starter";
 
 export class DefaultPluginHandler implements PluginHandler {
     protected store: any
     constructor(store) {
         this.store = store
     }
-    openPluginConsole(plugin: AdamPlugin): void {
-        throw new Error("Method not implemented.")
-    }
-    hasOpenPlugin(): boolean {
+   
+    needHandle(plugin: ThirdPlugin): boolean {
         return false
     }
-    close(plugin: AdamPlugin): void {
+    open(plugin: ThirdPlugin): void {
+        this.updateCurrentPlugin(plugin, this.store)
+        const cp = copyThirdPlugin(plugin)
+        // openPlugin(cp)
+        ctx.app.controller.openPlugin(cp)
+    }
+    close(plugin: ThirdPlugin): void {
+        const cp = copyThirdPlugin(plugin)
+        ctx.app.controller.closePlugin(cp)
         this.store.removeCurrentPlugin()
     }
-    needHandle(plugin: AdamPlugin): boolean {
-        return false
-    }
-    open(plugin: AdamPlugin): void {
-        this.updateCurrentPlugin(plugin, this.store)
-    }
-    updateCurrentPlugin(plugin: AdamPlugin, store: any): void {
+    updateCurrentPlugin(plugin: ThirdPlugin, store: any): void {
         let setCurrentSelect = _.findIndex(store.options, plugin)
         if (setCurrentSelect > -1) {
             store.setCurrentSelect(setCurrentSelect)
@@ -32,5 +34,4 @@ export class DefaultPluginHandler implements PluginHandler {
             store.setOptions([])
         }
     }
-
 }

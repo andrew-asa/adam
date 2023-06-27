@@ -3,10 +3,7 @@ import { DEFAULT_PLUGIN_REGISTRY, PLUGINS_INSTALL_DIR } from "@/main/common/comm
 import { spawn } from "child_process";
 import fs from 'fs-extra';
 import axios from "axios";
-/**
- * rubick插件管理器
- */
-export class RubickPluginManager implements ThirdPluginManager {
+export class DefaultThirdPluginManager  {
     private baseDir: string = "";
     readonly registry: string;
     pluginCaches = {};
@@ -23,12 +20,8 @@ export class RubickPluginManager implements ThirdPluginManager {
                 '{"dependencies":{}}'
             );
         }
-
     }
-    listAllPlugin(): ThirdPlugin[] {
-        throw new Error("Method not implemented.");
-    }
-
+    
     install(plugin: ThirdPlugin): void {
         console.log(`install ${plugin.name}`);
         this.installInternal([plugin.name], { isDev: false });

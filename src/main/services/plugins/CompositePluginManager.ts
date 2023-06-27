@@ -1,5 +1,5 @@
 import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
-import { RubickPluginManager } from "./manager/RubickPluginManager";
+import { RubickPluginManager } from "./adapter/RubickPluginManager";
 
 export class CompositePluginManager implements ThirdPluginManager{
     private plugins: ThirdPlugin[] = [];
@@ -7,6 +7,9 @@ export class CompositePluginManager implements ThirdPluginManager{
 
     constructor() {
         this.pms.push(new RubickPluginManager({}));
+    }
+    needHandle(plugin: ThirdPlugin): boolean {
+        return true
     }
 
     install(plugin: ThirdPlugin): void {

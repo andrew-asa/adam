@@ -3,16 +3,18 @@ import _ from "lodash";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { SystemAppHandler } from "./handler/SystemAppHandler";
 import { CodePluginHandler } from "./handler/CodePluginHandler";
-import { DefaultPluginHandler } from "./handler/DefaultPluginHandler";
+import { DefaultUIPluginHandler } from "./handler/DefaultUIPluginHandler";
 import { WebPluginHandler } from "./handler/WebPluginHandler";
 import { getAction } from "@/main/common/action";
 import { AdamPlugin } from "@/common/core/plugins";
 import { actions_name } from "@/main/common/common_const";
-const DH: PluginHandler = new DefaultPluginHandler();
+import { UIPluginHandler } from "./handler/UIPluginHandler";
+const DH: PluginHandler = new DefaultUIPluginHandler();
 const handlers: PluginHandler[] = [
     new SystemAppHandler(),
     new CodePluginHandler(),
     new WebPluginHandler(),
+    new UIPluginHandler(),
 ];
 export function addHandler(handler: PluginHandler) {
     handlers.push(handler);

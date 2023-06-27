@@ -22,7 +22,7 @@ export const CONFIGURE_PATH = "./adam-configure.json";
 export const DEFAULT_CONFIG = {
   version: "1.0.0",
   perf: {
-    shortCut: {
+    shortCut: { 
       showAndHidden: "Option+R",
       separate: "Ctrl+D",
       quit: "Shift+Escape",

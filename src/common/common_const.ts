@@ -66,3 +66,11 @@ export const default_url_prefix = "/api";
  */
 export const default_port = backendpor;
 
+
+/**
+ * 常用的正则
+ */
+export const regs = {
+    http_or_https: /^(http|https):\/\/([\w.]+\/?)\S*/ig
+}
+

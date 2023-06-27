@@ -191,8 +191,7 @@ export function setWindowSize({ width, height }, win) {
  */
 import { openPlugin as op, closePlugin as cl, getPlugins as gp } from "@/main/services/plugins/handlers";
 import { getStore } from "../common/strore";
-import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
-import { DefaultThirdPluginManager } from "./plugins/manager/DefaultThirdPluginManager";
+import { ThirdPluginManager } from "@/common/core/plugins";
 import { openFile } from "./appsearch";
 import { CompositePluginManager } from "./plugins/CompositePluginManager";
 /**

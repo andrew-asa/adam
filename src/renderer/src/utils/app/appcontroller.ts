@@ -124,9 +124,14 @@ export default class AppController {
     public home() {
         this.sendMessage("home", {});
     }
-    public setWindowSize({ width, height }: { width: number, height: number }) {
-        this.sendMessage("setWindowSize", { width, height });
+    public setWindowSize(width: number, height: number) {
+        this.sendMessage("setWindowSize", { width: width, height: height });
     }
+
+    public setExpendHeight(height: number) {
+        this.sendMessage("setExpendHeight", { height });
+    }
+
     public show() {
         this.sendMessage("show", {});
     }

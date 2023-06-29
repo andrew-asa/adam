@@ -3,7 +3,6 @@ import _ from "lodash";
 import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
 import { getHandler } from "./handler/handlers";
-import { default_plugin } from "./market/plugin";
 import { ThirdPlugin } from "@/common/core/plugins";
 import { copyThirdPlugin } from "./utils/plugins_utils";
 interface PluginsState {
@@ -96,7 +95,8 @@ export const userStore = defineStore({
             this.options.push(option);
         },
         setOptions(options: any[]) {
-            this.options = options
+            this._showOptions(options);
+            // this.options = options
         },
         /**
          * 更新应用列表
@@ -111,16 +111,15 @@ export const userStore = defineStore({
          * }]
          */
         setPlugins(plugins) {
-            this.plugins = this.getDefaultPlugins();
+            // this.plugins = this.getDefaultPlugins();
+            this.plugins = [];
             _.each(plugins, (app: any) => {
                 app.zIndex = 0;
                 let p = app as ThirdPlugin
                 this.plugins.push(p);
             })
         },
-        getDefaultPlugins() {
-            return default_plugin
-        },
+
         initOptions() {
             if (!this._init) {
                 getPlugins().then(({ data }) => {
@@ -292,6 +291,11 @@ export const userStore = defineStore({
         },
         _showOptions(options, page = 0) {
             this.currentSelect = 0
+            if (options.length === 0 && this.options.length > 0) {
+                ctx.app.controller.setExpendHeight(60)
+            } else if (options.length > 0 && this.options.length === 0) {
+                ctx.app.controller.setExpendHeight(600)
+            }
             this.options = []
             if (!_.isEmpty(options)) {
                 this.options = options.slice(page * this.pageCount, (page + 1) * this.pageCount);

@@ -1,8 +1,9 @@
 import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
 import { RubickPluginManager } from "./adapter/RubickPluginManager";
+import { default_plugin } from "./data/default_plugins";
 
-export class CompositePluginManager implements ThirdPluginManager{
-    private plugins: ThirdPlugin[] = [];
+export class CompositePluginManager implements ThirdPluginManager {
+    private plugins: ThirdPlugin[] = default_plugin;
     private pms: ThirdPluginManager[] = []
 
     constructor() {
@@ -20,6 +21,14 @@ export class CompositePluginManager implements ThirdPluginManager{
     }
 
     listAllPlugin(): ThirdPlugin[] {
-        return [];
+        return this.plugins;
+    }
+
+    /**
+     * 获取插件信息
+     */
+    getPluginMate(name: string): ThirdPlugin | undefined {
+
+        return this.plugins.find(p => p.name === name)
     }
 }

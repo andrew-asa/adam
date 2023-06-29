@@ -18,7 +18,7 @@ export class WebPluginHandler extends DefaultUIPluginHandler {
     open(plugin: ThirdPlugin, { mainWindow }: { mainWindow: any; }): void {
         console.log(`WebPluginHandler open: ${plugin.name}|${plugin.pluginName}`);
         super.open(plugin, { mainWindow })
-        this.loadUrl(this.view, plugin)
+        // this.loadMain(this.view, plugin)
     }
 
     close(plugin: AdamPlugin, { mainWindow }): void {
@@ -28,8 +28,7 @@ export class WebPluginHandler extends DefaultUIPluginHandler {
     /**
      * 如果当前有打开的插件则进行关闭
      */
-    loadUrl(view: BrowserView | null, plugin: ThirdPlugin): void {
-        if (!view) return
+    loadMain(view: BrowserView, plugin: ThirdPlugin): void {
         let url = plugin.main || ''
         // 内部模块
         if (url.startsWith("#")) {

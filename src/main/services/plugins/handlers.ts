@@ -9,6 +9,7 @@ import { getAction } from "@/main/common/action";
 import { AdamPlugin } from "@/common/core/plugins";
 import { actions_name } from "@/main/common/common_const";
 import { UIPluginHandler } from "./handler/UIPluginHandler";
+import { getPluginManager } from "../contronler";
 const DH: PluginHandler = new DefaultUIPluginHandler();
 const handlers: PluginHandler[] = [
     new SystemAppHandler(),
@@ -52,6 +53,6 @@ export function closePlugin(plugin: AdamPlugin) {
  */
 export function getPlugins() {
     // return getApps()
-    return []
+    return getPluginManager().listAllPlugin()
 }
 

@@ -9,13 +9,7 @@ import path from "path";
  */
 export function openConsole() {
     const win = getAction(actions_name.get_main_window)()
-    if (win) {
-        if (win.webContents.isDevToolsOpened()) {
-            win.webContents.closeDevTools()
-        } else {
-            win.webContents.openDevTools()
-        }
-    }
+    win && win.webContents.openDevTools()
 }
 /**
  * 当前插件控制台
@@ -155,8 +149,12 @@ export function back() {
     win && win.webContents.goBack()
 }
 
+/**
+ * 刷新
+ */
 export function refresh() {
-    home()
+    let win = getAction(actions_name.get_main_window)()
+    win && win.webContents.reload()
 }
 /**
  * 显示主页
@@ -185,13 +183,25 @@ export function setWindowSize({ width, height }, win) {
     }
     win && win?.setSize(width, height)
 }
+/**
+ * 设置扩展高度
+ */
+export function setExpendHeight({ height }, win) {
+    console.log(`setExpendHeight  ${height}`);
+    if (!win) {
+        win = getAction(actions_name.get_main_window)()
+    }
+    if (win) {
+        let size = win.getSize()
+        win.setSize(size[0], height)
+    }
+}
 
 /**
  * 打开插件
  */
-import { openPlugin as op, closePlugin as cl, getPlugins as gp } from "@/main/services/plugins/handlers";
+import { openPlugin as op, closePlugin as cl } from "@/main/services/plugins/handlers";
 import { getStore } from "../common/strore";
-import { ThirdPluginManager } from "@/common/core/plugins";
 import { openFile } from "./appsearch";
 import { CompositePluginManager } from "./plugins/CompositePluginManager";
 /**
@@ -212,14 +222,22 @@ export function closePlugin({ plugin }) {
  * 获取所有插件
  */
 export function getPlugins() {
-    return gp()
+    return getPluginManager().listAllPlugin()
 }
 
 
-const pluginManager: ThirdPluginManager = new CompositePluginManager()
+const pluginManager: CompositePluginManager = new CompositePluginManager()
 /**
  * 安装插件
  */
 export function installPlugin({ plugin }) {
     pluginManager.install(plugin)
 }
+
+/**
+ * 获取插件管理器
+ */
+export function getPluginManager(): CompositePluginManager {
+    return pluginManager
+}
+

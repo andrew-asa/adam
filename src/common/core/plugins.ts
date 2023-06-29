@@ -1,3 +1,13 @@
+/**
+ * 插件设置
+ */
+export interface PluginSettings {
+    [key: string]: any
+    /**
+     * 退出插件的时候是否保存页面 | 只是隐藏而已，并不是真正进行销毁
+     */
+    closeCachePage?: boolean
+}
 export interface PluginExtMessage {
     [key: string]: any
     /**
@@ -11,7 +21,11 @@ export interface PluginExtMessage {
     /**
      * 适配处理引擎
      */
-    adapterEngine?: string
+    adapterEngine?: string,
+    /**
+     * 设置
+     */
+    settings?: PluginSettings
 }
 
 export interface ThirdPluginFeature {

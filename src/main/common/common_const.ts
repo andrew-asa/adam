@@ -90,7 +90,7 @@ export const default_window_height = 60
 /**
  * 默认插件窗口宽度
  */
-export const default_plugin_window_height = 600
+export const default_plugin_window_height = 540
 
 
 

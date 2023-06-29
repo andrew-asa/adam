@@ -44,32 +44,33 @@ const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboa
   storeToRefs(store)
 const container = ref(null)
 const searchContainer = ref(null)
-let preH = 0
-let preW = 0
-function resizeWindowSize(resultHight = 0) {
-  if (isNodeEnv()) {
-    const width = container.value.scrollWidth
-    const height = resultHight > 0 ? 600 : 60
-    if (width !== preW || height !== preH) {
-      preW = width
-      preH = height
-      ctx.app.controller.setWindowSize({ width, height })
-    }
-  }
-}
+// let preH = 0
+// let preW = 0
+// function resizeWindowSize(resultHight = 0) {
+//   if (isNodeEnv()){
+//     const width = container.value.scrollWidth
+//     const height = resultHight > 0 ? 600 : 60
+//     if (width !== preW || height !== preH) {
+//       preW = width
+//       preH = height
+      
+//       ctx.app.controller.setWindowSize({ width, height })
+//     }
+//   }
+// }
 
-onMounted(() => {
-  // resizeWindowSize()
-  if (isNodeEnv()) {
-    // ctx.app.controller.show()
-  }
-})
-watch(
-  () => options.value.length,
-  (newValue, oldValue) => {
-    resizeWindowSize(newValue * 60)
-  }
-)
+// onMounted(() => {
+//   // resizeWindowSize()
+//   if (isNodeEnv()) {
+//     // ctx.app.controller.show()
+//   }
+// })
+// watch(
+//   () => options.value.length,
+//   (newValue, oldValue) => {
+//     resizeWindowSize(newValue * 60)
+//   }
+// )
 </script>
 <style scoped lang="less">
 .drag-bar {

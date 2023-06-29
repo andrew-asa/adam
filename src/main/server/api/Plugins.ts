@@ -8,7 +8,7 @@ export class Plugins implements ApiResponse {
             method: "get",
             path: api_urls.get_plugin_list,
             action: async (ctx: any) => {
-                const apps = await getPlugins()
+                const apps = getPlugins()
                 ctx.body = apps;
             }
         },

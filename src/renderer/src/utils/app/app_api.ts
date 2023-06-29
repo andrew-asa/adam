@@ -13,6 +13,7 @@ export function getApps() {
  * 获取所有插件信息
  */
 export function getPlugins() {
+    
     return get(api_urls.get_plugin_list)
 }
 /**

@@ -44,11 +44,11 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
                 label: '重新启动',
                 click: relaunch
             },
-            // {
-            //     type: 'normal',
-            //     label: '主页',
-            //     click: refresh
-            // },
+            {
+                type: 'normal',
+                label: '刷新',
+                click: refresh
+            },
             {
                 type: 'normal',
                 label: '用户目录',

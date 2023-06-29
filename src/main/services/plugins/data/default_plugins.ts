@@ -17,6 +17,11 @@ export const default_plugin: ThirdPlugin[] = [{
   ],
   pluginType: "web",
   version: "1.0.0",
+  ext: {
+    settings: {
+      closeCachePage: true
+    }
+  }
 }, {
   name: "adam_test_plugin_manager",
   pluginName: "谷歌",

@@ -12,6 +12,10 @@ export const CONFIGURE_DIR = path.join(USER_HOME_PATH, "./.adam");
 // 插件安装目录
 export const PLUGINS_INSTALL_DIR = path.join(CONFIGURE_DIR, "./plugins");
 /**
+ * 插件父目录
+ */
+export const PLUGIN_BASE_DIR = path.join(PLUGINS_INSTALL_DIR, "./node_modules");
+/**
  * 默认插件仓库地址
  */
 export const DEFAULT_PLUGIN_REGISTRY = "https://registry.npm.taobao.org";

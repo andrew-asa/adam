@@ -90,20 +90,34 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         }
     }
 
+    getPreload(plugin: ThirdPlugin): string {
+        return ""
+    }
+
+    customSession(plugin: ThirdPlugin, session: Session) {
+
+    }
+
     createDefaultView(plugin: ThirdPlugin): BrowserView {
         const { name } = plugin;
-        const ses:Session = session.fromPartition('<' + name + '>');
+        const ses: Session = session.fromPartition('<' + name + '>');
+        const preload = this.getPreload(plugin)
+        this.customSession(plugin, ses)
+        let webPreferences = {
+            webSecurity: false,
+            nodeIntegration: true,
+            contextIsolation: false,
+            devTools: true,
+            webviewTag: true,
+            session: ses,
+        }
+        if(preload){
+            // @ts-ignore
+            webPreferences.preload = preload
+        }
         let view = new BrowserView({
-            webPreferences: {
-                webSecurity: false,
-                nodeIntegration: true,
-                contextIsolation: false,
-                devTools: true,
-                webviewTag: true,
-                //   preload,
-                session: ses,
-            },
-        });
+            webPreferences: webPreferences,
+        })
         this.loadMain(view, plugin, { session: ses })
         return view
     }
@@ -127,7 +141,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
     }
 
     loadMain(view: BrowserView, plugin: ThirdPlugin, {
-        session:Session
+        session: Session
     }): void {
 
     }

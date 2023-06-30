@@ -4,6 +4,7 @@ import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
 import { getHandler } from "./handler/handlers";
 import { ThirdPlugin } from "@/common/core/plugins";
+import { copyThirdPlugin } from "@/common/plugin/plugin_meta_utils";
 interface PluginsState {
     displayCards: any[];
     plugins: ThirdPlugin[];
@@ -178,6 +179,7 @@ export const userStore = defineStore({
                                     description: feature.explain || plugin.description,
                                     logo: plugin.logo,
                                     pluginType: plugin.pluginType,
+                                    preload: plugin.preload,
                                     zIndex: cmd.label ? 0 : 1, // 排序权重
                                     ext: {
                                         ...plugin.ext,

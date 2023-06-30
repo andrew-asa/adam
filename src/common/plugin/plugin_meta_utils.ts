@@ -18,7 +18,8 @@ export function copyThirdPlugin(plugin: ThirdPlugin, isCopyExt = true): ThirdPlu
         logo: plugin.logo,
         main: plugin.main,
         version: plugin.version,
-        ext: isCopyExt ? copyExt(plugin.ext) : {}
+        ext: isCopyExt ? copyExt(plugin.ext) : {},
+        preload: plugin.preload
     }
 }
 
@@ -40,3 +41,4 @@ function copyExt(ext: any): any {
         adapterEngine: ext.adapterEngine,
     }:{} 
 }
+

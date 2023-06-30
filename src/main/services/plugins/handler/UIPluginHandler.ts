@@ -2,6 +2,7 @@ import { ThirdPlugin } from "@/common/core/plugins";
 import { DefaultUIPluginHandler } from "./DefaultUIPluginHandler";
 import { BrowserView, Session } from "electron";
 import { getPluginManager } from "../../contronler";
+import { getPluginFilePath } from "../utils/plugin_utils";
 
 export class UIPluginHandler extends DefaultUIPluginHandler {
     needHandle(plugin: ThirdPlugin): boolean {
@@ -19,14 +20,17 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
             session
         }): void {
         let url = plugin.main || ''
-        // 内部模块
-        // this.loadSession(this.view, plugin,session)
-        // this.loadPreload(this.view, plugin)
-        // this.loadUrl(this.view, plugin)
         getPluginManager().loadMain(plugin, {
             session: session,
             view: view
         })
+    }
+    getPreload(plugin: ThirdPlugin): string {
+        return getPluginFilePath(plugin, plugin.preload)
+    }
+
+    customSession(plugin: ThirdPlugin, session: Session) {
+
     }
 
     close(plugin: ThirdPlugin, ext: any): void {
@@ -34,17 +38,4 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
         super.close(plugin, ext)
     }
 
-    loadUrl(view: BrowserView | undefined, plugin: ThirdPlugin): void {
-        if (!view) return
-
-    }
-
-    loadSession(view: BrowserView | undefined, plugin: ThirdPlugin,session: Session): void {
-        if (!view) return
-        // session.setPreloads([plugin.main])
-    }
-
-    loadPreload(view: BrowserView | undefined, plugin: ThirdPlugin): void {
-        if (!view) return
-    }
 }

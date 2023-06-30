@@ -101,14 +101,20 @@ export interface ThirdPlugin {
 }
 
 /**
+ * 第三方插件适配
+ */
+export interface ThirdPluginAdapter {
+    /**
+    * 是否需要处理
+    */
+    needHandle(plugin: ThirdPlugin): boolean
+}
+
+/**
  * 第三方插件管理器
  */
-export interface ThirdPluginManager {
+export interface ThirdPluginManager extends ThirdPluginAdapter {
 
-    /**
-     * 是否需要处理
-     */
-    needHandle(plugin: ThirdPlugin): boolean
 
     /**
      * 安装
@@ -126,6 +132,19 @@ export interface ThirdPluginManager {
      */
     listAllPlugin(): ThirdPlugin[]
 }
+
+/**
+ * 第三方插件运行类
+ */
+export interface ThirdPluginRunner extends ThirdPluginAdapter {
+    /**
+     * 进入插件之前进行适配
+     */
+    loadMain(plugin: ThirdPlugin, ext: any): void
+}
+
+
+
 
 export interface AdamPlugin extends ThirdPlugin {
 

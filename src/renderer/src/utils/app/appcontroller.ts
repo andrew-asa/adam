@@ -140,6 +140,10 @@ export default class AppController {
         this.sendMessage("hide", {});
     }
 
+    public removeAllPluginView() {
+        this.sendMessage("removeAllPluginView", {});
+    }
+
     public openPlugin(plugin: AdamPlugin) {
         return this.sendMessage("openPlugin", { plugin });
     }

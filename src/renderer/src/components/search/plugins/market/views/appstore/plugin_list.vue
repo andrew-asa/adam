@@ -19,7 +19,7 @@
               >
                 <CloudDownloadOutlined
                   v-show="!item.isloading && !item.isdownload"
-                  @click.stop="downloadPlugin(item, index)"
+                  @click.stop="downloadPlugin(item)"
                   style="font-size: 20px; cursor: pointer"
                 />
               </a-button>
@@ -126,7 +126,7 @@ const downloadPlugin = async (plugin: ThirdPlugin) => {
 }
 
 const visible = ref(false)
-const detail = ref<ThirdPlugin>({} as ThirdPlugin)
+const detail = ref<any>({})
 const markdown = new MarkdownIt()
 const content = ref('')
 

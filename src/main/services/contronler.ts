@@ -1,4 +1,4 @@
-import { shell } from "electron";
+import { BrowserView, shell } from "electron";
 import { getAction } from "@main/common/action";
 import { CONFIGURE_DIR, actions_name, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
@@ -31,6 +31,17 @@ export function show() {
         win.show()
     }
 }
+
+export function removeAllPluginView() {
+    const win: BrowserWindow = getAction(actions_name.get_main_window)()
+    if (win) {
+        const views: BrowserView[] = win.getBrowserViews()
+        for (const view of views) {
+            win.removeBrowserView(view)
+        }
+    }
+}
+
 export function hide() {
     hideMainWin()
 }
@@ -187,7 +198,7 @@ export function setWindowSize({ width, height }, win) {
  * 设置扩展高度
  */
 export function setExpendHeight({ height }, win) {
-    console.log(`setExpendHeight  ${height}`);
+    // console.log(`setExpendHeight  ${height}`);
     if (!win) {
         win = getAction(actions_name.get_main_window)()
     }
@@ -204,6 +215,7 @@ import { openPlugin as op, closePlugin as cl } from "@/main/services/plugins/han
 import { getStore } from "../common/strore";
 import { openFile } from "./appsearch";
 import { CompositePluginManager } from "./plugins/CompositePluginManager";
+import { BrowserWindow } from "electron/main";
 /**
  * 
  * 打开插件

@@ -4,7 +4,6 @@ import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
 import { getHandler } from "./handler/handlers";
 import { ThirdPlugin } from "@/common/core/plugins";
-import { copyThirdPlugin } from "./utils/plugins_utils";
 interface PluginsState {
     displayCards: any[];
     plugins: ThirdPlugin[];
@@ -131,6 +130,9 @@ export const userStore = defineStore({
         },
         search(value: string) {
             this._setSearchValue(value);
+            if(this.currentPlugin && this.currentPlugin.name){
+                return 
+            }
             this._doSearch(value);
         },
         _setSearchValue(value: string) {

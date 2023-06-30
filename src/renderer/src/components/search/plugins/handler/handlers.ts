@@ -31,6 +31,9 @@ export function getHandler(plugin: ThirdPlugin): PluginHandler {
 
 
 export class DefaultThirdPluginHandler implements ThirdPluginManager{
+    needHandle(plugin: ThirdPlugin): boolean {
+        throw new Error("Method not implemented.");
+    }
     install(plugin: ThirdPlugin): void {
         throw new Error("Method not implemented.");
     }

@@ -2,7 +2,13 @@ import { resolve } from 'path'
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 import { render } from 'vue'
+import fs from 'fs-extra'
 
+var inputs = {
+  index: 'src/preload/index.ts', 
+  rubick: 'src/preload/rubick/index.ts',
+  utools: 'src/preload/utools/index.ts',
+}
 export default defineConfig({
   main: {
     plugins: [externalizeDepsPlugin()],
@@ -15,7 +21,12 @@ export default defineConfig({
     }
   },
   preload: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    build: {
+      rollupOptions: {
+        input: inputs
+      }
+    }
   },
   renderer: {
     // server: {

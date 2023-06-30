@@ -70,10 +70,10 @@ import {
   DatabaseOutlined,
   CodeOutlined
 } from '@ant-design/icons-vue'
-import { reactive, toRefs, computed, ref } from 'vue'
+import { ref } from 'vue'
 import Finder from './finder.vue'
 import { storeToRefs } from 'pinia'
-
+import { userStore } from '../../store/plugins_market_store'
 const Components = {
   finder: Finder
   // system: System,
@@ -85,7 +85,7 @@ const Components = {
 
 const current = ref(['finder'])
 const searchValue = ref('')
-import { userStore } from '../../store/plugins_market_store'
+
 const store = userStore()
 
 const { totalPlugins } = storeToRefs(store)

@@ -3,7 +3,7 @@ import { AbstractPluginHandler } from "./AbstractPluginHandler";
 import { registerStore } from "@/main/common/strore";
 import { default_plugin_window_height, default_window_height, stores_name } from "@/main/common/common_const";
 import { PluginHandler } from "@/common/core/PluginHandler";
-import { BrowserView, BrowserWindow, session } from "electron";
+import { BrowserView, BrowserWindow, Session, session } from "electron";
 import { LRUCache } from "@/common/base/LRUCache";
 import { getPluginManager, setExpendHeight } from "../../contronler";
 import { closeCachePage } from "@/common/plugin/plugin_meta_utils";
@@ -92,7 +92,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
 
     createDefaultView(plugin: ThirdPlugin): BrowserView {
         const { name } = plugin;
-        const ses = session.fromPartition('<' + name + '>');
+        const ses:Session = session.fromPartition('<' + name + '>');
         let view = new BrowserView({
             webPreferences: {
                 webSecurity: false,
@@ -104,12 +104,12 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
                 session: ses,
             },
         });
-        this.loadMain(view, plugin)
+        this.loadMain(view, plugin, { session: ses })
         return view
     }
 
     removeShowView(view: BrowserView, mainWindow: BrowserWindow, destroy = true): void {
-        
+
         if (!view || !mainWindow) {
             return
         }
@@ -118,7 +118,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         if (destroy) {
             try {
                 //@ts-ignore
-                currentView.webContents.destroy()
+                view.webContents.destroy()
             } catch (e) {
                 console.log(e)
             }
@@ -126,7 +126,9 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         this.setCurrentView(undefined)
     }
 
-    loadMain(view: BrowserView, plugin: ThirdPlugin): void {
+    loadMain(view: BrowserView, plugin: ThirdPlugin, {
+        session:Session
+    }): void {
 
     }
 }

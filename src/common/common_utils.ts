@@ -14,7 +14,7 @@ export function copyThirdPluginToAppPlugin(plugin: ThirdPlugin): SystemApp {
         description: plugin.description,
         pluginType: 'app',
         logo: plugin.logo,
-        path: plugin.main,
+        path: plugin.main || '',
         version: plugin.version,
     }
 }

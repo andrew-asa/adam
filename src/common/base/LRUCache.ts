@@ -25,8 +25,12 @@ export class LRUCache<K, V> {
 
         if (this.cache.size > this.capacity) {
             const removedNode = this.tail;
-            this.removeNode(removedNode);
-            this.cache.delete(removedNode.key);
+            if (removedNode !== null) {
+                this.removeNode(removedNode);
+                this.cache.delete(removedNode.key);
+            }
+            // this.removeNode(removedNode);
+            // this.cache.delete(removedNode.key);
         }
     }
 

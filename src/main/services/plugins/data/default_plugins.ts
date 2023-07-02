@@ -11,7 +11,7 @@ export const default_plugin: ThirdPlugin[] = [{
       cmds: [
         "CJGL",
         "ChaJianGuanLi",
-        "插件管理"
+        "插件管理" 
       ]
     }
   ],
@@ -82,4 +82,23 @@ export const default_plugin: ThirdPlugin[] = [{
     "W",
     "微信"
   ]
-}]
+},
+{
+  "name": "adam-plugin-finder",
+  "pluginName": "文件管理",
+  "description": "文件管理区",
+  "author": "andrew.asa",
+  "main": "dist/index.html",
+  "logo": "files:///plugins/node_modules/adam-plugin-finder/assets/finder.png",
+  "version": "0.0.1",
+  "preload": "preload/index.js",
+  "pluginType": "ui",
+  "features": [
+    {
+      "code": "finder",
+      "explain": "文件管理",
+      "cmds": ["文件管理", "文件搜索", "wjgl", "wjss"]
+    }
+  ]
+}
+]

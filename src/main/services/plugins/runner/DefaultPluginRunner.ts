@@ -5,7 +5,7 @@ import { getPluginFilePath } from "../utils/plugin_utils";
 
 export class DefaultPluginRunner implements ThirdPluginRunner {
     getPreloads(plugin: ThirdPlugin): string[] {
-        return [path.join(__dirname, '../preload/index.js')]
+        return this.getRunnerPreloads(plugin)
     }
 
     needHandle(plugin: ThirdPlugin): boolean {
@@ -19,9 +19,6 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
         const main = this.getPluginMain(plugin)
         if (main) {
             let view = ext.view
-            let session = ext.session
-            const preloads = this.getRunnerPreloads(plugin)
-            session.setPreloads(preloads)
             view.webContents.loadFile(main)
             view.webContents.once('dom-ready', () => {
                 const ext: any = plugin.ext || {};

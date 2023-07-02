@@ -30,7 +30,8 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
     }
 
     customSession(plugin: ThirdPlugin, session: Session) {
-
+        const preloads = getPluginManager().getPreloads(plugin)
+        session.setPreloads(preloads)
     }
 
     close(plugin: ThirdPlugin, ext: any): void {

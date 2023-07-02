@@ -1,6 +1,5 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { ctx, start_plugin_enginer_bridge } from '../common/plugin_enginer_bridge';
 const { ipcRenderer, shell } = require('electron');
 
 const ipcSendSync = (type: string, data?: any) => {

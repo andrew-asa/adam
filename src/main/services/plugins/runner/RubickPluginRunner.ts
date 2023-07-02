@@ -27,8 +27,6 @@ export class RubickPluginRunner extends DefaultPluginRunner {
         let view = ext.view
         let session= ext.session
         const main = this.getPluginMain(plugin)
-        const preloads = [path.join(__dirname, '../preload/rubick.js')]
-        session.setPreloads(preloads)
         if (main) {
             // view.webContents.loadURL(`file://${main}`)
             view.webContents.loadFile(main)

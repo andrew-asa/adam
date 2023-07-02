@@ -16,13 +16,7 @@ export function openConsole() {
  */
 export function openCurrentPluginConsole() {
     const win = getStore(stores_name.current_plugin_view)
-    if (win) {
-        if (win.webContents.isDevToolsOpened()) {
-            win.webContents.closeDevTools()
-        } else {
-            win.webContents.openDevTools()
-        }
-    }
+    win && win.webContents.openDevTools()
 }
 
 export function show() {

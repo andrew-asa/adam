@@ -1,59 +1,31 @@
-import { useTransitionFallthroughEmits } from "element-plus";
-import { isNodeEnv } from "./app_utils";
-import { Action, BrowserController, Controller } from "./browsercontroller";
-import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
-import { renderer_fun_call_msg_name, renderer_msg_name } from "@/common/common_const";
-
-interface Renderer {
-    /**
-     * 发信息
-     * @param channel
-     * 
-     */
-    send(channel: string, data: any): void;
-    /**
-     * 异步发消息
-     */
-    sendSync(channel: string, data: any): void;
-    /**
-     * 方法调用
-     */
-    invoke(channel: string, data: any): any
-}
-
-interface RendererFunctionCall {
-    call(channel: string, data: any): void
-}
-
+import { Renderer } from "./Renderer";
+import { AdamPlugin, ThirdPlugin } from "../core/plugins";
+const renderer_msg_name = "renderer-msg-trigger"
+const renderer_fun_call_msg_name = "renderer-fun-call-msg-trigger"
 class defaultDevRenderer implements Renderer {
-    private browserAction: Action;
-    constructor() {
-        this.browserAction = new BrowserController();
-    }
 
     sendSync(channel: string, data: any): void {
         console.log(channel, data);
     }
     send(channel: string, data: any): void {
-        data && data.type && this.browserAction.action(data.type, data.data);
-        // console.log(channel, data);
+        console.log(channel, data);
     }
 
     invoke(channel: string, data: any): void {
         return this.sendSync(channel, data);
     }
 }
+function isNodeEnv(): boolean {
+    return typeof global !== "undefined"
+}
 /**
  * main/services/RendererAPI => main/services/controller
  * 发消息
  */
 // const renderer_msg_name = "renderer-msg-trigger"
-
-
-export default class AppController {
+export class AppController {
     private renderer: Renderer
     constructor() {
-        // console.log("init AppController");
         this.initRenderer();
     }
     private initRenderer() {

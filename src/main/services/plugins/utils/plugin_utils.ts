@@ -12,3 +12,10 @@ export function getPluginFilePath(plugin: ThirdPlugin, fileName): string {
     }
     return ""
 }
+
+export function getPluginFileUrl(plugin: ThirdPlugin, fileName){
+    if (fileName) {
+        return `files:///plugins/node_modules/${plugin.name}/${fileName}`
+    }
+    return ""
+}

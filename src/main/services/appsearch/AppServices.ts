@@ -19,7 +19,8 @@ export interface AppServices {
     /**
      * 打开应用程序
      */
-    openApp(app: SystemApp): any
+    op
+    enApp(app: SystemApp): any
 
     /**
      * 打开文件

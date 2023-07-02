@@ -14,6 +14,7 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
         this.prs.push(new RubickPluginRunner());
     }
 
+
     needHandle(plugin: ThirdPlugin): boolean {
         return true
     }
@@ -43,6 +44,9 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
             return this.default_plugin_runner
         }
         return r
+    }
+    getPreloads(plugin: ThirdPlugin): string[] {
+        return this.getThirdPluginRunner(plugin).getPreloads(plugin)
     }
 
     loadMain(plugin: ThirdPlugin, ext: any): void {

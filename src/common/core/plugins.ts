@@ -141,6 +141,11 @@ export interface ThirdPluginRunner extends ThirdPluginAdapter {
      * 进入插件之前进行适配
      */
     loadMain(plugin: ThirdPlugin, ext: any): void
+
+    /**
+     * session的预处理文件
+     */
+    getPreloads(plugin: ThirdPlugin): string[];
 }
 
 

@@ -1,4 +1,3 @@
-import AppController from "@renderer/utils/app/appcontroller"
 import { App } from "vue"
 import * as commomConstant from "@renderer/utils/constants/common_const"
 import * as dom_utils from "@renderer/utils/dom_utils"
@@ -6,6 +5,7 @@ import * as hook from '@renderer/core/hook'
 import { starter } from "./starter"
 import _ from 'lodash'
 import { switchToRoute } from "../router"
+import { AppController } from "@/common/base/AppController"
 const empty_fun = () => {
 }
 const _ctx = {
@@ -24,7 +24,7 @@ const _ctx = {
     lib: {
         _
     },
-    services:{
+    services: {
         switchToRoute: switchToRoute,
     }
 }

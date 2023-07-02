@@ -5,7 +5,8 @@ import { render } from 'vue'
 import fs from 'fs-extra'
 
 var inputs = {
-  index: 'src/preload/index.ts', 
+  index: 'src/preload/index.ts',
+  adam: 'src/preload/adam/index.ts',
   rubick: 'src/preload/rubick/index.ts',
   utools: 'src/preload/utools/index.ts',
 }
@@ -25,6 +26,12 @@ export default defineConfig({
     build: {
       rollupOptions: {
         input: inputs
+      }
+    },
+    resolve: {
+      alias: {
+        '@': resolve('src'),
+        '@common': resolve('src/common'),
       }
     }
   },

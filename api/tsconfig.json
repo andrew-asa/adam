@@ -1,0 +1,24 @@
+{
+    "include": [
+      "types/**/*.ts"
+    ],
+    "exclude": ["src/**/__test__/**/*.ts"],
+    "compilerOptions": {
+      "composite": true,
+      "baseUrl": "./",
+      "paths": {
+        "@/*": [
+          "types/src/*"
+        ],
+        "@common/*": [
+          "types/src/common/*"
+        ],
+        "@preload/*": [
+            "types/src/preload/*"
+        ],
+      },
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "strict": false,
+    }
+  }

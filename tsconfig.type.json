@@ -1,0 +1,32 @@
+{
+    "include": [
+      "src/common/**/*.ts",
+      "src/preload/**/*.ts"
+    ],
+    "exclude": ["src/**/__test__/**/*.ts"],
+    "compilerOptions": {
+      "composite": true,
+      "baseUrl": "./",
+      "outDir": "./api/types",
+      "paths": {
+        "@/*": [
+          "src/*"
+        ],
+        "@renderer/*": [
+          "src/renderer/src/*"
+        ],
+        "@common/*": [
+          "src/common/*"
+        ],
+        "@main/*": [
+            "src/main/*"
+        ],
+        "@resources/*": [
+            "resources/*"
+        ]
+      },
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "strict": false,
+    }
+  }

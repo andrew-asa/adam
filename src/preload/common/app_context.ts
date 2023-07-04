@@ -19,6 +19,7 @@ export const ctx = {
   action: action
 }
 
+export type Ctx = typeof ctx
 
 export function start_adam_preload() {
   // @ts-ignore

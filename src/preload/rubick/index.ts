@@ -1,6 +1,5 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
-const { ipcRenderer, shell } = require('electron');
+import { start_plugin_enginer_bridge } from '../common/plugin_enginer_bridge';
+const { ipcRenderer } = require('electron');
 
 const ipcSendSync = (type: string, data?: any) => {
     const returnValue = ipcRenderer.sendSync('rubick-msg-trigger', {
@@ -98,11 +97,11 @@ const api = {
         return ipcSendSync('copyFile', { file });
     },
     db: {
-        put: (data) => { },
-        get: (id) => { },
-        remove: (doc) => { },
-        bulkDocs: (docs) => { },
-        allDocs: (key) => { },
+        put: () => { },
+        get: () => { },
+        remove: () => { },
+        bulkDocs: () => { },
+        allDocs: () => { },
     },
     dbStorage: {
         setItem: (key, value) => {
@@ -133,14 +132,14 @@ const api = {
     setFeature(feature) {
         return ipcSendSync('setFeature', { feature });
     },
-    screenCapture(cb) {
+    screenCapture() {
 
     },
-    removeFeature(code) {
+    removeFeature() {
     },
 
     // 系统
-    shellOpenExternal(url) {
+    shellOpenExternal() {
     },
 
     isMacOs() {
@@ -155,7 +154,7 @@ const api = {
         return false;
     },
 
-    shellOpenPath(path) {
+    shellOpenPath() {
     },
 
     getLocalId: () => { },
@@ -163,10 +162,10 @@ const api = {
     removePlugin() {
     },
 
-    shellShowItemInFolder: (path) => {
+    shellShowItemInFolder: () => {
     },
 
-    redirect: (label, payload) => {
+    redirect: () => {
         // todo
     },
 

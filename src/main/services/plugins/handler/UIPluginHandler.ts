@@ -26,7 +26,7 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
         })
     }
     getPreload(plugin: ThirdPlugin): string {
-        return getPluginFilePath(plugin, plugin.preload)
+        return getPluginFilePath(plugin.name, plugin.preload)
     }
 
     customSession(plugin: ThirdPlugin, session: Session) {

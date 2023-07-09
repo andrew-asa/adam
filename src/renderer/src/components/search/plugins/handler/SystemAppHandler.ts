@@ -1,6 +1,7 @@
-import { openPlugin } from "@/renderer/src/utils/app/app_api";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
-import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
+import { ThirdPlugin } from "@/common/core/plugins";
+import { copyThirdPlugin } from "@/common/plugin/plugin_meta_utils";
+import { ctx } from "@/renderer/src/startup/ctx_starter";
 
 export class SystemAppHandler extends DefaultPluginHandler {
     constructor(store) {
@@ -12,6 +13,7 @@ export class SystemAppHandler extends DefaultPluginHandler {
     open(plugin: ThirdPlugin): void {
         this.store.emptyShow();
         this.store._setSearchValue("");
-        openPlugin(plugin)
+        const cp = copyThirdPlugin(plugin)
+        ctx.app.controller.openPlugin(cp)
     }
 }

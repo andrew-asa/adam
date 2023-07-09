@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import _ from "lodash";
-import { getPlugins } from "@/renderer/src/utils/app/app_api";
 import { ctx } from '@renderer/startup/ctx_starter'
 import { getHandler } from "./handler/handlers";
 import { ThirdPlugin } from "@/common/core/plugins";
@@ -122,7 +121,7 @@ export const userStore = defineStore({
 
         initOptions() {
             if (!this._init) {
-                getPlugins().then(({ data }) => {
+                ctx.app.controller.getPlugins().then(( data ) => {
                     this.setPlugins(data);
                     this._init = true;
                     console.log(`initOptions done`);
@@ -298,6 +297,7 @@ export const userStore = defineStore({
             if (options.length === 0 && this.options.length > 0) {
                 ctx.app.controller.setExpendHeight(60)
             } else if (options.length > 0 && this.options.length === 0) {
+                // const h = this.options.length * 60 > 600 ? 600 : this.options.length * 60
                 ctx.app.controller.setExpendHeight(600)
             }
             this.options = []

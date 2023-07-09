@@ -7,7 +7,7 @@
   "license": "AGPL-3.0",
   "main": "./lib/bundle.cjs.js",
   "module": "./lib/bundle.esm.js",
-  "types": "./types/index.d.ts",
+  "types": "./types/content.d.ts",
   "bin": {
     "link-yn-extension": "./bin/link-plugin.js"
   },

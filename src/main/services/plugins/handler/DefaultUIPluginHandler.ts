@@ -42,7 +42,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
     showView(view: BrowserView, mainWindow: BrowserWindow,plugin: ThirdPlugin): void {
         // mainWindow.addBrowserView(view);
         mainWindow.setBrowserView(view);
-        view.webContents.once('dom-ready', () => {
+        view.webContents.once('dom-ready', () => { 
             const width = this.getMainWindowWidth(mainWindow)
             view.setBounds({ x: 0, y: default_window_height, width: width, height: default_plugin_window_height });
             setExpendHeight({ height: default_plugin_window_height + default_window_height }, mainWindow)

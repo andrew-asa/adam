@@ -74,3 +74,10 @@ export const regs = {
     http_or_https: /^(http|https):\/\/([\w.]+\/?)\S*/ig
 }
 
+
+export const plugin_events={
+    /**
+     * 插件进入
+     */
+    plugin_enter:"PluginEnter",
+}

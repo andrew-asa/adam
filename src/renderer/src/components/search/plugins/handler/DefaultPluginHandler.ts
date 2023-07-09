@@ -1,5 +1,5 @@
 import { PluginHandler } from "@/common/core/PluginHandler"
-import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins"
+import { ThirdPlugin } from "@/common/core/plugins"
 import _ from "lodash"
 import { ctx } from "@/renderer/src/startup/ctx_starter";
 import { copyThirdPlugin } from "@/common/plugin/plugin_meta_utils";

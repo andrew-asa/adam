@@ -33,12 +33,16 @@ export function writerUserFileObject(fileName: string, obj: any) {
     }
 }
 export function readUserFileObject(fileName: string) {
+    return readFileObject(getUserFile(fileName))
+}
+
+export function readFileObject(path: string):any {
     var data = {}
     try {
-        const s = fs.readFileSync(getUserFile(fileName), 'utf8')
+        const s = fs.readFileSync(path, 'utf8')
         data = JSON.parse(s)
     } catch (err) {
-        console.log(`Error: read file file ${fileName}`);
+        console.log(`Error: parse file json: ${path}`);
     }
     return data
 }

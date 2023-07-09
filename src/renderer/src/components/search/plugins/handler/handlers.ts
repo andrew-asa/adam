@@ -4,7 +4,7 @@ import { SystemAppHandler } from "./SystemAppHandler";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { WebPluginHandler } from "./WebPluginHandler";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
-import { AdamPlugin, ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
+import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
 
 const handlers = [];
 

@@ -3,17 +3,32 @@ import { RubickPluginManager } from "./adapter/RubickPluginManager";
 import { default_plugin } from "./data/default_plugins";
 import { RubickPluginRunner } from "./runner/RubickPluginRunner";
 import { DefaultPluginRunner } from "./runner/DefaultPluginRunner";
+import { readFileObject, readUserFileObject } from "@/main/common/utils/user_files_utils";
+import { PLUGINS_INSTALL_DIR } from "@/main/common/common_const";
+import { parseAppPlugin, parseInstallPlugin } from "./utils/plugin_utils";
 
 export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRunner {
-    private plugins: ThirdPlugin[] = default_plugin;
+    private plugins: ThirdPlugin[] = [];
     private pms: ThirdPluginManager[] = []
     private prs: ThirdPluginRunner[] = []
     private default_plugin_runner: ThirdPluginRunner = new DefaultPluginRunner();
     constructor() {
+
+        this.init()
+    }
+    init(): void {
         this.pms.push(new RubickPluginManager({}));
         this.prs.push(new RubickPluginRunner());
+        this.initPlugins();
     }
 
+    initPlugins(): void {
+        this.plugins.push(...default_plugin);
+        const installPlugin: ThirdPlugin[] = parseInstallPlugin(PLUGINS_INSTALL_DIR)
+        this.plugins.push(...installPlugin);
+        const apps = parseAppPlugin();
+        this.plugins.push(...apps);
+    }
 
     needHandle(plugin: ThirdPlugin): boolean {
         return true
@@ -52,4 +67,8 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
     loadMain(plugin: ThirdPlugin, ext: any): void {
         this.getThirdPluginRunner(plugin).loadMain(plugin, ext)
     }
+
+
+
+
 }

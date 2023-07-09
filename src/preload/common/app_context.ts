@@ -1,9 +1,9 @@
-import { AppController } from "@/common/base/AppController"
-import * as action from "@/common/base/action"
+import { AppController } from '@/common/base/AppController'
+import * as action from '@/common/base/action'
 const hooks = {}
 export const ctx = {
   app: {
-    controller: new AppController(),
+    controller: new AppController()
   },
   plugin: {
     on(name: string, fn: Function) {
@@ -14,6 +14,12 @@ export const ctx = {
       if (fn) {
         fn(...args)
       }
+    },
+    getHooks() {
+      return hooks
+    },
+    getHook(name: string) {
+      return hooks[name]
     }
   },
   action: action
@@ -23,5 +29,9 @@ export type Ctx = typeof ctx
 
 export function start_adam_preload() {
   // @ts-ignore
-  window.ctx = ctx
+  // window.ctx = ctx
+
+  Object.defineProperty(window, 'ctx', {
+    value: ctx
+  })
 }

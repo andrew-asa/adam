@@ -1,8 +1,4 @@
 {
-    "include": [
-      "types/**/*.ts"
-    ],
-    "exclude": ["src/**/__test__/**/*.ts"],
     "compilerOptions": {
       "composite": true,
       "baseUrl": "./",

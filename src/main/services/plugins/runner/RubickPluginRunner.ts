@@ -2,7 +2,6 @@ import { ThirdPlugin, ThirdPluginAdapter, ThirdPluginRunner } from "@/common/cor
 import { PLUGINS_INSTALL_DIR } from "@/main/common/common_const";
 import { BrowserView, Session } from "electron";
 import path from "path";
-import { getPluginFilePath } from "../utils/plugin_utils";
 import { RubickApiAdapter } from "./RubickApiAdater";
 import { DefaultPluginRunner } from "./DefaultPluginRunner";
 

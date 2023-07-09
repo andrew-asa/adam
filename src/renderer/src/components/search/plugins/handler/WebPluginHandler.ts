@@ -1,7 +1,5 @@
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
-import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
-import { ctx } from "@/renderer/src/startup/ctx_starter";
-import { copyThirdPlugin } from "../utils/plugins_utils";
+import { ThirdPlugin } from "@/common/core/plugins";
 
 export class WebPluginHandler extends DefaultPluginHandler {
     constructor(store) {

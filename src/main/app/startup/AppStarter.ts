@@ -32,7 +32,7 @@ export class AppStarter implements Starter {
         // 提供给前端的接口
         renderer_api.setup();
         // 启动后端服务器提供服务
-        startServer();
+        // startServer();
         this.registerGlobalStore();
         this.registererFileProtocol();
     }

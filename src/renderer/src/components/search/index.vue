@@ -37,40 +37,12 @@ import search from './search.vue'
 import result from './result.vue'
 import { userStore } from './plugins/plugins_store'
 import _ from 'lodash'
-import { ctx } from '@renderer/startup/ctx_starter'
-import { isNodeEnv } from '@renderer/utils/app/app_utils'
 const store = userStore()
 const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboardFile } =
   storeToRefs(store)
 const container = ref(null)
 const searchContainer = ref(null)
-// let preH = 0
-// let preW = 0
-// function resizeWindowSize(resultHight = 0) {
-//   if (isNodeEnv()){
-//     const width = container.value.scrollWidth
-//     const height = resultHight > 0 ? 600 : 60
-//     if (width !== preW || height !== preH) {
-//       preW = width
-//       preH = height
-      
-//       ctx.app.controller.setWindowSize({ width, height })
-//     }
-//   }
-// }
 
-// onMounted(() => {
-//   // resizeWindowSize()
-//   if (isNodeEnv()) {
-//     // ctx.app.controller.show()
-//   }
-// })
-// watch(
-//   () => options.value.length,
-//   (newValue, oldValue) => {
-//     resizeWindowSize(newValue * 60)
-//   }
-// )
 </script>
 <style scoped lang="less">
 .drag-bar {

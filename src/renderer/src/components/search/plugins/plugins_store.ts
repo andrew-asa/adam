@@ -121,7 +121,7 @@ export const userStore = defineStore({
 
         initOptions() {
             if (!this._init) {
-                ctx.app.controller.getPlugins().then(( data ) => {
+                ctx.app.controller.getPlugins().then((data) => {
                     this.setPlugins(data);
                     this._init = true;
                     console.log(`initOptions done`);
@@ -130,10 +130,17 @@ export const userStore = defineStore({
         },
         search(value: string) {
             this._setSearchValue(value);
-            if(this.currentPlugin && this.currentPlugin.name){
-                return 
+            if (this._hasSelectPlugin()) {
+                ctx.app.controller.sendSubInputChangeEvent(value)
+                return
             }
             this._doSearch(value);
+        },
+        /**
+         * 当前是否有选中的插件
+         */
+        _hasSelectPlugin(): boolean {
+            return this.currentPlugin && this.currentPlugin.name
         },
         _setSearchValue(value: string) {
             this.searchValue = value;
@@ -225,12 +232,26 @@ export const userStore = defineStore({
             this._showOptions([]);
         },
         keydown(e: any) {
+            if (this._hasSelectPlugin()) {
+                this._trrigerPluginKeydown(e)
+            }
             // 当前插件插件不存在的情况
             this._checkBackspace(e)
             this._checkPaste(e)
             this._checkSelectKeyPress(e)
             this._checkChooseKeyPress(e)
             this._checkEscape(e)
+
+        },
+        _trrigerPluginKeydown(e: any) {
+            const { ctrlKey, shiftKey, altKey, metaKey } = e;
+            const modifiers: Array<string> = [];
+            ctrlKey && modifiers.push('control');
+            shiftKey && modifiers.push('shift');
+            altKey && modifiers.push('alt');
+            metaKey && modifiers.push('meta');
+            const keyCode = e.code
+            ctx.app.controller.sendPluginSomeKeyDownEvent({ modifiers, keyCode })
         },
         /**
          * 判断是否为esc 直接隐藏
@@ -245,10 +266,7 @@ export const userStore = defineStore({
          */
         _checkBackspace(e: any) {
             if (e.target.value === '' && e.keyCode === 8) {
-                // this.setCurrentPlugin({}); 
-                // this.removeCurrentPlugin();
                 if (this.currentPlugin && this.currentPlugin.name) {
-                    // this.removeCurrentPlugin();
                     getHandler(this.currentPlugin).close(this.currentPlugin);
                 }
             }

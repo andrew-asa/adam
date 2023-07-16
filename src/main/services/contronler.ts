@@ -215,6 +215,7 @@ import { getStore } from "../../common/base/strore";
 import { openFile } from "./appsearch";
 import { CompositePluginManager } from "./plugins/CompositePluginManager";
 import { BrowserWindow } from "electron/main";
+import { DECODE_KEY } from "@/common/common_const";
 /**
  * 
  * 打开插件
@@ -252,3 +253,31 @@ export function getPluginManager(): CompositePluginManager {
     return pluginManager
 }
 
+/**
+ * 当前插件输入框文本变化
+ */
+export function currentPluginInputChange(value: string) {
+    // console.log("currentPluginInputChange", value)
+    triggerCurrentPluginViewAction('inputChange', { text: value })
+}
+/**
+ * 当前插件按键点击时间
+ */
+export function currentPluginKeyClick({ modifiers, keyCode }) {
+    const code = DECODE_KEY[keyCode];
+    // console.log("currentPluginKeyClick", { modifiers, keyCode })
+    // getStore(stores_name.current_plugin_view)?.webContents.sendInputEvent({
+    //     type: 'keyDown',
+    //     modifiers,
+    //     keyCode: code,
+    // })
+    triggerCurrentPluginViewAction('keydown', { modifiers, keyCode:code })
+}
+
+function triggerCurrentPluginViewAction(hook: string, data: any) {
+    const win = getStore(stores_name.current_plugin_view)
+    if (win) {
+        const s = `ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`
+        win.webContents.executeJavaScript(s)
+    }
+}   

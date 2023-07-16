@@ -6,13 +6,14 @@ import { starter } from "./starter"
 import _ from 'lodash'
 import { switchToRoute } from "../router"
 import { AppController } from "@/common/base/AppController"
+import { getStore, registerStore } from "@/common/base/strore"
+import { SearchController } from "../components/search/SearchController"
 const empty_fun = () => {
 }
 const _ctx = {
     app: {
         controller: new AppController(),
-        search: {
-        }
+        search: new SearchController()
     },
     hook,
     constant: {
@@ -26,6 +27,10 @@ const _ctx = {
     },
     services: {
         switchToRoute: switchToRoute,
+    },
+    store: {
+        registerStore: registerStore,
+        getStore: getStore
     }
 }
 export const ctx = Object.freeze(_ctx)

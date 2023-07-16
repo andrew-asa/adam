@@ -33,7 +33,7 @@ export class AppController {
         if (isNodeEnv()) {
             const { ipcRenderer } = window.require("electron");
             this.renderer = ipcRenderer;
-        } 
+        }
     }
     public sendSyncMessage(type: String, data?: any) {
         this.renderer.sendSync(renderer_msg_name, {
@@ -89,7 +89,16 @@ export class AppController {
      * @description 给当前选中的插件发送改变的文本
      */
     public sendSubInputChangeEvent(value: String) {
-        this.sendSyncMessage("subInputChangeEvent", { text: value });
+        this.sendSyncMessage("currentPluginInputChange", value);
+    }
+    /**
+     * 给当前选中的插件发送按键改变时间
+     */
+    public sendPluginSomeKeyDownEvent({ modifiers, keyCode }) {
+        this.sendSyncMessage("currentPluginKeyClick", {
+            modifiers,
+            keyCode
+        })
     }
     public home() {
         this.sendMessage("home", {});

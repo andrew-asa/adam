@@ -1,6 +1,6 @@
 import { ThirdPlugin } from "@/common/core/plugins";
 import { AbstractPluginHandler } from "./AbstractPluginHandler";
-import { registerStore } from "@/main/common/strore";
+import { registerStore } from "@/common/base/strore";
 import { default_plugin_window_height, default_window_height, stores_name } from "@/main/common/common_const";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { BrowserView, BrowserWindow, Session, session } from "electron";
@@ -22,7 +22,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
 
     open(plugin: ThirdPlugin, { mainWindow }): void {
         let view = this.getOrCreateShowView(plugin)
-        this.showView(view, mainWindow,plugin)
+        this.showView(view, mainWindow, plugin)
     }
 
     getOrCreateShowView(plugin: ThirdPlugin): BrowserView {
@@ -39,10 +39,10 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         return view
     }
 
-    showView(view: BrowserView, mainWindow: BrowserWindow,plugin: ThirdPlugin): void {
+    showView(view: BrowserView, mainWindow: BrowserWindow, plugin: ThirdPlugin): void {
         // mainWindow.addBrowserView(view);
         mainWindow.setBrowserView(view);
-        view.webContents.once('dom-ready', () => { 
+        view.webContents.once('dom-ready', () => {
             const width = this.getMainWindowWidth(mainWindow)
             view.setBounds({ x: 0, y: default_window_height, width: width, height: default_plugin_window_height });
             setExpendHeight({ height: default_plugin_window_height + default_window_height }, mainWindow)
@@ -91,7 +91,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
             view = this.view
         }
         if (view) {
-            this.removeShowView(view, mainWindow, destroy)
+            this.removeShowView(view, plugin, mainWindow, destroy)
         }
     }
 
@@ -129,11 +129,12 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         return view
     }
 
-    removeShowView(view: BrowserView, mainWindow: BrowserWindow, destroy = true): void {
+    removeShowView(view: BrowserView, plugin: ThirdPlugin, mainWindow: BrowserWindow, destroy = true): void {
 
         if (!view || !mainWindow) {
             return
         }
+        this.unloadMain(view, plugin)
         this.resetMainWindowSize(mainWindow)
         mainWindow.removeBrowserView(view);
         if (destroy) {
@@ -150,6 +151,10 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
     loadMain(view: BrowserView, plugin: ThirdPlugin, {
         session: Session
     }): void {
+
+    }
+
+    unloadMain(view: BrowserView, plugin: ThirdPlugin): void {
 
     }
 }

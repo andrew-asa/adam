@@ -3,6 +3,10 @@ import { AppServices } from "./AppServices";
 import { spawn } from "child_process";
 
 export class AbstractAppServices implements AppServices {
+    op: any;
+    enApp(app: SystemApp) {
+        throw new Error("Method not implemented.");
+    }
     openApp(app: SystemApp) {
         throw new Error("Method not implemented.");
     }
@@ -10,6 +14,7 @@ export class AbstractAppServices implements AppServices {
         resolve([]);
     }
     public openFile(path: string) {
+        
     }
 
 

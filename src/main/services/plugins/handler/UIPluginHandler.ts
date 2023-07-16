@@ -25,6 +25,13 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
             view: view
         })
     }
+
+    unloadMain(view: BrowserView, plugin: ThirdPlugin): void {
+        getPluginManager().unloadMain(plugin, {
+            view: view
+        })
+    }
+
     getPreload(plugin: ThirdPlugin): string {
         return getPluginFilePath(plugin.name, plugin.preload)
     }

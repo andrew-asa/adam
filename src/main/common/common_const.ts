@@ -26,7 +26,7 @@ export const CONFIGURE_PATH = "./adam-configure.json";
 export const DEFAULT_CONFIG = {
   version: "1.0.0",
   perf: {
-    shortCut: { 
+    shortCut: {
       showAndHidden: "Option+R",
       separate: "Ctrl+D",
       quit: "Shift+Escape",
@@ -68,6 +68,20 @@ export const stores_name = {
    * app控制上下文
    */
   app_controller_context: "app_controller_context",
+  /**
+   * 获取renderer_api
+   */
+  app_renderer_api: "app_renderer_api",
+
+  /**
+   * 主窗口
+   */
+  app_main_window: "app_main_window",
+  /**
+   * app
+   */
+  app: "app",
+  main_app: "main_app",
 }
 /**
  * 全局函数名字

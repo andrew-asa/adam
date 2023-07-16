@@ -1,10 +1,8 @@
-import { BrowserView, BrowserWindow, session } from "electron";
+import { BrowserView } from "electron";
 import { DefaultUIPluginHandler } from "./DefaultUIPluginHandler";
 import { is } from "@electron-toolkit/utils";
 import { AdamPlugin, ThirdPlugin } from "@/common/core/plugins";
 import path from "path";
-import { default_plugin_window_height, default_window_height, stores_name } from "@/main/common/common_const";
-import { registerStore } from "@/main/common/strore";
 import { regs } from "@/common/common_const";
 
 export class WebPluginHandler extends DefaultUIPluginHandler {

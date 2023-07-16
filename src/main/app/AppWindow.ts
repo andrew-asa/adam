@@ -1,10 +1,11 @@
 import { BrowserWindow, shell, screen } from "electron";
 
-import { registerAction } from "@main/common/action";
 import { windowStateManager } from "@main/common/utils/electron_window_utils";
 import path from "path";
-import { actions_name } from "../common/common_const";
+import { actions_name, stores_name } from "../common/common_const";
 import { WindowCreator } from "./type";
+import { registerAction } from "@/common/base/action";
+import { registerStore } from "@/common/base/strore";
 
 export class AppMainWindowCreator implements WindowCreator {
     private win: BrowserWindow | null = null;
@@ -21,6 +22,7 @@ export class AppMainWindowCreator implements WindowCreator {
         this.setWindow(win)
         this.regWindowListener(win)
         this.win = win
+        registerStore(stores_name.app_main_window, win)
     }
 
     createDefaultWindow() {
@@ -83,7 +85,8 @@ export class AppMainWindowCreator implements WindowCreator {
         win.on("closed", () => {
             // @ts-ignore
             win = null;
-            registerAction(actions_name.get_main_window, () => win)
+            registerStore(stores_name.app_main_window, win)
+            // registerAction(actions_name.get_main_window, () => win)
         });
     }
 }

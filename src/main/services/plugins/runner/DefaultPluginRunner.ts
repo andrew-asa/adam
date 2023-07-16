@@ -4,6 +4,7 @@ import path from "path";
 import { getPluginFilePath } from "../utils/plugin_utils";
 
 export class DefaultPluginRunner implements ThirdPluginRunner {
+
     getPreloads(plugin: ThirdPlugin): string[] {
         return this.getRunnerPreloads(plugin)
     }
@@ -48,6 +49,12 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
         }
     }
 
+    unloadMain(plugin: ThirdPlugin, ext: {
+        view: BrowserView
+    }): void {
+        this.triggerHooks(ext.view, 'PluginOut', {});
+    }
+
     getPluginMain(plugin: ThirdPlugin): string {
         return getPluginFilePath(plugin.name, plugin.main)
     }
@@ -59,7 +66,7 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
 
     triggerHooks(view: BrowserView, hook: string, data: any) {
         if (!view) return;
-        const s= `ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`
+        const s = `ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`
         const evalJs = `
         if(window.ctx.plugin.trigger) {     
             try { 

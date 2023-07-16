@@ -1,11 +1,12 @@
 import { optimizer } from '@electron-toolkit/utils';
 import electron, { app, BrowserWindow, globalShortcut } from 'electron';
-import { actions_name, isDev, isMacOS, isProduction } from '@main/common/common_const';
+import { actions_name, isDev, isMacOS, isProduction, stores_name } from '@main/common/common_const';
 import { AppMainWindowCreator } from './AppWindow'
 
 import { AppStarter } from './startup/AppStarter';
-import { registerAction } from '../common/action';
 import { Starter, WindowCreator } from './type';
+import { registerAction } from '@/common/base/action';
+import { registerStore } from '@/common/base/strore';
 export class App {
     /**
      * 主窗口生成器
@@ -14,7 +15,7 @@ export class App {
     /**
      * 额外工作启动器
      */
-    public appExtWordStarter:Starter
+    public appExtWordStarter: Starter
     constructor() {
         this.windowCreator = new AppMainWindowCreator()
         this.appExtWordStarter = new AppStarter()
@@ -51,7 +52,7 @@ export class App {
     }
     createWindow() {
         this.windowCreator.init();
-        registerAction(actions_name.get_main_window, () => this.windowCreator.getWindow())
+        // registerAction(actions_name.get_main_window, () => this.windowCreator.getWindow())
     }
     onReady() {
         const readyFunction = () => {
@@ -59,8 +60,8 @@ export class App {
             // const mainWindow = this.windowCreator.getWindow();
             // API.init(mainWindow);
             // setupApp(app);
-            registerAction(actions_name.get_main_app, () => app)
-            registerAction(actions_name.get_app, () => this)
+            registerStore(stores_name.main_app, app)
+            registerStore(stores_name.app, this)
             this.appExtWordStarter.start();
             // registerHotKey(this.windowCreator.getWindow());
             // this.systemPlugins.triggerReadyHooks(

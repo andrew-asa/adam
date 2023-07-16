@@ -2,7 +2,7 @@ import { Renderer } from "./Renderer";
 import { AdamPlugin, ThirdPlugin } from "../core/plugins";
 const renderer_msg_name = "renderer-msg-trigger"
 const renderer_fun_call_msg_name = "renderer-fun-call-msg-trigger"
-class defaultDevRenderer implements Renderer {
+class DefaultDevRenderer implements Renderer {
 
     sendSync(channel: string, data: any): void {
         console.log(channel, data);
@@ -24,7 +24,7 @@ function isNodeEnv(): boolean {
  */
 // const renderer_msg_name = "renderer-msg-trigger"
 export class AppController {
-    private renderer: Renderer
+    private renderer: Renderer = new DefaultDevRenderer();
     constructor() {
         this.initRenderer();
     }
@@ -33,9 +33,7 @@ export class AppController {
         if (isNodeEnv()) {
             const { ipcRenderer } = window.require("electron");
             this.renderer = ipcRenderer;
-        } else {
-            this.renderer = new defaultDevRenderer();
-        }
+        } 
     }
     public sendSyncMessage(type: String, data?: any) {
         this.renderer.sendSync(renderer_msg_name, {

@@ -1,6 +1,5 @@
 import { BrowserView, shell } from "electron";
-import { getAction } from "@main/common/action";
-import { CONFIGURE_DIR, actions_name, isMacOS, stores_name } from "@main/common/common_const";
+import { CONFIGURE_DIR, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
 
@@ -8,26 +7,32 @@ import path from "path";
  * 打开控制台
  */
 export function openConsole() {
-    const win = getAction(actions_name.get_main_window)()
-    win && win.webContents.openDevTools()
+    const win = getStore(stores_name.app_main_window)
+    win && win.webContents.openDevTools(
+        {
+            mode: 'undocked'
+        }
+    )
 }
 /**
  * 当前插件控制台
  */
 export function openCurrentPluginConsole() {
     const win = getStore(stores_name.current_plugin_view)
-    win && win.webContents.openDevTools()
+    win && win.webContents.openDevTools({
+        mode: 'undocked'
+    })
 }
 
 export function show() {
-    const win = getAction(actions_name.get_main_window)()
+    const win = getStore(stores_name.app_main_window)
     if (win) {
         win.show()
     }
 }
 
 export function removeAllPluginView() {
-    const win: BrowserWindow = getAction(actions_name.get_main_window)()
+    const win: BrowserWindow = getStore(stores_name.app_main_window)
     if (win) {
         const views: BrowserView[] = win.getBrowserViews()
         for (const view of views) {
@@ -45,9 +50,9 @@ export function hide() {
  * @Date 2023-03-25 12:09:48
  */
 export function showMainWin() {
-    const win = getAction(actions_name.get_main_window)()
+    const win = getStore(stores_name.app_main_window)
     if (win) {
-        let app = getAction(actions_name.get_main_app)()
+        let app = getStore(stores_name.main_app)
         if (isMacOS) {
             app && app.dock.show()
             //  win.setVisibleOnAllWorkspaces(true)
@@ -57,7 +62,7 @@ export function showMainWin() {
         // win.focus()
     } else {
         // 创建窗口
-        let app = getAction(actions_name.get_app)()
+        let app = getStore(stores_name.app)
         if (app) {
             app.createWindow()
         }
@@ -69,11 +74,11 @@ export function showMainWin() {
  * @description 隐藏
  */
 export function hideMainWin() {
-    let win = getAction(actions_name.get_main_window)()
+    let win = getStore(stores_name.app_main_window)
     if (win) {
         win.hide()
         win.setSkipTaskbar(true)
-        isMacOS && getAction(actions_name.get_main_app)()?.dock.hide()
+        isMacOS && getStore(stores_name.main_app)?.dock.hide()
     }
 }
 
@@ -83,7 +88,7 @@ export function hideMainWin() {
  * @Date 2023-03-25 12:15:51
  */
 export function quit() {
-    const app = getAction(actions_name.get_main_app)()
+    const app = getStore(stores_name.main_app)
     app && app.quit()
 }
 /**
@@ -91,7 +96,7 @@ export function quit() {
  * @deprecated 退出程序
  */
 export function exit() {
-    const app = getAction(actions_name.get_main_app)()
+    const app = getStore(stores_name.main_app)
     app && app.exit(-1)
 }
 
@@ -101,7 +106,7 @@ export function exit() {
  * @Date 2023-03-25 12:16:59
  */
 export function relaunch() {
-    const app = getAction(actions_name.get_main_app)()
+    const app = getStore(stores_name.main_app)
     if (app) {
         app.relaunch()
         app.exit(1)
@@ -142,7 +147,7 @@ export function toggleBall() {
  * 浏览器前进
  */
 export function forward() {
-    let win = getAction(actions_name.get_main_window)()
+    let win = getStore(stores_name.app_main_window)
     win && win.webContents.goForward()
 }
 
@@ -150,7 +155,7 @@ export function forward() {
  * 浏览器后退
  */
 export function back() {
-    let win = getAction(actions_name.get_main_window)()
+    let win = getStore(stores_name.app_main_window)
     win && win.webContents.goBack()
 }
 
@@ -158,7 +163,7 @@ export function back() {
  * 刷新
  */
 export function refresh() {
-    let win = getAction(actions_name.get_main_window)()
+    let win = getStore(stores_name.app_main_window)
     win && win.webContents.reload()
 }
 /**
@@ -166,7 +171,7 @@ export function refresh() {
  */
 export function home() {
     console.log('home');
-    let win = getAction('get-main-window')()
+    let win = getStore(stores_name.app_main_window)
     if (!win) {
         return
     }
@@ -184,7 +189,7 @@ export function home() {
 export function setWindowSize({ width, height }, win) {
     // console.log(`setWindowSize ${width} ${height}`);
     if (!win) {
-        win = getAction(actions_name.get_main_window)()
+        win = getStore(stores_name.app_main_window)
     }
     win && win?.setSize(width, height)
 }
@@ -194,7 +199,7 @@ export function setWindowSize({ width, height }, win) {
 export function setExpendHeight({ height }, win) {
     // console.log(`setExpendHeight  ${height}`);
     if (!win) {
-        win = getAction(actions_name.get_main_window)()
+        win = getStore(stores_name.app_main_window)
     }
     if (win) {
         let size = win.getSize()
@@ -206,7 +211,7 @@ export function setExpendHeight({ height }, win) {
  * 打开插件
  */
 import { openPlugin as op, closePlugin as cl } from "@/main/services/plugins/handlers";
-import { getStore } from "../common/strore";
+import { getStore } from "../../common/base/strore";
 import { openFile } from "./appsearch";
 import { CompositePluginManager } from "./plugins/CompositePluginManager";
 import { BrowserWindow } from "electron/main";

@@ -5,11 +5,11 @@ import { SystemAppHandler } from "./handler/SystemAppHandler";
 import { CodePluginHandler } from "./handler/CodePluginHandler";
 import { DefaultUIPluginHandler } from "./handler/DefaultUIPluginHandler";
 import { WebPluginHandler } from "./handler/WebPluginHandler";
-import { getAction } from "@/main/common/action";
 import { AdamPlugin } from "@/common/core/plugins";
-import { actions_name } from "@/main/common/common_const";
+import { stores_name } from "@/main/common/common_const";
 import { UIPluginHandler } from "./handler/UIPluginHandler";
 import { getPluginManager } from "../contronler";
+import { getStore } from "@/common/base/strore";
 const DH: PluginHandler = new DefaultUIPluginHandler();
 const handlers: PluginHandler[] = [
     new SystemAppHandler(),
@@ -37,14 +37,14 @@ export function getHandlers(): PluginHandler[] {
  * 打开插件
  */
 export function openPlugin(plugin: AdamPlugin, ext?: any) {
-    getHandler(plugin).open(plugin, { mainWindow: getAction(actions_name.get_main_window)() })
+    getHandler(plugin).open(plugin, { mainWindow: getStore(stores_name.app_main_window) })
     return "success"
 }
 /**
  * 关闭插件
  */
 export function closePlugin(plugin: AdamPlugin) {
-    getHandler(plugin).close(plugin, { mainWindow: getAction(actions_name.get_main_window)() })
+    getHandler(plugin).close(plugin, { mainWindow: getStore(stores_name.app_main_window) })
     return "success"
 }
 

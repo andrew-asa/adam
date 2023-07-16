@@ -24,7 +24,7 @@ export function copyThirdPlugin(plugin: ThirdPlugin, isCopyExt = true): ThirdPlu
 }
 
 function copyKeywords(keywords: string[]): string[] {
-    const r = []
+    const r:string[] = []
     if (keywords) {
         keywords.forEach(k => {
             r.push(k)

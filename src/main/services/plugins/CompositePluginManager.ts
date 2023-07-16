@@ -13,9 +13,9 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
     private prs: ThirdPluginRunner[] = []
     private default_plugin_runner: ThirdPluginRunner = new DefaultPluginRunner();
     constructor() {
-
         this.init()
     }
+
     init(): void {
         this.pms.push(new RubickPluginManager({}));
         this.prs.push(new RubickPluginRunner());
@@ -64,11 +64,18 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
         return this.getThirdPluginRunner(plugin).getPreloads(plugin)
     }
 
+    /**
+     * 进入插件之前进行适配
+     */
     loadMain(plugin: ThirdPlugin, ext: any): void {
         this.getThirdPluginRunner(plugin).loadMain(plugin, ext)
     }
 
-
-
+    /**
+     * 卸载页面
+     */
+    unloadMain(plugin: ThirdPlugin, ext: any): void {
+        this.getThirdPluginRunner(plugin).unloadMain(plugin, ext)
+    }
 
 }

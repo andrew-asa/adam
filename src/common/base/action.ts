@@ -2,18 +2,23 @@ const actions: { [key: string]: Action[] } = {}
 
 class Action {
     handler: Function
-    one: boolean
-    constructor(handler: Function, one = false) {
+    onlyTriggerOne: boolean
+    constructor(handler: Function, onlyTriggerOne = false) {
         this.handler = handler
-        this.one = one
+        this.onlyTriggerOne = onlyTriggerOne
     }
 }
-
-export function registerAction(name: string, handler: Function, one = false) {
+/**
+ * 注册一个action
+ * @param name
+ * @param handler
+ * @param onlyTriggerOne 是否只是触发一次就删除
+ */
+export function registerAction(name: string, handler: Function, onlyTriggerOne = false) {
     if (!actions[name]) {
         actions[name] = []
     }
-    actions[name].push(new Action(handler, one))
+    actions[name].push(new Action(handler, onlyTriggerOne))
 }
 
 export function getActions(name: string) {
@@ -34,13 +39,19 @@ export function deleteAction(name: string, fun: Function) {
     }
 }
 
-export function triggerAction(name: string, ...args: any[]) {
+/**
+ * 触发一个action
+ * 返回最后一个触发的action的返回值
+ */
+export function triggerAction(name: string, ...args: any[]): any {
     const ac: Action[] = getActions(name)
+    const ret = [undefined]
     if (ac) {
         const nac: Action[] = ac.filter((a) => {
-            a.handler(...args)
-            return !a.one
+            ret[0] = a.handler(...args)
+            return !a.onlyTriggerOne
         })
         actions[name] = nac
     }
+    return ret[0]
 }

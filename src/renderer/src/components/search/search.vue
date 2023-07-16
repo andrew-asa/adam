@@ -36,7 +36,7 @@
             </a-spin>
             <img
               class="icon-tool"
-              :src="currentPlugin.logo"
+              :src="currentPlugin.logo || '../../assets/jarvis.png'"
             />
           </div>
           <div

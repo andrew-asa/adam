@@ -4,14 +4,14 @@ export const default_plugin: ThirdPlugin[] = [{
   name: "adam_built_in_plugin_manager",
   pluginName: "插件管理",
   description: "插件管理",
-  logo: "/src/assets/jarvis.png",
+  logo: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEEAAABBCAYAAACO98lFAAAAAXNSR0IArs4c6QAAAZFJREFUeF7tmkHWgjAMhONp2HEcTgMrOA3HYcdp+EVF8f0iNTUxPj/2bfImM9Om4TBN0yQ//h0AQQQQBBBORgATXgFhHEcT+yyKYnNfr5hJTKiqygSAZdO+7//t7xlzF4S5Gk3TmILQtq2sGeEdExBSPMG7KjPlvGOqmFCWZZY8hmG4W58iB8uYahDqulYB0XWdaEGwigkIWk+YqWlVlS1PsIwJE2DC+bYKEwABJlyv6sgBOSAH5LDuV/AEPCHTE1Qt5GWRtou0iqmSQ04yj9amvCdYxgQErSdYViXk89qclOfz9wKwZ8xdOSxJeQ1C1izzipkMwrslEGk/QEgxxkgVs8olmQle+gzrCZ5OHfJ08B6JhbwnAMIHhqNfwwTL4eizCVTO6fCsc909HR7JwXIkxhjuUmpv4GFCyo3RuyrIATnc/mf0Zh+egCdkPrnzuw7/LIlwYxRAOJ3kMAEQzlc6Wumcpn5jLQNZEQGEbwCBgexKwz8/fDHwwlBb7rbSobI1SgYQUt4TjMAPtS1MOJbjDx6tq3r5r2m/AAAAAElFTkSuQmCC",
   main: "#/search/plugins/market",
   features: [
     {
       cmds: [
         "CJGL",
         "ChaJianGuanLi",
-        "插件管理" 
+        "插件管理"
       ]
     }
   ],
@@ -68,7 +68,7 @@ export const demo_plugin: ThirdPlugin[] = [{
       cmds: [
         "CJGL",
         "ChaJianGuanLi",
-        "插件管理" 
+        "插件管理"
       ]
     }
   ],

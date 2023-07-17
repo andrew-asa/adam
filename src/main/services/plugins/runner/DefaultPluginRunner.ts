@@ -25,7 +25,7 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
             view.webContents.loadFile(main)
             view.webContents.once('dom-ready', () => {
                 const ext: any = plugin.ext || {};
-                view.webContents.openDevTools();
+                // view.webContents.openDevTools();
                 this.triggerPluginHooks(view, 'PluginEnter', ext);
                 this.triggerPluginHooks(view, 'PluginReady', ext);
             });

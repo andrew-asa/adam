@@ -1,9 +1,10 @@
 import { AppController } from '@/common/base/AppController'
+import { PluginViewApi } from '@/common/base/PluginViewApi'
 import * as action from '@/common/base/action'
 const hooks = {}
 export const ctx = {
   app: {
-    controller: new AppController()
+    controller: new PluginViewApi()
   },
   plugin: {
     on(name: string, fn: Function) {

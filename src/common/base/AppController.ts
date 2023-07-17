@@ -1,72 +1,11 @@
-import { Renderer } from "./Renderer";
 import { AdamPlugin, ThirdPlugin } from "../core/plugins";
-const renderer_msg_name = "renderer-msg-trigger"
-const renderer_fun_call_msg_name = "renderer-fun-call-msg-trigger"
-class DefaultDevRenderer implements Renderer {
+import { BaseAppController } from "./BaseAppController";
 
-    sendSync(channel: string, data: any): void {
-        console.log(channel, data);
-    }
-    send(channel: string, data: any): void {
-        console.log(channel, data);
-    }
-
-    invoke(channel: string, data: any): void {
-        return this.sendSync(channel, data);
-    }
-}
-function isNodeEnv(): boolean {
-    return typeof global !== "undefined"
-}
-/**
- * main/services/RendererAPI => main/services/controller
- * 发消息
- */
-// const renderer_msg_name = "renderer-msg-trigger"
-export class AppController {
-    private renderer: Renderer = new DefaultDevRenderer();
+export class AppController extends BaseAppController{
     constructor() {
-        this.initRenderer();
+        super();
     }
-    private initRenderer() {
-        // node环境
-        if (isNodeEnv()) {
-            const { ipcRenderer } = window.require("electron");
-            this.renderer = ipcRenderer;
-        }
-    }
-    public sendSyncMessage(type: String, data?: any) {
-        this.renderer.sendSync(renderer_msg_name, {
-            type: type,
-            data: data || {}
-        });
-    }
-    public sendMessage(type: String, data?: any) {
-        return this.renderer.send(renderer_msg_name, {
-            type: type,
-            data: data || {}
-        });
-    }
-    public async invokeMessage(type: String, data?: any) {
-        return await this.renderer.invoke(renderer_fun_call_msg_name, {
-            type: type,
-            data: data || {}
-        });
-    }
-    /**
-     * 同步调用
-     */
-    public async invokeMessageSync(type: String, data?: any) {
-        try {
-            const result = await this.renderer.invoke(renderer_fun_call_msg_name, {
-                type: type,
-                data: data || {}
-            });
-            return result
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    
     /**
      * @description 前进
      */
@@ -91,6 +30,7 @@ export class AppController {
     public sendSubInputChangeEvent(value: String) {
         this.sendSyncMessage("currentPluginInputChange", value);
     }
+
     /**
      * 给当前选中的插件发送按键改变时间
      */
@@ -103,13 +43,7 @@ export class AppController {
     public home() {
         this.sendMessage("home", {});
     }
-    public setWindowSize(width: number, height: number) {
-        this.sendMessage("setWindowSize", { width: width, height: height });
-    }
-
-    public setExpendHeight(height: number) {
-        this.sendMessage("setExpendHeight", { height });
-    }
+    
 
     public show() {
         this.sendMessage("show", {});

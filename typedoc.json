@@ -1,0 +1,5 @@
+{
+    "entryPoints": ["src/common/base/PluginViewApi.ts"],
+    "out": "dist/docs"
+  }
+  

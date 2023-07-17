@@ -271,13 +271,24 @@ export function currentPluginKeyClick({ modifiers, keyCode }) {
     //     modifiers,
     //     keyCode: code,
     // })
-    triggerCurrentPluginViewAction('keydown', { modifiers, keyCode:code })
+    triggerCurrentPluginViewAction('keydown', { modifiers, keyCode: code })
 }
 
 function triggerCurrentPluginViewAction(hook: string, data: any) {
-    const win = getStore(stores_name.current_plugin_view)
-    if (win) {
-        const s = `ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`
-        win.webContents.executeJavaScript(s)
-    }
-}   
+
+    executeCurrentPluginViewJavaScript(`ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`)
+}
+
+export function setPlaceholder(text: string) {
+    executeMainViewJavaScript(`ctx.app.search.setPlaceholder("${text}");`)
+}
+
+export function executeMainViewJavaScript(s: string) {
+    let win = getStore(stores_name.app_main_window)
+    win && win.webContents.executeJavaScript(s)
+}
+
+export function executeCurrentPluginViewJavaScript(s: string) {
+    let win = getStore(stores_name.current_plugin_view)
+    win && win.webContents.executeJavaScript(s)
+}

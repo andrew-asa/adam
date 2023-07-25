@@ -1,4 +1,4 @@
-import { BrowserView, shell } from "electron";
+import { BrowserView, Menu, dialog, shell } from "electron";
 import { CONFIGURE_DIR, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
@@ -166,6 +166,12 @@ export function refresh() {
     let win = getStore(stores_name.app_main_window)
     win && win.webContents.reload()
 }
+
+export function refreshCurrentPluginView() {
+    let win = getStore(stores_name.current_plugin_view)
+    win && win.webContents.reload()
+}
+
 /**
  * 显示主页
  */
@@ -291,4 +297,60 @@ export function executeMainViewJavaScript(s: string) {
 export function executeCurrentPluginViewJavaScript(s: string) {
     let win = getStore(stores_name.current_plugin_view)
     win && win.webContents.executeJavaScript(s)
+}
+
+export async function openFolderDialogSync() {
+
+    const selectedFolder = await dialog.showOpenDialog({
+        properties: ['openDirectory']
+    });
+
+    if (selectedFolder.canceled) {
+        return null;
+    }
+    return selectedFolder.filePaths[0];
+}
+
+export async function openFolderDialog() {
+
+    return dialog.showOpenDialog({
+        properties: ['openDirectory']
+    });
+}
+
+
+export function showPopupMenu(options) {
+
+    let pluginMenu: any = [
+        {
+            label: '开发者工具',
+            click: () => {
+                options.hasPlugin ? openCurrentPluginConsole() : openConsole()
+            }
+        }
+    ]
+    if (options.hasPlugin) {
+        pluginMenu = pluginMenu.concat([{
+            label: '刷新插件',
+            click: refreshCurrentPluginView
+        },
+        {
+            label: '当前插件信息',
+            submenu: [
+                {
+                    label: '简介'
+                },
+                {
+                    label: '功能'
+                }
+            ]
+        },
+        {
+            label: '分离窗口',
+            // click: newWindow
+        }
+        ])
+    }
+    let menu = Menu.buildFromTemplate(pluginMenu);
+    menu.popup(options)
 }

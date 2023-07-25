@@ -5,6 +5,7 @@ import { BaseAppController } from "./BaseAppController";
  * 提供给插件使用的api
  */
 export class PluginViewApi extends BaseAppController {
+    from: string = "plugin_view";
     constructor() {
         super();
     }

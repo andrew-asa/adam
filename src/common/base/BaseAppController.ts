@@ -25,6 +25,7 @@ function isNodeEnv(): boolean {
 // const renderer_msg_name = "renderer-msg-trigger"
 export class BaseAppController {
     private renderer: Renderer = new DefaultDevRenderer();
+    from: string = "main";
     constructor() {
         this.initRenderer();
     }
@@ -35,33 +36,30 @@ export class BaseAppController {
             this.renderer = ipcRenderer;
         }
     }
-    sendSyncMessage(type: String, data?: any) {
-        this.renderer.sendSync(renderer_msg_name, {
+    constructorParams(type: String, data?: any) {
+        return {
             type: type,
-            data: data || {}
-        });
+            data: data || {},
+            ext: {
+                from: this.from
+            }
+        }
+    }
+    sendSyncMessage(type: String, data?: any) {
+        this.renderer.sendSync(renderer_msg_name, this.constructorParams(type, data));
     }
     sendMessage(type: String, data?: any) {
-        return this.renderer.send(renderer_msg_name, {
-            type: type,
-            data: data || {}
-        });
+        return this.renderer.send(renderer_msg_name, this.constructorParams(type, data));
     }
     async invokeMessage(type: String, data?: any) {
-        return await this.renderer.invoke(renderer_fun_call_msg_name, {
-            type: type,
-            data: data || {}
-        });
+        return await this.renderer.invoke(renderer_fun_call_msg_name, this.constructorParams(type, data));
     }
     /**
      * 同步调用
      */
     async invokeMessageSync(type: String, data?: any) {
         try {
-            const result = await this.renderer.invoke(renderer_fun_call_msg_name, {
-                type: type,
-                data: data || {}
-            });
+            const result = await this.renderer.invoke(renderer_fun_call_msg_name, this.constructorParams(type, data));
             return result
         } catch (error) {
             console.log(error);
@@ -86,5 +84,22 @@ export class BaseAppController {
      */
     public setExpendHeight(height: number) {
         this.sendMessage("setExpendHeight", { height });
+    }
+
+    /**
+     * 打开文件对话框
+     */
+    public openFolderDialog() {
+        return this.invokeMessage("openFolderDialog", {});
+    }
+    /**
+     * 获取菜单
+     */
+    public getMenu() {
+        return this.invokeMessage("getMenu", {});
+    }
+
+    public showPopupMenu(options) {
+        return this.invokeMessage("showPopupMenu", options || {});
     }
 }

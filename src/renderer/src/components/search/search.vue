@@ -55,6 +55,8 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
 import { LoadingOutlined, MoreOutlined } from '@ant-design/icons-vue'
+import { ctx } from '../../startup/ctx_starter'
+
 const inputProps = { autoComplete: 'off' }
 
 // const opConfig = remote.getGlobal('OP_CONFIG');
@@ -86,7 +88,7 @@ const emit = defineEmits([
   'onSearch',
   'onKeydown',
   // 'changeCurrent',
-  'openMenu',
+  'openMenu'
   // 'changeSelect',
   // 'choosePlugin',
   // 'focus',
@@ -101,40 +103,10 @@ const keydown = (e) => {
 }
 
 const showSeparate = () => {
-  let pluginMenu: any = [
-    {
-      // label: config.value.perf.common.hideOnBlur ? '钉住' : '自动隐藏',
-      click: changeHideOnBlur
-    }
-  ]
-  if (props.currentPlugin && props.currentPlugin.logo) {
-    pluginMenu = pluginMenu.concat([
-      {
-        label: '开发者工具',
-        click: () => {
-          // ipcRenderer.send('msg-trigger', { type: 'openPluginDevTools' });
-          // todo
-        }
-      },
-      {
-        label: '当前插件信息',
-        submenu: [
-          {
-            label: '简介'
-          },
-          {
-            label: '功能'
-          }
-        ]
-      },
-      {
-        label: '分离窗口',
-        click: newWindow
-      }
-    ])
-  }
-  // let menu = Menu.buildFromTemplate(pluginMenu);
-  // menu.popup();
+  let hasPlugin = !!(props.currentPlugin && props.currentPlugin.pluginName)
+  ctx.app.controller.showPopupMenu({
+    hasPlugin: hasPlugin
+  })
 }
 
 const changeHideOnBlur = () => {

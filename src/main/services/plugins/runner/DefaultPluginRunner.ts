@@ -4,6 +4,7 @@ import path from "path";
 import { getPluginFilePath } from "../utils/plugin_utils";
 import { stores_name } from "@/main/common/common_const";
 import { getStore } from "@/common/base/strore";
+import { regs } from "@/common/common_const";
 
 export class DefaultPluginRunner implements ThirdPluginRunner {
 
@@ -19,10 +20,14 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
         session: Session,
         view: BrowserView
     }): void {
-        const main = this.getPluginMain(plugin)
-        if (main) {
+        if (plugin.main) {
             let view = ext.view
-            view.webContents.loadFile(main)
+            if (plugin.main.match(regs.http_or_https)) {
+                view.webContents.loadURL(plugin.main)
+            } else {
+                const main = this.getPluginMain(plugin)
+                view.webContents.loadFile(main)
+            }
             view.webContents.once('dom-ready', () => {
                 const ext: any = plugin.ext || {};
                 // view.webContents.openDevTools();
@@ -74,17 +79,6 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
     triggerPluginHooks(view: BrowserView, hook: string, data: any) {
         if (!view) return;
         const s = `ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`
-        //     const evalJs = `
-        //     if(window.ctx.plugin.trigger) {     
-        //         try { 
-        //             console.log('${s}');
-        //             ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});
-        //       } catch(e) {
-        //         console.log(e);
-        //       } 
-        //     }
-        //   `;
-        //     view.webContents.executeJavaScript(evalJs);
         this.executeJavaScript(view.webContents, s, true);
     }
 

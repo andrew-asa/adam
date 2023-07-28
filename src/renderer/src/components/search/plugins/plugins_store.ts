@@ -15,6 +15,10 @@ interface PluginsState {
     clipboardFile: any[];
     pageCount: number;
     _init: boolean;
+    /**
+     * 内部插件名字
+     */
+    internalPluginName:string;
 }
 export const userStore = defineStore({
     id: "plugins_store",
@@ -53,6 +57,7 @@ export const userStore = defineStore({
         clipboardFile: [],
         pageCount: 35,
         _init: false,
+        internalPluginName:''
     }),
     actions: {
         selectPlugin(plugin: ThirdPlugin) {
@@ -325,6 +330,9 @@ export const userStore = defineStore({
         },
         clickPlugin(plugin: any) {
             this.setCurrentPlugin(plugin);
+        },
+        setInternalPluginName(name: string) {
+            this.internalPluginName = name
         }
     },
 })

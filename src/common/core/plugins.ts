@@ -74,7 +74,7 @@ export interface ThirdPlugin {
     /**
      * 插件类型
      */
-    pluginType: 'app' | 'web' | 'code' | 'ui';
+    pluginType: 'app' | 'web' | 'code' | 'ui' | 'internal';
     /**
      * 作者
      */

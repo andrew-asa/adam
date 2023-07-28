@@ -1,30 +1,6 @@
-import { Renderer } from "./Renderer";
-import { AdamPlugin, ThirdPlugin } from "../core/plugins";
+import { Renderer, renderer } from "./Renderer";
 const renderer_msg_name = "renderer-msg-trigger"
 const renderer_fun_call_msg_name = "renderer-fun-call-msg-trigger"
-class DefaultDevRenderer implements Renderer {
-
-    sendSync(channel: string, data: any): void {
-        console.log(channel, data);
-    }
-    send(channel: string, data: any): void {
-        console.log(channel, data);
-    }
-
-    invoke(channel: string, data: any): void {
-        return this.sendSync(channel, data);
-    }
-}
-function isNodeEnv(): boolean {
-    return typeof global !== "undefined"
-}
-let renderer: Renderer = new DefaultDevRenderer();
-function getElectronRenderer(){
-
-}
-
-
-
 
 /**
  * main/services/RendererAPI => main/services/controller
@@ -32,17 +8,9 @@ function getElectronRenderer(){
  */
 // const renderer_msg_name = "renderer-msg-trigger"
 export class BaseAppController {
-    private renderer: Renderer = new DefaultDevRenderer();
+    private renderer: Renderer = renderer;
     from: string = "main";
     constructor() {
-        this.initRenderer();
-    }
-    private initRenderer() {
-        // node环境
-        if (isNodeEnv()) {
-            const { ipcRenderer } = window.require("electron");
-            this.renderer = ipcRenderer;
-        }
     }
     constructorParams(type: String, data?: any) {
         return {

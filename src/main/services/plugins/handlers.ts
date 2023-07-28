@@ -10,12 +10,14 @@ import { stores_name } from "@/main/common/common_const";
 import { UIPluginHandler } from "./handler/UIPluginHandler";
 import { getPluginManager } from "../contronler";
 import { getStore } from "@/common/base/strore";
+import { InternalPluginHandler } from "./handler/InternalPluginHandler";
 const DH: PluginHandler = new DefaultUIPluginHandler();
 const handlers: PluginHandler[] = [
     new SystemAppHandler(),
     new CodePluginHandler(),
     new WebPluginHandler(),
     new UIPluginHandler(),
+    new InternalPluginHandler(),
 ];
 export function addHandler(handler: PluginHandler) {
     handlers.push(handler);

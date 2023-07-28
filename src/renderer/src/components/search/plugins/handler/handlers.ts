@@ -5,6 +5,7 @@ import { PluginHandler } from "@/common/core/PluginHandler";
 import { WebPluginHandler } from "./WebPluginHandler";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
 import { ThirdPlugin, ThirdPluginManager } from "@/common/core/plugins";
+import { InternalPluginHandler } from "./InternalPluginHandler";
 
 const handlers = [];
 
@@ -21,6 +22,7 @@ export function init(store) {
             new SystemAppHandler(store),
             new CodePluginHandler(store),
             new WebPluginHandler(store),
+            new InternalPluginHandler(store),
         ]);
     DH = new DefaultPluginHandler(store);
 }

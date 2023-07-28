@@ -26,23 +26,29 @@
         :currentSelect="currentSelect"
         @onClickPlugin="(e) => store.onClickPlugin(e)"
       ></result>
+      <div class="internal-plugin-container">
+        <component :is="Components[internalPluginName]" />
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import { isMacOS, isWindows } from '@renderer/utils/constants/common_const'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref, watch } from 'vue'
+import { ref } from 'vue'
+import market from '@renderer/components/search/plugins/market/index.vue'
 import search from './search.vue'
 import result from './result.vue'
 import { userStore } from './plugins/plugins_store'
 import _ from 'lodash'
 const store = userStore()
-const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboardFile } =
+const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboardFile,internalPluginName } =
   storeToRefs(store)
 const container = ref(null)
 const searchContainer = ref(null)
-
+const Components = {
+  market: market
+}
 </script>
 <style scoped lang="less">
 .drag-bar {

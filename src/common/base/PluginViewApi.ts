@@ -1,11 +1,13 @@
+import { PluginContainerLifeCycle, ThirdPlugin } from "../core/plugins";
 import { AppController } from "./AppController";
 import { BaseAppController } from "./BaseAppController";
 
 /**
  * 提供给插件使用的api
  */
-export class PluginViewApi extends BaseAppController {
+export class PluginViewApi extends BaseAppController implements PluginContainerLifeCycle {
     from: string = "plugin_view";
+    plugin: ThirdPlugin = null
     constructor() {
         super();
     }
@@ -17,4 +19,21 @@ export class PluginViewApi extends BaseAppController {
     public setPlaceholder(text: String) {
         this.sendSyncMessage("setPlaceholder", text);
     }
+
+    public loadPlugin(plugin: ThirdPlugin) {
+        this.plugin = plugin
+        console.log(`PluginViewApi loadPlugin ${plugin.name}`);
+    }
+
+    public unloadPlugin(plugin: ThirdPlugin) {
+        console.log(`PluginViewApi unloadPlugin ${plugin.name}`);
+        this.plugin = null
+    }
+
+    public getPluginMate(): ThirdPlugin {
+        return this.plugin
+    }
+
+
+    
 }

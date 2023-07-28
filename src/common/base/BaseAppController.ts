@@ -18,6 +18,14 @@ class DefaultDevRenderer implements Renderer {
 function isNodeEnv(): boolean {
     return typeof global !== "undefined"
 }
+let renderer: Renderer = new DefaultDevRenderer();
+function getElectronRenderer(){
+
+}
+
+
+
+
 /**
  * main/services/RendererAPI => main/services/controller
  * 发消息
@@ -39,7 +47,7 @@ export class BaseAppController {
     constructorParams(type: String, data?: any) {
         return {
             type: type,
-            data: data || {},
+            data: data,
             ext: {
                 from: this.from
             }

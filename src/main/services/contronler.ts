@@ -1,4 +1,4 @@
-import { BrowserView, Menu, dialog, shell } from "electron";
+import { BrowserView, Menu, app, dialog, shell } from "electron";
 import { CONFIGURE_DIR, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
@@ -353,4 +353,9 @@ export function showPopupMenu(options) {
     }
     let menu = Menu.buildFromTemplate(pluginMenu);
     menu.popup(options)
+}
+
+export function getPath(path: string): string {
+    // @ts-ignore
+    return  app.getPath(path)
 }

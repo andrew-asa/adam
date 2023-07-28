@@ -46,7 +46,7 @@ class RendererAPI {
 
     private async handle(event, arg) {
         const window = arg.winId ? BrowserWindow.fromId(arg.winId) : getStore(stores_name.app_main_window);
-        const data = arg.data || {};
+        const data = arg.data;
         const fn = this[arg.type] || this.handlers[arg.type];
         if (fn) {
             const rdata = await fn(data, window, event);

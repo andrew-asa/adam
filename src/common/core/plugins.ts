@@ -8,6 +8,19 @@ export interface PluginSettings {
      */
     closeCachePage?: boolean
 }
+
+export interface PluginContainerLifeCycle {
+    /**
+     * 加载插件
+     */
+    loadPlugin(plugin: ThirdPlugin)
+    /**
+     * 卸载插件
+     */
+    unloadPlugin(plugin: ThirdPlugin)
+}
+
+
 export interface PluginExtMessage {
     [key: string]: any
     /**
@@ -145,7 +158,7 @@ export interface ThirdPluginRunner extends ThirdPluginAdapter {
     /**
      * 卸载插件之前操作
      */
-    unloadMain(plugin: ThirdPlugin,ext:any): void
+    unloadMain(plugin: ThirdPlugin, ext: any): void
 
     /**
      * session的预处理文件

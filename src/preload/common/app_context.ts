@@ -1,10 +1,17 @@
 import { AppController } from '@/common/base/AppController'
+import { PluginDBController } from '@/common/base/PluginDBController'
 import { PluginViewApi } from '@/common/base/PluginViewApi'
 import * as action from '@/common/base/action'
+import { ThirdPlugin } from '@/common/core/plugins'
 const hooks = {}
+/**
+ * @type {AppController}
+ * 定义给插件用的接口
+ */
 export const ctx = {
   app: {
-    controller: new PluginViewApi()
+    controller: new PluginViewApi(),
+    // db: new PluginDBController()
   },
   plugin: {
     on(name: string, fn: Function) {
@@ -21,9 +28,27 @@ export const ctx = {
     },
     getHook(name: string) {
       return hooks[name]
-    }
+    },
+    _loadPlugin: loadPlugin,
+    _unloadPlugin: unloadPlugin
   },
   action: action
+}
+
+function loadPlugin(plugin: ThirdPlugin) {
+  console.log(`app_context loadPlugin ${plugin.name}`)
+  // 插件api设置状态
+  ctx.app.controller.loadPlugin(plugin)
+  // ctx.app.db.loadPlugin(plugin)
+  // 通知插件监听
+  ctx.plugin.trigger('PluginEnter', plugin.ext)
+  ctx.plugin.trigger('PluginReady', plugin.ext)
+}
+
+function unloadPlugin(plugin: ThirdPlugin) {
+  ctx.plugin.trigger('PluginOut', {})
+  ctx.app.controller.unloadPlugin(plugin)
+  // ctx.app.db.unloadPlugin(plugin)
 }
 
 export type Ctx = typeof ctx

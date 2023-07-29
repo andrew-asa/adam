@@ -16,7 +16,6 @@ export class DefaultPluginHandler implements PluginHandler {
     open(plugin: ThirdPlugin): void {
         this.updateCurrentPlugin(plugin, this.store)
         const cp = copyThirdPlugin(plugin)
-        // openPlugin(cp)
         ctx.app.controller.openPlugin(cp)
     }
     close(plugin: ThirdPlugin): void {
@@ -31,7 +30,11 @@ export class DefaultPluginHandler implements PluginHandler {
             store.setCurrentPlugin(plugin);
             store._setSearchValue("");
             store.setPlaceholder("");
-            store.setOptions([])
+            this.emptyOptions(store)
         }
+    }
+
+    emptyOptions(store: any): void {
+        store.setOptions([])
     }
 }

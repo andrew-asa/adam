@@ -18,7 +18,7 @@ interface PluginsState {
     /**
      * 内部插件名字
      */
-    internalPluginName:string;
+    internalPluginName: string;
 }
 export const userStore = defineStore({
     id: "plugins_store",
@@ -57,7 +57,7 @@ export const userStore = defineStore({
         clipboardFile: [],
         pageCount: 35,
         _init: false,
-        internalPluginName:''
+        internalPluginName: ''
     }),
     actions: {
         selectPlugin(plugin: ThirdPlugin) {
@@ -98,8 +98,8 @@ export const userStore = defineStore({
         addOption(option: any) {
             this.options.push(option);
         },
-        setOptions(options: any[]) {
-            this._showOptions(options);
+        setOptions(options: any[], autoCalPaneHeight: boolean = true) {
+            this._showOptions(options, autoCalPaneHeight);
             // this.options = options
         },
         /**
@@ -315,13 +315,15 @@ export const userStore = defineStore({
                 }
             }
         },
-        _showOptions(options, page = 0) {
+        _showOptions(options, autoCalPaneHeight: boolean = true, page: number = 0) {
             this.currentSelect = 0
-            if (options.length === 0 && this.options.length > 0) {
-                ctx.app.controller.setExpendHeight(60)
-            } else if (options.length > 0 && this.options.length === 0) {
-                // const h = this.options.length * 60 > 600 ? 600 : this.options.length * 60
-                ctx.app.controller.setExpendHeight(600)
+            if (autoCalPaneHeight) {
+                if (options.length === 0 && this.options.length > 0) {
+                    ctx.app.controller.setExpendHeight(60)
+                } else if (options.length > 0 && this.options.length === 0) {
+                    // const h = this.options.length * 60 > 600 ? 600 : this.options.length * 60
+                    ctx.app.controller.setExpendHeight(600)
+                }
             }
             this.options = []
             if (!_.isEmpty(options)) {

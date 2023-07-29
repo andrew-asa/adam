@@ -22,4 +22,8 @@ export class InternalPluginHandler extends DefaultPluginHandler {
         this.store.setInternalPluginName("")
         ctx.app.controller.setExpendHeight(60)
     }
+
+    emptyOptions(store: any): void {
+        store.setOptions([], false)
+    }
 }

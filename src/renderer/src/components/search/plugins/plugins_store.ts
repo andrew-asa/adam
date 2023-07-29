@@ -16,7 +16,7 @@ interface PluginsState {
     pageCount: number;
     _init: boolean;
     /**
-     * 内部插件名字
+     * 运行内部插件名字
      */
     internalPluginName: string;
 }

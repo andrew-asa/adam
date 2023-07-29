@@ -34,6 +34,10 @@ export class PluginViewApi extends BaseAppController implements PluginContainerL
         return this.plugin
     }
 
-
-    
+    getPluginName(): string {
+        if (this.plugin) {
+            return this.plugin.name
+        }
+        throw new Error("plugin state is null")
+    }
 }

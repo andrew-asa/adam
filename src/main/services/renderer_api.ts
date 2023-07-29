@@ -3,6 +3,8 @@ import * as controller from "./contronler";
 import { renderer_fun_call_msg_name, renderer_msg_name } from "@/common/common_const";
 import { stores_name } from "../common/common_const";
 import { getStore, registerStore } from "../../common/base/strore";
+import { DBServices } from "./db/DBServices";
+import { ServicesProvider } from "./types";
 
 /**
  * 提供给前端的接口
@@ -10,18 +12,38 @@ import { getStore, registerStore } from "../../common/base/strore";
  */
 class RendererAPI {
     handlers = {};
+    services: { [key: string]: ServicesProvider } = {};
     public setup() {
         this.registerMsgListener()
         this.registerFunCallMsgListener()
+
+        this.initDefaultServices()
+
         this.initDefaultHandlers()
         registerStore(stores_name.app_renderer_api, this)
     }
 
+    private initDefaultServices() {
+        let dbpath = controller.getPath('userData')
+        this.services["dbservice"] = new DBServices(dbpath)
+    }
+
     public initDefaultHandlers() {
+
         Object.keys(controller).forEach((key) => {
             if (typeof controller[key] === "function") {
                 this.handlers[key] = controller[key]
             }
+        })
+
+        Object.keys(this.services).forEach((key) => {
+            let hs: { [key: string]: Function } = this.services[key].getProviders();
+            this.registerHandlers(hs)
+        })
+    }
+    public registerHandlers(hs: { [key: string]: Function }) {
+        Object.keys(hs).forEach((key) => {
+            this.registerHandler(key, hs[key])
         })
     }
     public registerHandler(name: string, fun: Function) {

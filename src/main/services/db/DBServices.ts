@@ -1,9 +1,8 @@
 import path from "path";
 import fs from "fs";
 import PouchDB from "pouchdb";
-import { Doc, DocRes } from "./types";
-import { ServicesProvider } from "../types";
 import { extend } from "@/common/common_utils";
+import { DocRes, ServicesProvider } from "@/common/core/types";
 export class DBServices implements ServicesProvider {
   readonly docMaxByteLength;
   readonly docAttachmentMaxByteLength;

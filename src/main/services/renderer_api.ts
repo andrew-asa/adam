@@ -2,9 +2,10 @@ import { BrowserWindow, ipcMain } from "electron";
 import * as controller from "./contronler";
 import { renderer_fun_call_msg_name, renderer_msg_name } from "@/common/common_const";
 import { stores_name } from "../common/common_const";
-import { getStore, registerStore } from "../../common/base/strore";
+import { getStore, registerStore } from "@/common/base/strore";
+import { ServicesProvider } from "@/common/core/types";
+
 import { DBServices } from "./db/DBServices";
-import { ServicesProvider } from "./types";
 
 /**
  * 提供给前端的接口

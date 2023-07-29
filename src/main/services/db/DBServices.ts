@@ -32,10 +32,12 @@ export class DBServices implements ServicesProvider {
   }
 
   private createDocRes(data: { name: string, prefex?: string[] }, dbRes: any): DocRes {
+    delete dbRes._id
+    delete dbRes._rev
     return {
       name: data.name,
       ok: true,
-      queryResult: dbRes
+      data: dbRes
     }
   }
 
@@ -61,9 +63,9 @@ export class DBServices implements ServicesProvider {
     try {
       const s = extend({}, data.doc, { _id: id });
       const result: any = await this.pouchDB.put(s);
-      return this.createDocRes(data, result)
+      return this.createDocRes(data, {})
     } catch (e: any) {
-      return this.createDocErrorRes(data, e.message)
+      return this.createDocErrorRes(data, e.toString())
     }
   }
   /**
@@ -75,16 +77,16 @@ export class DBServices implements ServicesProvider {
       prefex?: string[]
     }): Promise<DocRes> {
     try {
-
-      const doc = await this.get(data);
-      if (doc) {
-        let ret = await this.pouchDB.remove(doc.queryResult._id);
-        return this.createDocRes(data, ret)
+      let id = this.getDocID(data);
+      const ret_doc = await this.pouchDB.get(id);
+      if (ret_doc) {
+        let ret = await this.pouchDB.remove(ret_doc);
+        return this.createDocRes(data, {})
       } else {
-        return this.createDocErrorRes(data, `not exist item ${name}`)
+        return this.createDocErrorRes(data, `not exist item ${data.name}`)
       }
     } catch (e: any) {
-      return this.createDocErrorRes(data, e.message)
+      return this.createDocErrorRes(data, e.toString())
     }
   }
   /**
@@ -103,7 +105,7 @@ export class DBServices implements ServicesProvider {
         // data.doc._rev = ret_doc._rev
         const s = extend(true, {}, ret_doc, data.doc, { _id: id });
         let ret = await this.pouchDB.put(s);
-        return this.createDocRes(data, ret)
+        return this.createDocRes(data, {})
       } else {
         return this.createDocErrorRes(data, `not exist item ${data.name}`)
       }

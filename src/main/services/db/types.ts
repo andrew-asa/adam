@@ -14,7 +14,7 @@ export interface DocRes {
     name: string;
     ok?: boolean;
     reason?: string;
-    queryResult?: any
+    data?: any
 }
 
 export interface DBError {

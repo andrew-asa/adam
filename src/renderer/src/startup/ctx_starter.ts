@@ -9,28 +9,16 @@ import { AppController } from "@/common/base/AppController"
 import { getStore, registerStore } from "@/common/base/strore"
 import { SearchController } from "../components/search/SearchController"
 import { ThirdPlugin } from "@/common/core/plugins"
+import { AppDBServices } from "@/common/base/db/AppDBServices"
 const hooks = {}
 const empty_fun = () => {
 }
-function loadPlugin(plugin: ThirdPlugin) {
-    console.log(`load internal Plugin ${plugin.name}`)
-    // 插件api设置状态
-    // ctx.app.controller.loadPlugin(plugin)
-    // ctx.app.db.loadPlugin(plugin)
-    // 通知插件监听
-    ctx.plugin.trigger('PluginEnter', plugin.ext)
-    ctx.plugin.trigger('PluginReady', plugin.ext)
-}
 
-function unloadPlugin(plugin: ThirdPlugin) {
-    ctx.plugin.trigger('PluginOut', {})
-    // ctx.app.controller.unloadPlugin(plugin)
-    // ctx.app.db.unloadPlugin(plugin)
-}
 const _ctx = {
     app: {
         controller: new AppController(),
-        search: new SearchController()
+        search: new SearchController(),
+        db: new AppDBServices(),
     },
     hook,
     constant: {
@@ -49,28 +37,7 @@ const _ctx = {
         registerStore: registerStore,
         getStore: getStore
     },
-    /**
-     * 供内部插件使用
-     */
-    plugin: {
-        on(name: string, fn: Function) {
-            hooks[name] = fn
-        },
-        trigger(name: string, ...args: any[]) {
-            const fn = hooks[name]
-            if (fn) {
-                fn(...args)
-            }
-        },
-        getHooks() {
-            return hooks
-        },
-        getHook(name: string) {
-            return hooks[name]
-        },
-        _loadPlugin: loadPlugin,
-        _unloadPlugin: unloadPlugin
-    },
+
 }
 export const ctx = Object.freeze(_ctx)
 export class ctx_starter implements starter {

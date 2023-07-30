@@ -1,3 +1,4 @@
+import { services_name } from "@/common/common_const";
 import os from "os";
 import path from "path";
 export const isLinux = process.platform === "linux";
@@ -82,6 +83,15 @@ export const stores_name = {
    */
   app: "app",
   main_app: "main_app",
+  /**
+   * service提供者
+   */
+  services: {
+    /**
+     * 数据库
+     */
+    db: "services_db",
+  }
 }
 /**
  * 全局函数名字

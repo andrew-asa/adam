@@ -79,36 +79,5 @@ export class BaseAppController {
         return this.invokeMessage("showPopupMenu", options || {});
     }
 
-    getPluginName(): string {
-        return "main_window";
-    }
-
-    dbAdd(name, data: any) {
-        return this.invokeMessage("dbAdd", {
-            name: name,
-            doc: data,
-            prefex: [this.getPluginName()],
-        });
-    }
-
-    dbDelete(name) {
-        return this.invokeMessage("dbDelete", {
-            name: name,
-            prefex: [this.getPluginName()],
-        });
-    }
-    dbUpdate(name, data: any) {
-        return this.invokeMessage("dbUpdate", {
-            name: name,
-            doc: data,
-            prefex: [this.getPluginName()],
-        });
-    }
-
-    dbGet(name) {
-        return this.invokeMessage("dbGet", {
-            name: name,
-            prefex: [this.getPluginName()],
-        });
-    }
+    
 }

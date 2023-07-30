@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain } from "electron";
 import * as controller from "./contronler";
-import { renderer_fun_call_msg_name, renderer_msg_name } from "@/common/common_const";
+import { renderer_fun_call_msg_name, renderer_msg_name, services_name } from "@/common/common_const";
 import { stores_name } from "../common/common_const";
 import { getStore, registerStore } from "@/common/base/strore";
 import { ServicesProvider } from "@/common/core/types";
@@ -26,7 +26,8 @@ class RendererAPI {
 
     private initDefaultServices() {
         let dbpath = controller.getPath('userData')
-        this.services["dbservice"] = new DBServices(dbpath)
+        this.services[services_name.db_services] = new DBServices(dbpath)
+        registerStore(stores_name.services.db, this.services[services_name.db_services])
     }
 
     public initDefaultHandlers() {
@@ -35,11 +36,6 @@ class RendererAPI {
             if (typeof controller[key] === "function") {
                 this.handlers[key] = controller[key]
             }
-        })
-
-        Object.keys(this.services).forEach((key) => {
-            let hs: { [key: string]: Function } = this.services[key].getProviders();
-            this.registerHandlers(hs)
         })
     }
     public registerHandlers(hs: { [key: string]: Function }) {
@@ -69,15 +65,22 @@ class RendererAPI {
 
     private async handle(event, arg) {
         const window = arg.winId ? BrowserWindow.fromId(arg.winId) : getStore(stores_name.app_main_window);
-        const data = arg.data;
-        const fn = this[arg.type] || this.handlers[arg.type];
-        if (fn) {
-            const rdata = await fn(data, window, event);
-            event.returnValue = rdata;
-            return rdata
+        const data = arg.data || {};
+        const option = arg.option || {};
+        const type = arg.type
+        let fn;
+        let rdata
+        // 指定services
+        if (option.services && this.services[option.services][type]) {
+            rdata = await this.services[option.services][type](data, window, event);
+        } else if (this[arg.type] || this.handlers[type]) {
+            fn = this[arg.type] || this.handlers[type];
+            rdata = await fn(data, window, event);
         } else {
-            console.log(`RendererAPI 没有找到对应的方法！${arg.type}`);
+            console.log(`RendererAPI 没有找到对应的方法！${arg.type} option: ${JSON.stringify(option)}`);
         }
+        event.returnValue = rdata;
+        return rdata
     }
 }
 export default new RendererAPI()

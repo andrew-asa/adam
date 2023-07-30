@@ -161,3 +161,13 @@ export const DECODE_KEY = {
     BracketRight: "]",
     Quote: "'",
 };
+
+/**
+ * 服务提供者名字
+ */
+export const services_name = {
+    /**
+     * db 管理类
+     */
+    db_services: "db_services",
+}

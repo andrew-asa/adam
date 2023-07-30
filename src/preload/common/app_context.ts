@@ -1,5 +1,4 @@
-import { AppController } from '@/common/base/AppController'
-import { PluginDBController } from '@/common/base/PluginDBController'
+import { PluginDBServices } from '@/common/base/db/PluginDBServices'
 import { PluginViewApi } from '@/common/base/PluginViewApi'
 import * as action from '@/common/base/action'
 import { ThirdPlugin } from '@/common/core/plugins'
@@ -11,7 +10,7 @@ const hooks = {}
 export const ctx = {
   app: {
     controller: new PluginViewApi(),
-    // db: new PluginDBController()
+    db: new PluginDBServices()
   },
   plugin: {
     on(name: string, fn: Function) {
@@ -39,7 +38,7 @@ function loadPlugin(plugin: ThirdPlugin) {
   console.log(`app_context loadPlugin ${plugin.name}`)
   // 插件api设置状态
   ctx.app.controller.loadPlugin(plugin)
-  // ctx.app.db.loadPlugin(plugin)
+  ctx.app.db.loadPlugin(plugin)
   // 通知插件监听
   ctx.plugin.trigger('PluginEnter', plugin.ext)
   ctx.plugin.trigger('PluginReady', plugin.ext)
@@ -48,7 +47,7 @@ function loadPlugin(plugin: ThirdPlugin) {
 function unloadPlugin(plugin: ThirdPlugin) {
   ctx.plugin.trigger('PluginOut', {})
   ctx.app.controller.unloadPlugin(plugin)
-  // ctx.app.db.unloadPlugin(plugin)
+  ctx.app.db.unloadPlugin(plugin)
 }
 
 export type Ctx = typeof ctx

@@ -2,11 +2,7 @@
  * 服务提供者
  */
 export interface ServicesProvider {
-    /**
-     * 服务提供
-     * @returns 服务 
-     */
-    getProviders(): { [key: string]: Function }
+    
 }
 
 

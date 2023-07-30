@@ -1,11 +1,11 @@
 import { AdamPlugin, ThirdPlugin } from "../core/plugins";
 import { BaseAppController } from "./BaseAppController";
 
-export class AppController extends BaseAppController{
+export class AppController extends BaseAppController {
     constructor() {
         super();
     }
-    
+
     /**
      * @description 前进
      */
@@ -43,7 +43,7 @@ export class AppController extends BaseAppController{
     public home() {
         this.sendMessage("home", {});
     }
-    
+
 
     public show() {
         this.sendMessage("show", {});

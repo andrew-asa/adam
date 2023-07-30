@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import PouchDB from "pouchdb";
+import pouchdbFind from 'pouchdb-find';
 import { extend } from "@/common/common_utils";
 import { DocRes, ServicesProvider } from "@/common/core/types";
 export class DBServices implements ServicesProvider {
@@ -21,6 +22,7 @@ export class DBServices implements ServicesProvider {
   init() {
     console.log(`DBServices init: ${this.defaultDbName}`);
     fs.existsSync(this.dbpath) || fs.mkdirSync(this.dbpath);
+    PouchDB.plugin(pouchdbFind);
     this.pouchDB = new PouchDB(this.defaultDbName, { auto_compaction: true });
   }
   private getDocID(data: { name: string, prefex?: string[] }): string {
@@ -40,11 +42,15 @@ export class DBServices implements ServicesProvider {
     }
   }
 
-  private createDocErrorRes(data: { name: string, prefex?: string[] }, reason: string): DocRes {
+  private createDocErrorRes(data: { name: string, prefex?: string[] }, reason: any): DocRes {
     return {
       name: data.name,
       ok: false,
-      reason: reason
+      data: reason.status ? extend({},
+        {
+          status: reason.status,
+          message: reason.message
+        }) : data.toString()
     }
   }
   /**
@@ -58,13 +64,12 @@ export class DBServices implements ServicesProvider {
     }
   ): Promise<DocRes> {
     let id = this.getDocID(data);
-    data.doc._id = id
     try {
       const s = extend({}, data.doc, { _id: id });
       const result: any = await this.pouchDB.put(s);
       return this.createDocRes(data, {})
     } catch (e: any) {
-      return this.createDocErrorRes(data, e.toString())
+      return this.createDocErrorRes(data, e)
     }
   }
   /**
@@ -78,20 +83,16 @@ export class DBServices implements ServicesProvider {
     try {
       let id = this.getDocID(data);
       const ret_doc = await this.pouchDB.get(id);
-      if (ret_doc) {
-        let ret = await this.pouchDB.remove(ret_doc);
-        return this.createDocRes(data, {})
-      } else {
-        return this.createDocErrorRes(data, `not exist item ${data.name}`)
-      }
+      let ret = await this.pouchDB.remove(ret_doc);
+      return this.createDocRes(data, {})
     } catch (e: any) {
-      return this.createDocErrorRes(data, e.toString())
+      return this.createDocErrorRes(data, e)
     }
   }
   /**
    * 改
    */
-  async updated(
+  async update(
     data: {
       name: string,
       prefex?: string[],
@@ -100,16 +101,36 @@ export class DBServices implements ServicesProvider {
     try {
       let id = this.getDocID(data);
       const ret_doc = await this.pouchDB.get(id);
-      if (ret_doc) {
-        // data.doc._rev = ret_doc._rev
-        const s = extend(true, {}, ret_doc, data.doc, { _id: id });
-        let ret = await this.pouchDB.put(s);
-        return this.createDocRes(data, {})
-      } else {
-        return this.createDocErrorRes(data, `not exist item ${data.name}`)
-      }
+      // data.doc._rev = ret_doc._rev
+      const s = extend(true, {}, ret_doc, data.doc, { _id: id });
+      let ret = await this.pouchDB.put(s);
+      return this.createDocRes(data, {})
     } catch (e: any) {
-      return this.createDocErrorRes(data, e.message)
+      return this.createDocErrorRes(data, e)
+    }
+  }
+  /**
+   * 有则更新，没则新建
+   */
+  async put(data: {
+    name: string,
+    prefex?: string[],
+    doc: any
+  }): Promise<DocRes> {
+    try {
+      let id = this.getDocID(data);
+      const ret_doc = await this.pouchDB.get(id);
+      // data.doc._rev = ret_doc._rev
+      const s = extend(true, {}, ret_doc, data.doc, { _id: id });
+      let ret = await this.pouchDB.put(s);
+      return this.createDocRes(data, {})
+    } catch (e: any) {
+      // 文档不存在
+      if (e.status === 404) {
+        return this.add(data)
+      } else {
+        return this.createDocErrorRes(data, e)
+      }
     }
   }
 
@@ -120,24 +141,43 @@ export class DBServices implements ServicesProvider {
     data: {
       name: string,
       prefex?: string[]
-    }): Promise<DocRes | null> {
+    }): Promise<DocRes> {
     let id = this.getDocID(data);
     try {
       let result = await this.pouchDB.get(id);
       return this.createDocRes(data, result)
-    } catch {
-      return null
+    } catch (e: any) {
+      if (e.status === 404) {
+        return this.createDocRes(data, {})
+      } else {
+        return this.createDocErrorRes(data, e)
+      }
     }
   }
 
-  getProviders(): { [key: string]: Function } {
-
-    return {
-      dbAdd: this.add.bind(this),
-      dbDelete: this.delete.bind(this),
-      dbUpdate: this.updated.bind(this),
-      dbGet: this.get.bind(this),
+  async findStrartWithName(
+    data: {
+      name: string,
+      prefex?: string[]
     }
+  ): Promise<DocRes> {
+    try {
+      let id = this.getDocID(data);
+      let result = await this.pouchDB.find({
+        selector: { _id: { $gte: id } }
+      });
+      return this.createDocRes(data, result)
+    } catch (e: any) {
+      return this.createDocErrorRes(data, e)
+    }
+  }
+
+  async getAllDocs(option: {
+    include_docs?: boolean,
+    [key: string]: any
+  }): Promise<DocRes> {
+    let result = await this.pouchDB.allDocs(option);
+    return this.createDocRes({ name: "all_docs" }, result)
   }
 }
 

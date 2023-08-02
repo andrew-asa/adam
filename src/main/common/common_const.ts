@@ -90,7 +90,9 @@ export const stores_name = {
     /**
      * 数据库
      */
-    db: "services_db",
+    db: "store_db_services",
+    electron: "store_electron_services",
+    plugin: "store_plugin_services",
   }
 }
 /**

@@ -1,16 +1,23 @@
-import { PluginDBServices } from '@/common/base/db/PluginDBServices'
+import { PluginDBServices } from '@/common/base/services/db/PluginDBServices'
 import { PluginViewApi } from '@/common/base/PluginViewApi'
 import * as action from '@/common/base/action'
 import { ThirdPlugin } from '@/common/core/plugins'
+import { extend } from '@/common/common_utils'
+import { PluginElectronServices } from '@/common/base/services/electron/PluginElectronServices'
+import axios from 'axios'
 const hooks = {}
 /**
  * @type {AppController}
  * 定义给插件用的接口
  */
+const services = {}
+
+// services[services_name.electron_services] = new ElectronServices()
 export const ctx = {
   app: {
     controller: new PluginViewApi(),
-    db: new PluginDBServices()
+    db: new PluginDBServices(),
+
   },
   plugin: {
     on(name: string, fn: Function) {
@@ -31,7 +38,16 @@ export const ctx = {
     _loadPlugin: loadPlugin,
     _unloadPlugin: unloadPlugin
   },
-  action: action
+  action: action,
+  utils: {
+    extend: extend
+  },
+  services: {
+    electron: new PluginElectronServices()
+  },
+  lib: {
+    axios:axios
+  }
 }
 
 function loadPlugin(plugin: ThirdPlugin) {

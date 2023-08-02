@@ -5,6 +5,7 @@ interface PluginsMarketState {
     localPlugins: Array<ThirdPlugin>,
     recommendPlugins: Array<string>,
     newPlugins: Array<string>,
+    installeds: Array<ThirdPlugin>,
 }
 import { total_plugins, recomend_plugins, new_plugins } from '../action/fake/apps';
 import { ThirdPlugin } from "@/common/core/plugins";
@@ -16,10 +17,14 @@ export const userStore = defineStore({
         /**
          * 插件总数
          */
-        totalPlugins: total_plugins as Array<ThirdPlugin>,
+        totalPlugins: [],
         localPlugins: [],
-        recommendPlugins: recomend_plugins,
-        newPlugins: new_plugins,
+        recommendPlugins: [],
+        newPlugins: [],
+        installeds: [],
+        // totalPlugins: total_plugins as Array<ThirdPlugin>,
+        // recommendPlugins: recomend_plugins,
+        // newPlugins: new_plugins,
     }),
     actions: {
         /**

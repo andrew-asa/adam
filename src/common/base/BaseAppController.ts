@@ -78,6 +78,4 @@ export class BaseAppController {
     public showPopupMenu(options) {
         return this.invokeMessage("showPopupMenu", options || {});
     }
-
-    
 }

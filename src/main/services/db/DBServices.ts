@@ -24,15 +24,23 @@ export class DBServices implements ServicesProvider {
     fs.existsSync(this.dbpath) || fs.mkdirSync(this.dbpath);
     PouchDB.plugin(pouchdbFind);
     this.pouchDB = new PouchDB(this.defaultDbName, { auto_compaction: true });
+    // try {
+    //   this.pouchDB.info();
+    //   this.pouchDB.createIndex({
+    //     index: { fields: ['_id'] }
+    //   })
+    // } catch (e) {
+    //   console.log(e);
+    // }
   }
-  private getDocID(data: { name: string, prefex?: string[] }): string {
-    if (data.prefex && data.prefex.length) {
-      return `${data.prefex.join("/")}/${data.name}`
+  private getDocID(data: { name: string, prefix?: string[] }): string {
+    if (data.prefix && data.prefix.length) {
+      return `${data.prefix.join("_")}_${data.name}`
     }
     return data.name
   }
 
-  private createDocRes(data: { name: string, prefex?: string[] }, dbRes: any): DocRes {
+  private createDocRes(data: { name: string, prefix?: string[] }, dbRes: any): DocRes {
     delete dbRes._id
     delete dbRes._rev
     return {
@@ -42,7 +50,7 @@ export class DBServices implements ServicesProvider {
     }
   }
 
-  private createDocErrorRes(data: { name: string, prefex?: string[] }, reason: any): DocRes {
+  private createDocErrorRes(data: { name: string, prefix?: string[] }, reason: any): DocRes {
     return {
       name: data.name,
       ok: false,
@@ -59,7 +67,7 @@ export class DBServices implements ServicesProvider {
   async add(
     data: {
       name: string,
-      prefex?: string[],
+      prefix?: string[],
       doc: any,
     }
   ): Promise<DocRes> {
@@ -78,7 +86,7 @@ export class DBServices implements ServicesProvider {
   async delete(
     data: {
       name: string,
-      prefex?: string[]
+      prefix?: string[]
     }): Promise<DocRes> {
     try {
       let id = this.getDocID(data);
@@ -95,7 +103,7 @@ export class DBServices implements ServicesProvider {
   async update(
     data: {
       name: string,
-      prefex?: string[],
+      prefix?: string[],
       doc: any
     }): Promise<DocRes> {
     try {
@@ -114,7 +122,7 @@ export class DBServices implements ServicesProvider {
    */
   async put(data: {
     name: string,
-    prefex?: string[],
+    prefix?: string[],
     doc: any
   }): Promise<DocRes> {
     try {
@@ -140,7 +148,7 @@ export class DBServices implements ServicesProvider {
   async get(
     data: {
       name: string,
-      prefex?: string[]
+      prefix?: string[]
     }): Promise<DocRes> {
     let id = this.getDocID(data);
     try {
@@ -158,13 +166,15 @@ export class DBServices implements ServicesProvider {
   async findStrartWithName(
     data: {
       name: string,
-      prefex?: string[]
+      prefix?: string[]
     }
   ): Promise<DocRes> {
     try {
       let id = this.getDocID(data);
       let result = await this.pouchDB.find({
-        selector: { _id: { $gte: id } }
+        selector: {
+          _id: { $regex: `'^${id}'` }
+        }
       });
       return this.createDocRes(data, result)
     } catch (e: any) {

@@ -1,5 +1,5 @@
 import { services_name } from "@/common/common_const";
-import { invokeMessage } from "../Renderer";
+import { invokeMessage } from "@/common/base/Renderer";
 
 /**
  * 数据库控制器
@@ -16,7 +16,7 @@ export class BaseDBServices {
         return this.invoke("add", {
             name: name,
             doc: data,
-            prefex: [this.getPluginName()],
+            prefix: [this.getPluginName()],
         });
     }
 
@@ -24,28 +24,28 @@ export class BaseDBServices {
         return this.invoke("put", {
             name: name,
             doc: data,
-            prefex: [this.getPluginName()],
+            prefix: [this.getPluginName()],
         });
     }
 
     delete(name) {
         return this.invoke("delete", {
             name: name,
-            prefex: [this.getPluginName()],
+            prefix: [this.getPluginName()],
         });
     }
     update(name, data: any) {
         return this.invoke("update", {
             name: name,
             doc: data,
-            prefex: [this.getPluginName()],
+            prefix: [this.getPluginName()],
         });
     }
 
     get(name) {
         return this.invoke("get", {
             name: name,
-            prefex: [this.getPluginName()],
+            prefix: [this.getPluginName()],
         });
     }
 

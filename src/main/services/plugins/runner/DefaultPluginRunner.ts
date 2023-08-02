@@ -33,7 +33,7 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
                 // view.webContents.openDevTools();
                 // this.triggerPluginHooks(view, 'PluginEnter', ext);
                 // this.triggerPluginHooks(view, 'PluginReady', ext);
-                this.notifierPluginLoad(view, plugin, ext);
+                this.notifierPluginLoad(view, plugin);
             });
             //修复请求跨域问题
             view.webContents.session.webRequest.onBeforeSendHeaders(

@@ -15,5 +15,6 @@ export class SystemAppHandler extends DefaultPluginHandler {
         this.store._setSearchValue("");
         const cp = copyThirdPlugin(plugin)
         ctx.app.controller.openPlugin(cp)
+        ctx.services.plugin.openPlugin(cp)
     }
 }

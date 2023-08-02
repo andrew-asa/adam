@@ -17,11 +17,13 @@ export class DefaultPluginHandler implements PluginHandler {
         this.updateCurrentPlugin(plugin, this.store)
         const cp = copyThirdPlugin(plugin)
         ctx.app.controller.openPlugin(cp)
+        ctx.services.plugin.openPlugin(cp)
     }
     close(plugin: ThirdPlugin): void {
         const cp = copyThirdPlugin(plugin)
         ctx.app.controller.closePlugin(cp)
         this.store.removeCurrentPlugin()
+        ctx.services.plugin.closePlugin(cp)
     }
     updateCurrentPlugin(plugin: ThirdPlugin, store: any): void {
         let setCurrentSelect = _.findIndex(store.options, plugin)

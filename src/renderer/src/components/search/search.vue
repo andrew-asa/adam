@@ -105,7 +105,8 @@ const keydown = (e) => {
 const showSeparate = () => {
   let hasPlugin = !!(props.currentPlugin && props.currentPlugin.pluginName)
   ctx.app.controller.showPopupMenu({
-    hasPlugin: hasPlugin
+    hasPlugin: hasPlugin,
+    pluginType: props.currentPlugin.pluginType
   })
 }
 

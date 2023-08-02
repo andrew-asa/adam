@@ -170,4 +170,12 @@ export const services_name = {
      * db 管理类
      */
     db_services: "db_services",
+    /**
+     * 提供electron相关操作
+     */
+    electron_services: "electron_services",
+    /**
+     * 插件相关
+     */
+    plugin_services: "plugin_services",
 }

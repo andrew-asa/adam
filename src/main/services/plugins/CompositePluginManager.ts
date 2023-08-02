@@ -7,7 +7,13 @@ import { PLUGINS_INSTALL_DIR } from "@/main/common/common_const";
 import { parseAppPlugin, parseInstallPlugin } from "./utils/plugin_utils";
 
 export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRunner {
-    private plugins: ThirdPlugin[] = [];
+
+    // 系统app
+    private apps: ThirdPlugin[] = [];
+    // 已经安装
+    private installed: ThirdPlugin[] = []
+    // 默认插件
+    private default_plugins: ThirdPlugin[] = []
     private pms: ThirdPluginManager[] = []
     private prs: ThirdPluginRunner[] = []
     private default_plugin_runner: ThirdPluginRunner = new DefaultPluginRunner();
@@ -22,12 +28,12 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
     }
 
     initPlugins(): void {
-        this.plugins.push(...default_internal_plugin);
-        this.plugins.push(...default_plugin);
+        this.default_plugins.push(...default_internal_plugin);
+        this.default_plugins.push(...default_plugin);
         const installPlugin: ThirdPlugin[] = parseInstallPlugin(PLUGINS_INSTALL_DIR)
-        this.plugins.push(...installPlugin);
+        this.installed.push(...installPlugin);
         const apps = parseAppPlugin();
-        this.plugins.push(...apps);
+        this.apps.push(...apps);
     }
 
     needHandle(plugin: ThirdPlugin): boolean {
@@ -42,7 +48,7 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
     }
 
     listAllPlugin(): ThirdPlugin[] {
-        return this.plugins;
+        return [...this.default_plugins, ...this.apps, ...this.installed];
     }
 
     /**
@@ -50,7 +56,7 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
      */
     getPluginMate(name: string): ThirdPlugin | undefined {
 
-        return this.plugins.find(p => p.name === name)
+        return this.default_plugins.find(p => p.name === name) || this.apps.find(p => p.name === name) || this.installed.find(p => p.name === name);
     }
 
     getThirdPluginRunner(plugin: ThirdPlugin): ThirdPluginRunner {
@@ -77,5 +83,4 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
     unloadMain(plugin: ThirdPlugin, ext: any): void {
         this.getThirdPluginRunner(plugin).unloadMain(plugin, ext)
     }
-
 }

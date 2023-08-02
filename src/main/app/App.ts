@@ -36,6 +36,7 @@ export class App {
                     console.log('app ' + e)
                 })
             })
+            
         }
     }
     beforeReady() {
@@ -97,6 +98,10 @@ export class App {
         app.on('browser-window-created', (_, window) => {
             optimizer.watchWindowShortcuts(window)
         })
+
+        
+          
+                    
     }
     onQuit() {
         app.on("window-all-closed", () => {

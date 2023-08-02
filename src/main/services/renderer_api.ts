@@ -6,6 +6,9 @@ import { getStore, registerStore } from "@/common/base/strore";
 import { ServicesProvider } from "@/common/core/types";
 
 import { DBServices } from "./db/DBServices";
+import { ElectronServices } from "./electron/ElectronServices";
+import { services } from "./contronler";
+import { PluginServices } from "./plugins/PluginServices";
 
 /**
  * 提供给前端的接口
@@ -25,9 +28,21 @@ class RendererAPI {
     }
 
     private initDefaultServices() {
+        this.services = services
         let dbpath = controller.getPath('userData')
-        this.services[services_name.db_services] = new DBServices(dbpath)
-        registerStore(stores_name.services.db, this.services[services_name.db_services])
+        // this.services[services_name.db_services] = new DBServices(dbpath)
+        // this.services[services_name.electron_services] = new ElectronServices()
+        // registerStore(stores_name.services.db, this.services[services_name.db_services])
+        this.registerServices(services_name.db_services, new DBServices(dbpath), stores_name.services.db)
+        this.registerServices(services_name.electron_services, new ElectronServices(), stores_name.services.electron)
+        this.registerServices(services_name.plugin_services, new PluginServices(), stores_name.services.plugin)
+    }
+
+    private registerServices(serviceName: string, services: ServicesProvider, storeName?: string) {
+        this.services[serviceName] = services
+        if (storeName) {
+            registerStore(storeName, services)
+        }
     }
 
     public initDefaultHandlers() {

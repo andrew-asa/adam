@@ -9,7 +9,9 @@ import { AppController } from "@/common/base/AppController"
 import { getStore, registerStore } from "@/common/base/strore"
 import { SearchController } from "../components/search/SearchController"
 import { ThirdPlugin } from "@/common/core/plugins"
-import { AppDBServices } from "@/common/base/db/AppDBServices"
+import { AppDBServices } from "@/common/base/services/db/AppDBServices"
+import { ElectronServices } from "@/common/base/services/electron/ElectronServices"
+import { PluginServices } from "@/common/base/services/plugin/PluginServices"
 const hooks = {}
 const empty_fun = () => {
 }
@@ -32,6 +34,8 @@ const _ctx = {
     },
     services: {
         switchToRoute: switchToRoute,
+        electron:new ElectronServices(),
+        plugin:new PluginServices(),
     },
     store: {
         registerStore: registerStore,

@@ -1,4 +1,4 @@
-import { PluginContainerLifeCycle, ThirdPlugin } from "../../core/plugins";
+import { PluginContainerLifeCycle, ThirdPlugin } from "@/common/core/plugins";
 import { BaseDBServices } from "./BaseDBServices";
 
 export class PluginDBServices extends BaseDBServices implements PluginContainerLifeCycle {
@@ -10,7 +10,7 @@ export class PluginDBServices extends BaseDBServices implements PluginContainerL
         this.pluginName = plugin.name
     }
     unloadPlugin(plugin: ThirdPlugin) {
-        this.pluginName = null
+        this.pluginName = ""
     }
 
 

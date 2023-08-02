@@ -1,4 +1,4 @@
-import { BrowserView, Menu, app, dialog, shell } from "electron";
+import { BrowserView, Menu, app, clipboard, dialog, shell } from "electron";
 import { CONFIGURE_DIR, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
@@ -222,6 +222,7 @@ import { openFile } from "./appsearch";
 import { CompositePluginManager } from "./plugins/CompositePluginManager";
 import { BrowserWindow } from "electron/main";
 import { DECODE_KEY } from "@/common/common_const";
+import { ServicesProvider } from "@/common/core/types";
 /**
  * 
  * 打开插件
@@ -318,18 +319,20 @@ export async function openFolderDialog() {
     });
 }
 
-
+function hasPluginAndNoIternal(options) {
+    return options.hasPlugin && options.pluginType !== 'internal'
+}
 export function showPopupMenu(options) {
 
     let pluginMenu: any = [
         {
             label: '开发者工具',
             click: () => {
-                options.hasPlugin ? openCurrentPluginConsole() : openConsole()
+                hasPluginAndNoIternal(options) ? openCurrentPluginConsole() : openConsole()
             }
         }
     ]
-    if (options.hasPlugin) {
+    if (hasPluginAndNoIternal(options)) {
         pluginMenu = pluginMenu.concat([{
             label: '刷新插件',
             click: refreshCurrentPluginView
@@ -357,5 +360,12 @@ export function showPopupMenu(options) {
 
 export function getPath(path: string): string {
     // @ts-ignore
-    return  app.getPath(path)
+    return app.getPath(path)
 }
+
+export function copyText(text: string) {
+    clipboard.writeText(text);
+}
+
+
+export const services: { [key: string]: ServicesProvider } = {}

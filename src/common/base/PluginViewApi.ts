@@ -6,7 +6,7 @@ import { BaseAppController } from "./BaseAppController";
  */
 export class PluginViewApi extends BaseAppController implements PluginContainerLifeCycle {
     from: string = "plugin_view";
-    plugin: ThirdPlugin = null
+    plugin: ThirdPlugin | null = null
     constructor() {
         super();
     }
@@ -29,7 +29,7 @@ export class PluginViewApi extends BaseAppController implements PluginContainerL
         this.plugin = null
     }
 
-    public getPluginMate(): ThirdPlugin {
+    public getPluginMate(): ThirdPlugin | null {
         return this.plugin
     }
 }

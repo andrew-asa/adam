@@ -63,6 +63,7 @@ export function extend(...targets) {
 
     // extend jQuery itself if only one argument is passed
     if (length === i) {
+        // @ts-ignore
         target = this;
         --i;
     }

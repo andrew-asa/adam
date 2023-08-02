@@ -126,7 +126,7 @@ export const userStore = defineStore({
 
         initOptions() {
             if (!this._init) {
-                ctx.app.controller.getPlugins().then((data) => {
+                ctx.services.plugin.getPlugins().then((data) => {
                     this.setPlugins(data);
                     this._init = true;
                     console.log(`initOptions done`);

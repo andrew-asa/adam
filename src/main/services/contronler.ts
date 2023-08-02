@@ -1,7 +1,11 @@
-import { BrowserView, Menu, app, clipboard, dialog, shell } from "electron";
+import { BrowserView, BrowserWindow, Menu, app, clipboard, dialog, shell } from "electron";
 import { CONFIGURE_DIR, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
+import { getStore } from "@/common/base/strore";
+import { DECODE_KEY } from "@/common/common_const";
+import { ServicesProvider } from "@/common/core/types";
+import { CompositePluginManager } from "./plugins/CompositePluginManager";
 
 /**
  * 打开控制台
@@ -213,52 +217,7 @@ export function setExpendHeight({ height }, win) {
     }
 }
 
-/**
- * 打开插件
- */
-import { openPlugin as op, closePlugin as cl } from "@/main/services/plugins/handlers";
-import { getStore } from "../../common/base/strore";
-import { openFile } from "./appsearch";
-import { CompositePluginManager } from "./plugins/CompositePluginManager";
-import { BrowserWindow } from "electron/main";
-import { DECODE_KEY } from "@/common/common_const";
-import { ServicesProvider } from "@/common/core/types";
-/**
- * 
- * 打开插件
- */
-export function openPlugin({ plugin, ext }) {
-    op(plugin, ext)
-}
-/**
- * 关闭插件
- */
-export function closePlugin({ plugin }) {
-    cl(plugin)
-}
 
-/**
- * 获取所有插件
- */
-export function getPlugins() {
-    return getPluginManager().listAllPlugin()
-}
-
-
-const pluginManager: CompositePluginManager = new CompositePluginManager()
-/**
- * 安装插件
- */
-export function installPlugin({ plugin }) {
-    pluginManager.install(plugin)
-}
-
-/**
- * 获取插件管理器
- */
-export function getPluginManager(): CompositePluginManager {
-    return pluginManager
-}
 
 /**
  * 当前插件输入框文本变化
@@ -365,6 +324,9 @@ export function getPath(path: string): string {
 
 export function copyText(text: string) {
     clipboard.writeText(text);
+}
+export function getPluginManager(): CompositePluginManager {
+    return getStore(stores_name.services.plugin).getPluginManager()
 }
 
 

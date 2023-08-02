@@ -50,7 +50,7 @@ export const userStore = defineStore({
             if (el) {
                 // ctx.app.controller.installPlugin(plugin)
                 const cp = copyThirdPlugin(plugin)
-                 ctx.app.controller.installPlugin(cp).then(() => {
+                 ctx.services.plugin.installPlugin(cp).then(() => {
                      el.isdownload=true
                  })
             }

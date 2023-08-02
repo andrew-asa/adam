@@ -56,20 +56,4 @@ export class AppController extends BaseAppController {
     public removeAllPluginView() {
         this.sendMessage("removeAllPluginView", {});
     }
-
-    public openPlugin(plugin: AdamPlugin) {
-        return this.sendMessage("openPlugin", { plugin });
-    }
-
-    public closePlugin(plugin: AdamPlugin) {
-        return this.sendMessage("closePlugin", { plugin });
-    }
-
-    public async getPlugins() {
-        return this.invokeMessageSync("getPlugins", {});
-    }
-
-    public async installPlugin(plugin: ThirdPlugin) {
-        return this.invokeMessageSync("installPlugin", { plugin });
-    }
 }

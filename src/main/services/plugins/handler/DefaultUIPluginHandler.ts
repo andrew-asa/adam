@@ -5,7 +5,7 @@ import { default_plugin_window_height, default_window_height, stores_name } from
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { BrowserView, BrowserWindow, Session, session } from "electron";
 import { LRUCache } from "@/common/base/LRUCache";
-import { getPluginManager, setExpendHeight } from "../../contronler";
+import { setExpendHeight } from "../../contronler";
 import { closeCachePage } from "@/common/plugin/plugin_meta_utils";
 
 export class DefaultUIPluginHandler extends AbstractPluginHandler implements PluginHandler {
@@ -58,11 +58,14 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
     }
 
     /**
+     * @TODO
      * 是否是需要缓存插件
      */
     isCloseCachePagePlugin(plugin: ThirdPlugin): boolean {
-        const totalMetaData = getPluginManager().getPluginMate(plugin.name)
-        return closeCachePage(totalMetaData)
+        // const totalMetaData = getPluginManager().getPluginMate(plugin.name)
+        // return closeCachePage(totalMetaData)
+        return false
+        
     }
 
 

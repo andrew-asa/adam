@@ -16,12 +16,12 @@ export class DefaultPluginHandler implements PluginHandler {
     open(plugin: ThirdPlugin): void {
         this.updateCurrentPlugin(plugin, this.store)
         const cp = copyThirdPlugin(plugin)
-        ctx.app.controller.openPlugin(cp)
+        // ctx.app.controller.openPlugin(cp)
         ctx.services.plugin.openPlugin(cp)
     }
     close(plugin: ThirdPlugin): void {
         const cp = copyThirdPlugin(plugin)
-        ctx.app.controller.closePlugin(cp)
+        // ctx.app.controller.closePlugin(cp)
         this.store.removeCurrentPlugin()
         ctx.services.plugin.closePlugin(cp)
     }

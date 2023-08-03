@@ -1,3 +1,65 @@
 .op-icon:hover {
     background-color: #eee;
 }
+
+.mr3 {
+    margin-right: 3px;
+}
+.mr4 {
+    margin-right: 4px;
+}
+.mr5 {
+    margin-right: 5px;
+}
+.mt5 {
+    margin-top: 5px;
+}
+.mt6 {
+    margin-top: 6px;
+}
+.mt7 {
+    margin-top: 7px;
+}
+.mt8 {
+    margin-top: 8px;
+}
+.mt9 {
+    margin-top: 9px;
+}
+.mt10 {
+    margin-top: 10px;
+}
+.mt12 {
+    margin-top: 12px;
+}
+
+.w500{
+    width: 500px;
+}
+
+.fs14 {
+    font-size: 14px;
+}
+.fs15 {
+    font-size: 15px;
+}
+
+.fs16 {
+    font-size: 16px;
+}
+
+.fs17 {
+    font-size: 17px;
+}
+
+.fs18 {
+    font-size: 18px;
+}
+
+.fw500 {
+    font-weight: 500;
+}
+
+.fw600 {
+    font-weight: 600;
+}

@@ -5,7 +5,7 @@ import path from "path";
 import { actions_name, stores_name } from "../common/common_const";
 import { WindowCreator } from "./type";
 import { registerAction } from "@/common/base/action";
-import { registerStore } from "@/common/base/strore";
+import { registerStore } from "@/common/base/store";
 
 export class AppMainWindowCreator implements WindowCreator {
     private win: BrowserWindow | null = null;

@@ -1,4 +1,4 @@
-import { clipboard } from "electron";
+import { app, clipboard } from "electron";
 import { ServicesProvider } from "@/common/core/types";
 export class ElectronServices implements ServicesProvider {
     writeText(text: string) {
@@ -9,6 +9,7 @@ export class ElectronServices implements ServicesProvider {
         return clipboard.readText(type);
     }
 
-    popupShareMenu() {
+    getPath(name: 'home' | 'appData' | 'userData' | 'cache' | 'temp' | 'exe' | 'module' | 'desktop' | 'documents' | 'downloads' | 'music' | 'pictures' | 'videos' | 'recent' | 'logs' | 'crashDumps'): string {
+        return app.getPath(name)
     }
 }

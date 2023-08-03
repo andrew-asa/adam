@@ -51,6 +51,10 @@ export class CompositePluginManager implements ThirdPluginManager, ThirdPluginRu
         return [...this.default_plugins, ...this.apps, ...this.installed];
     }
 
+    listInstalledPlugin(): ThirdPlugin[] {
+        return this.installed
+    }
+
     /**
      * 获取插件信息
      */

@@ -1,6 +1,6 @@
 import { ThirdPlugin } from "@/common/core/plugins";
 import { AbstractPluginHandler } from "./AbstractPluginHandler";
-import { registerStore } from "@/common/base/strore";
+import { registerStore } from "@/common/base/store";
 import { default_plugin_window_height, default_window_height, stores_name } from "@/main/common/common_const";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { BrowserView, BrowserWindow, Session, session } from "electron";

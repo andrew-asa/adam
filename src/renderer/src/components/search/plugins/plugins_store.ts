@@ -60,6 +60,12 @@ export const userStore = defineStore({
         internalPluginName: ''
     }),
     actions: {
+        getCurrentPlugin() {
+            return this.currentPlugin;
+        },
+        refreshCurrentPlugin() {
+            this.selectPlugin(this.currentPlugin);
+        },
         selectPlugin(plugin: ThirdPlugin) {
             getHandler(plugin).open(plugin);
         },
@@ -337,4 +343,6 @@ export const userStore = defineStore({
             this.internalPluginName = name
         }
     },
+    getters: {
+    }
 })

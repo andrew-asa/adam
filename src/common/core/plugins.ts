@@ -110,7 +110,11 @@ export interface ThirdPlugin {
     /**
      * 额外的信息
      */
-    ext?: PluginExtMessage
+    ext?: PluginExtMessage,
+    /**
+     * 用户设置
+     */
+    settings?: PluginSettings
 }
 
 /**

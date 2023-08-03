@@ -6,7 +6,7 @@ import { starter } from "./starter"
 import _ from 'lodash'
 import { switchToRoute } from "../router"
 import { AppController } from "@/common/base/AppController"
-import { getStore, registerStore } from "@/common/base/strore"
+import * as store from "@/common/base/store"
 import { SearchController } from "../components/search/SearchController"
 import { ThirdPlugin } from "@/common/core/plugins"
 import { AppDBServices } from "@/common/base/services/db/AppDBServices"
@@ -19,29 +19,34 @@ const empty_fun = () => {
 const _ctx = {
     app: {
         controller: new AppController(),
+        /**
+         * 
+         */
         search: new SearchController(),
-        db: new AppDBServices(),
     },
-    hook,
     constant: {
         ...commomConstant
     },
+    /**
+     * 提供的工具方法
+     */
     utils: {
         dom: dom_utils,
+        store: store,
+        hook,
+        switchToRoute: switchToRoute,
     },
     lib: {
-        _
+        _,
     },
+    /**
+     * 后端给前端的接口
+     */
     services: {
-        switchToRoute: switchToRoute,
-        electron:new ElectronServices(),
-        plugin:new PluginServices(),
+        electron: new ElectronServices(),
+        plugin: new PluginServices(),
+        db: new AppDBServices(),
     },
-    store: {
-        registerStore: registerStore,
-        getStore: getStore
-    },
-
 }
 export const ctx = Object.freeze(_ctx)
 export class ctx_starter implements starter {

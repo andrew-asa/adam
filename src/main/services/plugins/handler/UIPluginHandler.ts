@@ -1,8 +1,9 @@
 import { ThirdPlugin } from "@/common/core/plugins";
 import { DefaultUIPluginHandler } from "./DefaultUIPluginHandler";
 import { BrowserView, Session } from "electron";
-import { getPluginManager } from "../../contronler";
 import { getPluginFilePath } from "../utils/plugin_utils";
+import { stores_name } from "@/main/common/common_const";
+import { getStore } from "@/common/base/store";
 
 export class UIPluginHandler extends DefaultUIPluginHandler {
     needHandle(plugin: ThirdPlugin): boolean {
@@ -20,14 +21,14 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
             session
         }): void {
         let url = plugin.main || ''
-        getPluginManager().loadMain(plugin, {
+        getStore(stores_name.services.plugin).getPluginManager().loadMain(plugin, {
             session: session,
             view: view
         })
     }
 
     unloadMain(view: BrowserView, plugin: ThirdPlugin): void {
-        getPluginManager().unloadMain(plugin, {
+        getStore(stores_name.services.plugin).getPluginManager().unloadMain(plugin, {
             view: view
         })
     }
@@ -37,7 +38,7 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
     }
 
     customSession(plugin: ThirdPlugin, session: Session) {
-        const preloads = getPluginManager().getPreloads(plugin)
+        const preloads = getStore(stores_name.services.plugin).getPluginManager().getPreloads(plugin)
         session.setPreloads(preloads)
     }
 

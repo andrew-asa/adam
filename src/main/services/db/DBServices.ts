@@ -123,13 +123,14 @@ export class DBServices implements ServicesProvider {
   async put(data: {
     name: string,
     prefix?: string[],
-    doc: any
+    doc: any,
+    cover?: boolean
   }): Promise<DocRes> {
     try {
       let id = this.getDocID(data);
       const ret_doc = await this.pouchDB.get(id);
       // data.doc._rev = ret_doc._rev
-      const s = extend(true, {}, ret_doc, data.doc, { _id: id });
+      const s = extend(true, {}, data.cover ? {} : ret_doc, data.doc, { _id: id });
       let ret = await this.pouchDB.put(s);
       return this.createDocRes(data, {})
     } catch (e: any) {

@@ -1,24 +1,22 @@
 import { PluginDBServices } from '@/common/base/services/db/PluginDBServices'
 import { PluginViewApi } from '@/common/base/PluginViewApi'
 import * as action from '@/common/base/action'
+import * as store from '@/common/base/store'
 import { ThirdPlugin } from '@/common/core/plugins'
 import { extend } from '@/common/common_utils'
 import { PluginElectronServices } from '@/common/base/services/electron/PluginElectronServices'
 import axios from 'axios'
+import _ from 'lodash'
+import { export_stores_name } from '@/common/common_const'
 const hooks = {}
-/**
- * @type {AppController}
- * 定义给插件用的接口
- */
-const services = {}
 
-// services[services_name.electron_services] = new ElectronServices()
 export const ctx = {
   app: {
     controller: new PluginViewApi(),
-    db: new PluginDBServices(),
-
   },
+  /**
+   * 插件事件的注册以及触发
+   */
   plugin: {
     on(name: string, fn: Function) {
       hooks[name] = fn
@@ -38,23 +36,36 @@ export const ctx = {
     _loadPlugin: loadPlugin,
     _unloadPlugin: unloadPlugin
   },
-  action: action,
+  /**
+   * 提供的工具方法
+   */
   utils: {
-    extend: extend
+    extend: extend,
+    action: action,
+    store: store
   },
+  /**
+   * 后端提供给前端的接口
+   */
   services: {
-    electron: new PluginElectronServices()
+    electron: new PluginElectronServices(),
+    db: new PluginDBServices(),
   },
+  /**
+   * 归功的第三方lib
+   */
   lib: {
-    axios:axios
+    axios: axios,
+    _: _
   }
 }
 
 function loadPlugin(plugin: ThirdPlugin) {
   console.log(`app_context loadPlugin ${plugin.name}`)
   // 插件api设置状态
-  ctx.app.controller.loadPlugin(plugin)
-  ctx.app.db.loadPlugin(plugin)
+  // ctx.app.controller.loadPlugin(plugin)
+  store.registerStore(export_stores_name.current_plugin, plugin)
+  // ctx.app.db.loadPlugin(plugin)
   // 通知插件监听
   ctx.plugin.trigger('PluginEnter', plugin.ext)
   ctx.plugin.trigger('PluginReady', plugin.ext)
@@ -62,8 +73,8 @@ function loadPlugin(plugin: ThirdPlugin) {
 
 function unloadPlugin(plugin: ThirdPlugin) {
   ctx.plugin.trigger('PluginOut', {})
-  ctx.app.controller.unloadPlugin(plugin)
-  ctx.app.db.unloadPlugin(plugin)
+  // ctx.app.controller.unloadPlugin(plugin)
+  store.deleteStore(export_stores_name.current_plugin)
 }
 
 export type Ctx = typeof ctx

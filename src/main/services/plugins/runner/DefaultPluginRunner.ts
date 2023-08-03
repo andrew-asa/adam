@@ -3,7 +3,7 @@ import { BrowserView, Session } from "electron";
 import path from "path";
 import { getPluginFilePath } from "../utils/plugin_utils";
 import { stores_name } from "@/main/common/common_const";
-import { getStore } from "@/common/base/strore";
+import { getStore } from "@/common/base/store";
 import { regs } from "@/common/common_const";
 
 export class DefaultPluginRunner implements ThirdPluginRunner {

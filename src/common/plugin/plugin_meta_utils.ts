@@ -1,4 +1,5 @@
-import { PluginExtMessage, ThirdPlugin } from "../core/plugins";
+import _ from "lodash";
+import { PluginExtMessage, ThirdPlugin, ThirdPluginFeature } from "../core/plugins";
 
 
 /**
@@ -23,7 +24,7 @@ export function copyThirdPlugin(plugin: ThirdPlugin, isCopyExt = true): ThirdPlu
     }
 }
 
-function copyKeywords(keywords: string[]): string[] {
+export function copyKeywords(keywords: string[]): string[] {
     const r:string[] = []
     if (keywords) {
         keywords.forEach(k => {
@@ -40,5 +41,17 @@ function copyExt(ext: any): any {
         type: ext.type,
         adapterEngine: ext.adapterEngine,
     }:{} 
+}
+
+export function copyFeatures(features: ThirdPluginFeature[]): ThirdPluginFeature[] {
+    const ret: ThirdPluginFeature[] = []
+    features.forEach(f => {
+        ret.push({
+            code: f.code,
+            explain: f.explain,
+            cmds: _.cloneDeep(f.cmds)
+        })
+    })
+    return ret
 }
 

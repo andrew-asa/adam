@@ -7,7 +7,7 @@ import { ServicesProvider } from "@/common/core/types";
  * ==> main/services/ElectronServices
  */
 export class BaseElectronServices implements ServicesProvider{
-
+    
     writeText(text: string) {
         return this.invoke("writeText", text);
     }
@@ -16,6 +16,9 @@ export class BaseElectronServices implements ServicesProvider{
         this.invoke("readText", type);
     }
 
+    getPath(name: 'home' | 'appData' | 'userData' | 'cache' | 'temp' | 'exe' | 'module' | 'desktop' | 'documents' | 'downloads' | 'music' | 'pictures' | 'videos' | 'recent' | 'logs' | 'crashDumps') {
+        return this.invoke("getPath", name);
+    }
 
     invoke(name: string, data: any) {
         return invokeMessage(name, data, {

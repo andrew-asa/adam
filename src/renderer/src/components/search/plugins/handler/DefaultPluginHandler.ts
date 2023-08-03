@@ -27,13 +27,13 @@ export class DefaultPluginHandler implements PluginHandler {
     }
     updateCurrentPlugin(plugin: ThirdPlugin, store: any): void {
         let setCurrentSelect = _.findIndex(store.options, plugin)
-        if (setCurrentSelect > -1) {
-            store.setCurrentSelect(setCurrentSelect)
-            store.setCurrentPlugin(plugin);
-            store._setSearchValue("");
-            store.setPlaceholder("");
-            this.emptyOptions(store)
-        }
+        store.setCurrentSelect(setCurrentSelect)
+        store.setCurrentPlugin(plugin);
+        store._setSearchValue("");
+        store.setPlaceholder("");
+        this.emptyOptions(store)
+        // if (setCurrentSelect > -1) {
+        // }
     }
 
     emptyOptions(store: any): void {

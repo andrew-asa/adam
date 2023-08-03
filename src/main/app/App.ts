@@ -6,7 +6,7 @@ import { AppMainWindowCreator } from './AppWindow'
 import { AppStarter } from './startup/AppStarter';
 import { Starter, WindowCreator } from './type';
 import { registerAction } from '@/common/base/action';
-import { registerStore } from '@/common/base/strore';
+import { registerStore } from '@/common/base/store';
 export class App {
     /**
      * 主窗口生成器

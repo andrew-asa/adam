@@ -97,4 +97,7 @@ const Components = {
     }
   }
 }
+.container{
+  width: 800px;
+}
 </style>

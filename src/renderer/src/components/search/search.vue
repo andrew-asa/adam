@@ -106,7 +106,8 @@ const showSeparate = () => {
   let hasPlugin = !!(props.currentPlugin && props.currentPlugin.pluginName)
   ctx.app.controller.showPopupMenu({
     hasPlugin: hasPlugin,
-    pluginType: props.currentPlugin.pluginType
+    pluginType: props.currentPlugin.pluginType,
+    pluginName: props.currentPlugin.pluginName
   })
 }
 

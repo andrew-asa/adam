@@ -2,10 +2,10 @@ import { BrowserView, BrowserWindow, Menu, app, clipboard, dialog, shell } from 
 import { CONFIGURE_DIR, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
-import { getStore } from "@/common/base/strore";
+import { getStore } from "@/common/base/store";
 import { DECODE_KEY } from "@/common/common_const";
 import { ServicesProvider } from "@/common/core/types";
-import { CompositePluginManager } from "./plugins/CompositePluginManager";
+import { openFile } from "./appsearch";
 
 /**
  * 打开控制台
@@ -312,22 +312,14 @@ export function showPopupMenu(options) {
             // click: newWindow
         }
         ])
+    } else if (options.pluginType == 'internal') {
+        pluginMenu = pluginMenu.concat([{
+            label: '刷新',
+            click: refreshCurrentPluginView
+        }])
     }
     let menu = Menu.buildFromTemplate(pluginMenu);
     menu.popup(options)
 }
-
-export function getPath(path: string): string {
-    // @ts-ignore
-    return app.getPath(path)
-}
-
-export function copyText(text: string) {
-    clipboard.writeText(text);
-}
-export function getPluginManager(): CompositePluginManager {
-    return getStore(stores_name.services.plugin).getPluginManager()
-}
-
 
 export const services: { [key: string]: ServicesProvider } = {}

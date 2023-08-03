@@ -1,4 +1,4 @@
-import { getStore } from "@/common/base/strore";
+import { getStore } from "@/common/base/store";
 import { ThirdPlugin } from "@/common/core/plugins";
 
 export class SearchController {
@@ -13,5 +13,11 @@ export class SearchController {
 
     setPlaceholder(placeholder: string) {
         getStore("plugins_store").setPlaceholder(placeholder);
+
     }
+
+    getStore() {
+        return getStore("plugins_store");
+    }
+
 }

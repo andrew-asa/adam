@@ -54,6 +54,9 @@ export const userStore = defineStore({
                      el.isdownload=true
                  })
             }
+        },
+        setInstalledPlugins(plugins: Array<ThirdPlugin>) {
+            this.installeds = plugins
         }
     },
 })

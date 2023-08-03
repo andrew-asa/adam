@@ -2,7 +2,7 @@ import { BrowserWindow, ipcMain } from "electron";
 import * as controller from "./contronler";
 import { renderer_fun_call_msg_name, renderer_msg_name, services_name } from "@/common/common_const";
 import { stores_name } from "../common/common_const";
-import { getStore, registerStore } from "@/common/base/strore";
+import { getStore, registerStore } from "@/common/base/store";
 import { ServicesProvider } from "@/common/core/types";
 
 import { DBServices } from "./db/DBServices";
@@ -29,12 +29,10 @@ class RendererAPI {
 
     private initDefaultServices() {
         this.services = services
-        let dbpath = controller.getPath('userData')
-        // this.services[services_name.db_services] = new DBServices(dbpath)
-        // this.services[services_name.electron_services] = new ElectronServices()
-        // registerStore(stores_name.services.db, this.services[services_name.db_services])
+        const es = new ElectronServices()
+        this.registerServices(services_name.electron_services, es, stores_name.services.electron)
+        let dbpath = es.getPath('userData')
         this.registerServices(services_name.db_services, new DBServices(dbpath), stores_name.services.db)
-        this.registerServices(services_name.electron_services, new ElectronServices(), stores_name.services.electron)
         this.registerServices(services_name.plugin_services, new PluginServices(), stores_name.services.plugin)
     }
 

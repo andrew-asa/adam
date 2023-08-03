@@ -1,4 +1,4 @@
-import { getStore } from "@/common/base/strore";
+import { getStore } from "@/common/base/store";
 import { stores_name } from "@/main/common/common_const";
 import { BrowserWindow, ipcMain } from "electron";
 

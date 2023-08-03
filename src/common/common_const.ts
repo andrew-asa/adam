@@ -1,22 +1,3 @@
-// export default {
-//     linux(): boolean {
-//         return process.platform === "linux";
-//     },
-//     macOS(): boolean {
-//         return process.platform === "darwin";
-//     },
-//     windows(): boolean {
-//         return process.platform === "win32";
-//     },
-//     production(): boolean {
-//         return process.env.NODE_ENV !== "development";
-//     },
-//     dev(): boolean {
-//         return process.env.NODE_ENV === "development";
-//     },
-
-// };
-
 /**
  * 渲染消息
  */
@@ -178,4 +159,8 @@ export const services_name = {
      * 插件相关
      */
     plugin_services: "plugin_services",
+}
+
+export const export_stores_name = {
+    current_plugin: "current_plugin"
 }

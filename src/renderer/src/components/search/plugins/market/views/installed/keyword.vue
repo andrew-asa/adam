@@ -5,7 +5,7 @@
       v-for="cmd in feature.cmds"
       :value="cmd"
       />
-      <div class="mt7">{{ feature.explain }}</div>
+      <div class="mt-2">{{ feature.explain }}</div>
     </div>
   </div>
 </template>

@@ -3,6 +3,9 @@ import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import vue from '@vitejs/plugin-vue'
 import { render } from 'vue'
 import fs from 'fs-extra'
+import tailwindcss from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+
 async function copyFolderRecursive(source, destination) {
   try {
     await fs.copy(source, destination);
@@ -73,7 +76,15 @@ export default defineConfig({
           await copyFolderRecursive('./src/assets/renderer', './out/renderer/assets');
           // 可以添加更多的复制操作
         },
+      },
+    ],
+    css: {
+      postcss: {
+        plugins: [
+          tailwindcss(),
+          autoprefixer()
+        ]
       }
-    ]
+    }
   }
 })

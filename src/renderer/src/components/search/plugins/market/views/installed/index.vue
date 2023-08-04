@@ -25,15 +25,15 @@
         </template>
       </a-list>
     </a-layout-sider>
-    <a-layout-content class="installed-item">
-      <div class="mt10">
-        <span class="fs18 fw600">{{ currentShow.pluginName }}</span>
+    <a-layout-content width="600" class="installed-item ml-2">
+      <div class="mt-3">
+        <span class="text-lg font-bold">{{ currentShow.pluginName }}</span>
         <span>{{ '   ' + currentShow.version }}</span>
       </div>
-      <div class="mt10">
+      <div class="mt-3">
         <a-button
           type="primary"
-          class="mr5"
+          class="mr-2"
           shape="round"
           @click="showPluginDetail = true"
         >
@@ -112,5 +112,8 @@ const clickPlugin = (item: ThirdPlugin) => {
   }
 }
 .installed-item {
+  // background: #fafafa;
+
+  width: 600px;
 }
 </style>

@@ -2,7 +2,7 @@
   <a-button
     v-if="isKeyword(value)"
     type="primary" shape="round" size="small"
-    class="mr5"
+    class="mr-2 mt-1"
   >
     <template #icon>
       <plus-outlined />

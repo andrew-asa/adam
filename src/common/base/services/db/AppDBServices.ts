@@ -1,3 +1,4 @@
+import { db_prefix } from "@/common/common_const";
 import { BaseDBServices } from "./BaseDBServices";
 
 export class AppDBServices extends BaseDBServices {
@@ -14,5 +15,15 @@ export class AppDBServices extends BaseDBServices {
         [key: string]: any
     }) {
         return this.invoke("getAllDocs", option || {});
+    }
+
+    getDbPrefix(): string[] {
+        return [db_prefix.app_db];
+    }
+
+    removeAllDocs(option?: {
+        [key: string]: any
+    }) {
+        return this.invoke("removeAllDocs", option || {});
     }
 }

@@ -24,14 +24,6 @@ export class DBServices implements ServicesProvider {
     fs.existsSync(this.dbpath) || fs.mkdirSync(this.dbpath);
     PouchDB.plugin(pouchdbFind);
     this.pouchDB = new PouchDB(this.defaultDbName, { auto_compaction: true });
-    // try {
-    //   this.pouchDB.info();
-    //   this.pouchDB.createIndex({
-    //     index: { fields: ['_id'] }
-    //   })
-    // } catch (e) {
-    //   console.log(e);
-    // }
   }
   private getDocID(data: { name: string, prefix?: string[] }): string {
     if (data.prefix && data.prefix.length) {
@@ -130,7 +122,9 @@ export class DBServices implements ServicesProvider {
       let id = this.getDocID(data);
       const ret_doc = await this.pouchDB.get(id);
       // data.doc._rev = ret_doc._rev
-      const s = extend(true, {}, data.cover ? {} : ret_doc, data.doc, { _id: id });
+      const s = extend(true, {}, data.cover ? {
+        _rev: ret_doc._rev
+      } : ret_doc, data.doc, { _id: id });
       let ret = await this.pouchDB.put(s);
       return this.createDocRes(data, {})
     } catch (e: any) {
@@ -189,6 +183,21 @@ export class DBServices implements ServicesProvider {
   }): Promise<DocRes> {
     let result = await this.pouchDB.allDocs(option);
     return this.createDocRes({ name: "all_docs" }, result)
+  }
+
+  async removeAllDocs(option: {
+    [key: string]: any
+  }): Promise<DocRes> {
+    try {
+      const result = await this.pouchDB.allDocs({ include_docs: true })
+      const docsToDelete = result.rows.map(function (row) {
+        return { _id: row.doc._id, _rev: row.doc._rev, _deleted: true };
+      });
+      const ret = await this.pouchDB.bulkDocs(docsToDelete);
+      return this.createDocRes({ name: "all_docs" }, ret)
+    } catch (error) {
+      return this.createDocErrorRes({ name: "all_docs" }, error)
+    }
   }
 }
 

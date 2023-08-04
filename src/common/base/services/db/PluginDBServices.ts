@@ -1,7 +1,7 @@
 import { PluginContainerLifeCycle, ThirdPlugin } from "@/common/core/plugins";
 import { BaseDBServices } from "./BaseDBServices";
 import { getStore } from "../../store";
-import { export_stores_name } from "@/common/common_const";
+import { db_prefix, export_stores_name } from "@/common/common_const";
 /**
  * 数据库控制器
  * 
@@ -19,5 +19,10 @@ export class PluginDBServices extends BaseDBServices {
             return p.name
         }
         throw new Error("plugin state is null")
+    }
+
+
+    getDbPrefix(): string[] {
+        return [db_prefix.plugin_db, this.getPluginName()];
     }
 }

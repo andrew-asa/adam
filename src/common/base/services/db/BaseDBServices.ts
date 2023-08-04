@@ -8,7 +8,7 @@ import { invokeMessage } from "@/common/base/Renderer";
 export class BaseDBServices {
 
     getPluginName(): string {
-        return "main_window";
+        return "main";
     }
 
 
@@ -16,7 +16,7 @@ export class BaseDBServices {
         return this.invoke("add", {
             name: name,
             doc: data,
-            prefix: [this.getPluginName()],
+            prefix: this.getDbPrefix(),
         });
     }
 
@@ -24,28 +24,28 @@ export class BaseDBServices {
         return this.invoke("put", {
             name: name,
             doc: data,
-            prefix: [this.getPluginName()],
+            prefix: this.getDbPrefix(),
         });
     }
 
     delete(name) {
         return this.invoke("delete", {
             name: name,
-            prefix: [this.getPluginName()],
+            prefix: this.getDbPrefix(),
         });
     }
     update(name, data: any) {
         return this.invoke("update", {
             name: name,
             doc: data,
-            prefix: [this.getPluginName()],
+            prefix: this.getDbPrefix(),
         });
     }
 
     get(name) {
         return this.invoke("get", {
             name: name,
-            prefix: [this.getPluginName()],
+            prefix: this.getDbPrefix(),
         });
     }
 
@@ -55,5 +55,9 @@ export class BaseDBServices {
             services: services_name.db_services,
             from: this.getPluginName(),
         });
+    }
+
+    getDbPrefix(): string[] {
+        return [];
     }
 }

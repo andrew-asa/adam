@@ -164,3 +164,12 @@ export const services_name = {
 export const export_stores_name = {
     current_plugin: "current_plugin"
 }
+
+/**
+ * 数据存储前缀
+ */
+export const db_prefix = {
+    plugin_db: "plugin_db",
+    plugin_settins: "plugin_settings",
+    app_db: "app_db",
+}

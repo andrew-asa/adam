@@ -12,6 +12,7 @@ import { getStore } from "@/common/base/store";
 import { stores_name } from "@/main/common/common_const";
 import { CompositePluginManager } from "./CompositePluginManager";
 import { DBServices } from "../db/DBServices";
+import { db_prefix } from "@/common/common_const";
 export class PluginServices implements ServicesProvider {
     handlers: PluginHandler[] = [];
     DH: PluginHandler = new DefaultUIPluginHandler();
@@ -87,13 +88,13 @@ export class PluginServices implements ServicesProvider {
         var ret: any = {}
         const dbr = await db.get({
             name: name,
-            prefix: ["plugin", 'settings', name]
+            prefix: this.getPluginSettiingsPrefix(),
         })
         if (_.isEmpty(dbr.data)) {
             ret = this.getPluginMateByName(name)?.settings || {}
-            if(!_.isEmpty(ret)) {
-                this.resetPluginSettings(name)
-            }
+            // if(!_.isEmpty(ret)) {
+            //     this.resetPluginSettings(name)
+            // }
         } else {
             ret = dbr.data
         }
@@ -105,7 +106,7 @@ export class PluginServices implements ServicesProvider {
         return db.put({
             name: name,
             doc: settings,
-            prefix: ["plugin", 'settings', name]
+            prefix: this.getPluginSettiingsPrefix(),
         })
     }
 
@@ -115,8 +116,12 @@ export class PluginServices implements ServicesProvider {
         return db.put({
             name: name,
             doc: setting,
-            prefix: ["plugin", 'settings', name],
+            prefix: this.getPluginSettiingsPrefix(),
             cover: true
         })
+    }
+
+    getPluginSettiingsPrefix(): string[] {
+        return [db_prefix.plugin_settins];
     }
 }

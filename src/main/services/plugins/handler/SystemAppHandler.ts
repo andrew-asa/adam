@@ -9,7 +9,7 @@ export class SystemAppHandler extends AbstractPluginHandler implements PluginHan
     needHandle(plugin: ThirdPlugin): boolean {
         return plugin.pluginType && plugin.pluginType === 'app'
     }
-    open(plugin: ThirdPlugin): void {
+    open(plugin: ThirdPlugin,options?: any) {
         openApp(copyThirdPluginToAppPlugin(plugin))
     }
 }

@@ -51,6 +51,23 @@ export class PluginServices implements ServicesProvider {
         return this.invoke("getPluginDefaultSettings", name)
     }
 
+
+    getCurrentViewsNames() {
+        return this.invoke("getCurrentViewsNames", {})
+    }
+
+    openPluginConsole(name: string) {
+        return this.invoke("openPluginConsole", name)
+    }
+
+    refreshPluginView(name: string) {
+        return this.invoke("refreshPluginView", name)
+    }
+
+    executeJavaScriptOnPluginView(name, script) {
+        return this.invoke("executeJavaScriptOnPluginView", { name, script })
+    }
+
     invoke(name: string, data: any) {
         return invokeMessage(name, data, {
             services: services_name.plugin_services,

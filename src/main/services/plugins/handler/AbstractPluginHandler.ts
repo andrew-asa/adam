@@ -4,9 +4,9 @@ import _ from "lodash"
 
 export class AbstractPluginHandler {
 
-    close(plugin: ThirdPlugin, ext: any): void {
+    close(plugin: ThirdPlugin, ext: any) {
     }
 
-    open(plugin: ThirdPlugin, ext?: any): void {
+    open(plugin: ThirdPlugin, ext?: any) {
     }
 }

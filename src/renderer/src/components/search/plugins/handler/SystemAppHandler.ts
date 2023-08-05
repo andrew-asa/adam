@@ -12,11 +12,11 @@ export class SystemAppHandler extends DefaultPluginHandler {
     needHandle(plugin: ThirdPlugin): boolean {
         return plugin.pluginType && plugin.pluginType === 'app'
     }
-    open(plugin: ThirdPlugin): void {
+    open(plugin: ThirdPlugin, options?: any): void {
         const store = getStore(export_stores_name.renderer.plugin_stores)
         store.emptyShow();
         store._setSearchValue("");
         const cp = copyThirdPlugin(plugin)
-        ctx.services.plugin.openPlugin(cp)
+        ctx.services.plugin.openPlugin(cp, options)
     }
 }

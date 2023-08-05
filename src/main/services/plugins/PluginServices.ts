@@ -55,13 +55,25 @@ export class PluginServices implements ServicesProvider {
 
     openPlugin({ plugin, ext }) {
         console.log(`PluginServices openPlugin ${plugin.name}`)
-        this.getHandler(plugin).open(plugin, { mainWindow: getStore(stores_name.app_main_window) })
+        const ret = this.getHandler(plugin).open(plugin, ext)
+        if (ret && ret instanceof BrowserView) {
+            this.views.set(plugin.name, ret)
+        }
         return "success"
+    }
+
+    getViewByName(name: string) {
+        return this.views.get(name)
     }
 
     closePlugin({ plugin, ext }) {
         console.log(`PluginServices closePlugin ${plugin.name}`)
-        this.getHandler(plugin).close(plugin, { mainWindow: getStore(stores_name.app_main_window) })
+        const options = {
+            view: this.getViewByName(plugin.name),
+            ext: ext
+        }
+        this.getHandler(plugin).close(plugin, options)
+        this.views.delete(plugin.name)
         return "success"
     }
 
@@ -80,7 +92,9 @@ export class PluginServices implements ServicesProvider {
     getPluginManager() {
         return this.pluginManager
     }
-
+    /**
+     * 根据插件名字获取插件元信息
+     */
     getPluginMateByName(name: string): ThirdPlugin | undefined {
         return this.pluginManager.getPluginMate(name)
     }
@@ -110,7 +124,9 @@ export class PluginServices implements ServicesProvider {
     getPluginDefaultSettings(name: string) {
         return this.getPluginMateByName(name)?.settings || {}
     }
-
+    /**
+     * 更新插件设置
+     */
     updatePluginSettings({ name, settings }) {
         const db: DBServices = getStore(stores_name.services.db)
         return db.put({
@@ -144,5 +160,47 @@ export class PluginServices implements ServicesProvider {
 
     removeView(name: string) {
         this.views.delete(name);
+    }
+
+    /**
+     * 获取当前存在页面的所有插件名字
+     */
+    getCurrentViewsNames(): string[] {
+        return [...this.views.keys()];
+    }
+
+    /**
+     * 打开指定插件控制台
+     */
+    openPluginConsole(name: string) {
+        const view = this.getViewByName(name)
+        if (view) {
+            view.webContents.openDevTools({
+                mode: 'undocked'
+            })
+        }
+    }
+
+    /**
+     * 刷新插件页面
+     */
+    refreshPluginView(name: string) {
+        const view = this.getViewByName(name)
+        if (view) {
+            view.webContents.reload()
+        }
+    }
+
+    /**
+     * 在插件页面执行脚本
+     */
+    executeJavaScriptOnPluginView(options: {
+        name: string,
+        script: string,
+    }) {
+        const view = this.getViewByName(options.name)
+        if (view) {
+            view.webContents.executeJavaScript(options.script)
+        }
     }
 }

@@ -59,6 +59,9 @@ export const userStore = defineStore({
         internalPluginName: ''
     }),
     actions: {
+        getSearchValue() {
+            return this.searchValue
+        },
         getCurrentPlugin() {
             return this.currentPlugin;
         },

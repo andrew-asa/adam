@@ -13,15 +13,14 @@ export class WebPluginHandler extends DefaultUIPluginHandler {
         return plugin.pluginType && plugin.pluginType.toLocaleLowerCase() === 'web'
     }
 
-    open(plugin: ThirdPlugin, { mainWindow }: { mainWindow: any; }): void {
+    open(plugin: ThirdPlugin, options?: any) {
         console.log(`WebPluginHandler open: ${plugin.name}|${plugin.pluginName}`);
-        super.open(plugin, { mainWindow })
-        // this.loadMain(this.view, plugin)
+        return super.open(plugin, options)
     }
 
-    close(plugin: AdamPlugin, { mainWindow }): void {
+    close(plugin: AdamPlugin, { mainWindow }) {
         console.log(`WebPluginHandler close: ${plugin.name}|${plugin.pluginName}`);
-        super.close(plugin, { mainWindow })
+        return super.close(plugin, { mainWindow })
     }
     /**
      * 如果当前有打开的插件则进行关闭

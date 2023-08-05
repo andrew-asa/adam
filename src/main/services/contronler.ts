@@ -21,11 +21,9 @@ export function openConsole() {
 /**
  * 当前插件控制台
  */
-export function openCurrentPluginConsole() {
-    const win = getStore(stores_name.current_plugin_view)
-    win && win.webContents.openDevTools({
-        mode: 'undocked'
-    })
+export function openCurrentPluginConsole(name:string) {
+    const services = getStore(stores_name.services.plugin)
+    services.openPluginConsole(name)
 }
 
 export function show() {
@@ -171,10 +169,10 @@ export function refresh() {
     win && win.webContents.reload()
 }
 
-export function refreshCurrentPluginView() {
-    let win = getStore(stores_name.current_plugin_view)
-    win && win.webContents.reload()
-}
+// export function refreshCurrentPluginView() {
+//     let win = getStore(stores_name.current_plugin_view)
+//     win && win.webContents.reload()
+// }
 
 /**
  * 显示主页
@@ -282,12 +280,12 @@ function hasPluginAndNoIternal(options) {
     return options.hasPlugin && options.pluginType !== 'internal'
 }
 export function showPopupMenu(options) {
-
+    const pn = options.name
     let pluginMenu: any = [
         {
             label: '开发者工具',
             click: () => {
-                hasPluginAndNoIternal(options) ? openCurrentPluginConsole() : openConsole()
+                hasPluginAndNoIternal(options) ? openCurrentPluginConsole(pn) : openConsole()
             }
         }
     ]

@@ -8,9 +8,9 @@ export interface PluginHandler {
     /**
      * 打开插件
      */
-    open(plugin: ThirdPlugin, options?: any): void
+    open(plugin: ThirdPlugin, options?: any)
     /**
      * 关闭插件
      */
-    close(plugin: ThirdPlugin, options?: any): void
+    close(plugin: ThirdPlugin, options?: any)
 }

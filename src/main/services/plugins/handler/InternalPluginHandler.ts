@@ -9,7 +9,7 @@ export class InternalPluginHandler extends AbstractPluginHandler implements Plug
     needHandle(plugin: ThirdPlugin): boolean {
         return plugin.pluginType && plugin.pluginType === 'internal'
     }
-    open(plugin: ThirdPlugin): void {
+    open(plugin: ThirdPlugin) {
         
     }
 }

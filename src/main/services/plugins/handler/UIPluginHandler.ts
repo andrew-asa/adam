@@ -10,10 +10,10 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
         return plugin.pluginType && plugin.pluginType.toLocaleLowerCase() === 'ui'
     }
 
-    open(plugin: ThirdPlugin, { mainWindow }): void {
+    open(plugin: ThirdPlugin, options?: any) {
 
         console.log(`UIPluginHandler open: ${plugin.name}|${plugin.pluginName}`);
-        super.open(plugin, { mainWindow })
+        return super.open(plugin, options)
     }
 
     loadMain(view: BrowserView,
@@ -42,9 +42,9 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
         session.setPreloads(preloads)
     }
 
-    close(plugin: ThirdPlugin, ext: any): void {
+    close(plugin: ThirdPlugin, ext: any) {
         console.log(`UIPluginHandler close: ${plugin.name}|${plugin.pluginName}`);
-        super.close(plugin, ext)
+        return super.close(plugin, ext)
     }
 
 }

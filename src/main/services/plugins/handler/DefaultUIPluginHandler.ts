@@ -1,6 +1,6 @@
 import { ThirdPlugin } from "@/common/core/plugins";
 import { AbstractPluginHandler } from "./AbstractPluginHandler";
-import { registerStore } from "@/common/base/store";
+import { getStore, registerStore } from "@/common/base/store";
 import { default_plugin_window_height, default_window_height, stores_name } from "@/main/common/common_const";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { BrowserView, BrowserWindow, Session, session } from "electron";
@@ -20,22 +20,16 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         return false
     }
 
-    open(plugin: ThirdPlugin, { mainWindow }): void {
-        let view = this.getOrCreateShowView(plugin)
+    open(plugin: ThirdPlugin, options?: any) {
+        let view = this.getOrCreateShowView(plugin, options)
+        const mainWindow = getStore(stores_name.app_main_window)
         this.showView(view, mainWindow, plugin)
+        return view
     }
 
-    getOrCreateShowView(plugin: ThirdPlugin): BrowserView {
+    getOrCreateShowView(plugin: ThirdPlugin, options?: any): BrowserView {
         let view: BrowserView | undefined
-        if (this.isCloseCachePagePlugin(plugin)) {
-            view = this.viewCache.get(plugin.name)
-            if (!view) {
-                view = this.createDefaultView(plugin)
-                this.viewCache.set(plugin.name, view)
-            }
-        } else {
-            view = this.createDefaultView(plugin)
-        }
+        view = this.createDefaultView(plugin, options)
         return view
     }
 
@@ -65,7 +59,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         // const totalMetaData = getPluginManager().getPluginMate(plugin.name)
         // return closeCachePage(totalMetaData)
         return false
-        
+
     }
 
 
@@ -82,17 +76,11 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         return mainWindow.getBounds().width
     }
 
-    close(plugin: ThirdPlugin, { mainWindow }): void {
+    close(plugin: ThirdPlugin, options: any) {
+
+        const mainWindow = getStore(stores_name.app_main_window)
         let destroy = true
-        let view: BrowserView | undefined = undefined
-        if (this.isCloseCachePagePlugin(plugin)) {
-            view = this.viewCache.get(plugin.name)
-            if (view) {
-                destroy = false
-            }
-        } else {
-            view = this.view
-        }
+        let view: BrowserView | undefined = options.view
         if (view) {
             this.removeShowView(view, plugin, mainWindow, destroy)
         }
@@ -106,7 +94,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
 
     }
 
-    createDefaultView(plugin: ThirdPlugin): BrowserView {
+    createDefaultView(plugin: ThirdPlugin, options?: any): BrowserView {
         const { name } = plugin;
         const ses: Session = session.fromPartition('<' + name + '>');
         const preload = this.getPreload(plugin)
@@ -140,13 +128,11 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         this.unloadMain(view, plugin)
         this.resetMainWindowSize(mainWindow)
         mainWindow.removeBrowserView(view);
-        if (destroy) {
-            try {
-                //@ts-ignore
-                view.webContents.destroy()
-            } catch (e) {
-                console.log(e)
-            }
+        try {
+            //@ts-ignore
+            view.webContents.destroy()
+        } catch (e) {
+            console.log(e)
         }
         this.setCurrentView(undefined)
     }

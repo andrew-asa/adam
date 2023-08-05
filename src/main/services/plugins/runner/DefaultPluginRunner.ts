@@ -1,5 +1,5 @@
 import { ThirdPlugin, ThirdPluginAdapter, ThirdPluginRunner } from "@/common/core/plugins";
-import { BrowserView, Session } from "electron";
+import { BrowserView, Session, app } from "electron";
 import path from "path";
 import { getPluginFilePath } from "../utils/plugin_utils";
 import { stores_name } from "@/main/common/common_const";
@@ -20,47 +20,60 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
         session: Session,
         view: BrowserView
     }): void {
-        if (plugin.main) {
-            let view = ext.view
-            if (plugin.main.match(regs.http_or_https)) {
-                view.webContents.loadURL(plugin.main)
-            } else {
-                const main = this.getPluginMain(plugin)
-                view.webContents.loadFile(main)
-            }
-            view.webContents.once('dom-ready', () => {
-                const ext: any = plugin.ext || {};
-                // view.webContents.openDevTools();
-                // this.triggerPluginHooks(view, 'PluginEnter', ext);
-                // this.triggerPluginHooks(view, 'PluginReady', ext);
-                this.notifierPluginLoad(view, plugin);
-            });
-            //修复请求跨域问题
-            view.webContents.session.webRequest.onBeforeSendHeaders(
-                (details, callback) => {
-                    callback({
-                        requestHeaders: { referer: '*', ...details.requestHeaders },
-                    });
-                }
-            );
-
-            view.webContents.session.webRequest.onHeadersReceived(
-                (details, callback) => {
-                    callback({
-                        responseHeaders: {
-                            'Access-Control-Allow-Origin': ['*'],
-                            ...details.responseHeaders,
-                        },
-                    });
-                }
-            );
-        }
+        this._loadMain(ext.view, plugin.name, plugin.main || '', plugin.ext)
     }
+
+    _loadMain(view: BrowserView, name: string, main: string, options?: any) {
+        if (main.match(regs.http_or_https)) {
+            view.webContents.loadURL(main)
+        } else {
+            const fn = this.getPluginMain(name, main)
+            view.webContents.loadFile(fn)
+        }
+        this.addEnvent(view, name, options)
+    }
+
+    loadFile(path: string, view: BrowserView) {
+        view.webContents.loadFile(path)
+    }
+
+    loadUrl(url: string, view: BrowserView) {
+        view.webContents.loadURL(url)
+    }
+
+    addEnvent(view: BrowserView, pluginName: string, option?: any) {
+        view.webContents.once('dom-ready', () => {
+            // view.webContents.openDevTools();
+            // this.triggerPluginHooks(view, 'PluginEnter', ext);
+            // this.triggerPluginHooks(view, 'PluginReady', ext);
+            this.notifierPluginLoad(view, pluginName,option || {});
+        });
+        //修复请求跨域问题
+        view.webContents.session.webRequest.onBeforeSendHeaders(
+            (details, callback) => {
+                callback({
+                    requestHeaders: { referer: '*', ...details.requestHeaders },
+                });
+            }
+        );
+
+        view.webContents.session.webRequest.onHeadersReceived(
+            (details, callback) => {
+                callback({
+                    responseHeaders: {
+                        'Access-Control-Allow-Origin': ['*'],
+                        ...details.responseHeaders,
+                    },
+                });
+            }
+        );
+    }
+
 
     unloadMain(plugin: ThirdPlugin, ext: {
         view: BrowserView
     }): void {
-        this.notifierPluginUnLoad(ext.view,plugin);
+        this.notifierPluginUnLoad(ext.view, plugin.name);
         // this.triggerPluginHooks(ext.view, 'PluginOut', {});
         const mainWindow = getStore(stores_name.app_main_window)
         if (mainWindow) {
@@ -69,8 +82,8 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
         }
     }
 
-    getPluginMain(plugin: ThirdPlugin): string {
-        return getPluginFilePath(plugin.name, plugin.main)
+    getPluginMain(name: string, main: string): string {
+        return getPluginFilePath(name, main)
     }
 
 
@@ -84,15 +97,15 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
         this.executeJavaScript(view.webContents, s, true);
     }
 
-    notifierPluginLoad(view: BrowserView, plugin: ThirdPlugin) {
+    notifierPluginLoad(view: BrowserView, pluginName: string, options?: any) {
         if (!view) return;
-        const s = `ctx.plugin._loadPlugin(${plugin ? JSON.stringify(plugin) : '{}'});`
+        const s = `ctx.plugin._loadPlugin("${pluginName}",${options ? JSON.stringify(options) : '{}'});`
         this.executeJavaScript(view.webContents, s, true);
     }
 
-    notifierPluginUnLoad(view: BrowserView, plugin: ThirdPlugin) {
+    notifierPluginUnLoad(view: BrowserView, pluginName: string, options?: any) {
         if (!view) return;
-        const s = `ctx.plugin._unloadPlugin(${plugin ? JSON.stringify(plugin) : '{}'});`
+        const s = `ctx.plugin._unloadPlugin("${pluginName}",${options ? JSON.stringify(options) : '{}'});`
         this.executeJavaScript(view.webContents, s, true);
     }
 

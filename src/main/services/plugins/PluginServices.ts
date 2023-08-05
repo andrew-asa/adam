@@ -82,7 +82,9 @@ export class PluginServices implements ServicesProvider {
     getPluginMateByName(name: string): ThirdPlugin | undefined {
         return this.pluginManager.getPluginMate(name)
     }
-
+    /**
+     * 获取用户当前插件的配置
+     */
     async getPluginSettings(name: string) {
         const db: DBServices = getStore(stores_name.services.db)
         var ret: any = {}
@@ -100,6 +102,12 @@ export class PluginServices implements ServicesProvider {
         }
         return ret
     }
+    /**
+     * 获取默认配置
+     */
+    getPluginDefaultSettings(name: string) {
+        return this.getPluginMateByName(name)?.settings || {}
+    }
 
     updatePluginSettings({ name, settings }) {
         const db: DBServices = getStore(stores_name.services.db)
@@ -109,19 +117,23 @@ export class PluginServices implements ServicesProvider {
             prefix: this.getPluginSettiingsPrefix(),
         })
     }
-
-    resetPluginSettings(name: string) {
+    /**
+     * 重置配置
+     */
+    async resetPluginSettings(name: string) {
         const db: DBServices = getStore(stores_name.services.db)
         const setting = this.getPluginMateByName(name)?.settings || {}
-        return db.put({
+        await db.put({
             name: name,
             doc: setting,
             prefix: this.getPluginSettiingsPrefix(),
             cover: true
         })
+        return setting
     }
 
     getPluginSettiingsPrefix(): string[] {
         return [db_prefix.plugin_settins];
     }
+
 }

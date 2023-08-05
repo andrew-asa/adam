@@ -60,21 +60,21 @@ export const ctx = {
   }
 }
 
-function loadPlugin(plugin: ThirdPlugin) {
-  console.log(`app_context loadPlugin ${plugin.name}`)
+function loadPlugin(pluginName: string, options?: any) {
+  console.log(`app_context loadPlugin ${pluginName}`)
   // 插件api设置状态
   // ctx.app.controller.loadPlugin(plugin)
-  store.registerStore(export_stores_name.current_plugin, plugin)
+  store.registerStore(export_stores_name.current_plugin_name, pluginName)
   // ctx.app.db.loadPlugin(plugin)
   // 通知插件监听
-  ctx.plugin.trigger('PluginEnter', plugin.ext)
-  ctx.plugin.trigger('PluginReady', plugin.ext)
+  ctx.plugin.trigger('PluginEnter', options || {})
+  ctx.plugin.trigger('PluginReady', options || {})
 }
 
 function unloadPlugin(plugin: ThirdPlugin) {
   ctx.plugin.trigger('PluginOut', {})
   // ctx.app.controller.unloadPlugin(plugin)
-  store.deleteStore(export_stores_name.current_plugin)
+  store.deleteStore(export_stores_name.current_plugin_name)
 }
 
 export type Ctx = typeof ctx

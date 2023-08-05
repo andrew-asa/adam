@@ -25,4 +25,12 @@ export class BaseElectronServices implements ServicesProvider{
             services: services_name.electron_services,
         });
     }
+
+    isProduction() {
+        return this.invoke("isProduction",{});
+    }
+
+    isDevEnv() {
+        return this.invoke("isDevEnv",{});
+    }
 }

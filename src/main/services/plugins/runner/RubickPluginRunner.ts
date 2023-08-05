@@ -24,8 +24,8 @@ export class RubickPluginRunner extends DefaultPluginRunner {
         view: BrowserView
     }): void {
         let view = ext.view
-        let session= ext.session
-        const main = this.getPluginMain(plugin)
+        let session = ext.session
+        const main = this.getPluginMain(plugin.name, plugin.main || '')
         if (main) {
             // view.webContents.loadURL(`file://${main}`)
             view.webContents.loadFile(main)
@@ -57,7 +57,7 @@ export class RubickPluginRunner extends DefaultPluginRunner {
         // );
     }
 
-    
+
 
     executeHooks(view: BrowserView, hook: string, data: any) {
         if (!view) return;

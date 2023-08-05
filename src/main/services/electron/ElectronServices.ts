@@ -12,4 +12,14 @@ export class ElectronServices implements ServicesProvider {
     getPath(name: 'home' | 'appData' | 'userData' | 'cache' | 'temp' | 'exe' | 'module' | 'desktop' | 'documents' | 'downloads' | 'music' | 'pictures' | 'videos' | 'recent' | 'logs' | 'crashDumps'): string {
         return app.getPath(name)
     }
+    /**
+     * 是否是生产环境
+     */
+    isProduction(): boolean {
+        return !!app.isPackaged
+    }
+
+    isDevEnv(): boolean {
+        return !this.isProduction()
+    }
 }

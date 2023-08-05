@@ -5,6 +5,7 @@ import { AdamPlugin, PluginSettings } from "@/common/core/plugins";
 
 /**
  * electron 相关操作
+ * @link src/main/services/plugins/PluginServices.ts
  */
 export class PluginServices implements ServicesProvider {
 
@@ -44,6 +45,10 @@ export class PluginServices implements ServicesProvider {
 
     resetPluginSettings(name: string) {
         return this.invoke("resetPluginSettings", name)
+    }
+
+    getPluginDefaultSettings(name: string) {
+        return this.invoke("getPluginDefaultSettings", name)
     }
 
     invoke(name: string, data: any) {

@@ -25,7 +25,10 @@
         </template>
       </a-list>
     </a-layout-sider>
-    <a-layout-content width="600" class="installed-item ml-2">
+    <a-layout-content
+      width="600"
+      class="installed-item ml-2"
+    >
       <div class="mt-3">
         <span class="text-lg font-bold">{{ currentShow.pluginName }}</span>
         <span>{{ '   ' + currentShow.version }}</span>
@@ -52,15 +55,36 @@
             <minus-circle-outlined />
           </template>
         </a-button>
+        <a-button
+          type="primary"
+          shape="round"
+          class="ml-2"
+          @click="settingPlugin"
+        >
+          设置
+          <template #icon>
+            <setting-outlined />
+          </template>
+        </a-button>
       </div>
       <a-divider orientation="center">关键字</a-divider>
       <Keyword :features="features" />
     </a-layout-content>
   </a-layout>
-  <plugin_detail :detail="currentShow" :visible="showPluginDetail" @onClose="showPluginDetail = false" />
+  <plugin_detail
+    :detail="currentShow"
+    :visible="showPluginDetail"
+    @onClose="showPluginDetail = false"
+  />
+  <Plugin_settings_edit
+    :detail="currentShow"
+    :visible="showPluginSetting"
+    @onClose="showPluginSetting = false"
+    :settings="pluginsSeting"
+  />
 </template>
 <script setup lang="ts">
-import { StarOutlined, MinusCircleOutlined } from '@ant-design/icons-vue'
+import { StarOutlined, MinusCircleOutlined, SettingOutlined } from '@ant-design/icons-vue'
 import { ctx } from '@/renderer/src/startup/ctx_starter'
 import { onMounted, ref } from 'vue'
 import { userStore } from '../../store/plugins_market_store'
@@ -69,11 +93,14 @@ import { ThirdPlugin, ThirdPluginFeature } from '@/common/core/plugins'
 import Keyword from './keyword.vue'
 import { copyFeatures } from '@/common/plugin/plugin_meta_utils'
 import plugin_detail from '../widget/plugin_detail.vue'
+import Plugin_settings_edit from '../widget/plugin_settings_edit.vue'
 const store = userStore()
 const { installeds } = storeToRefs(store)
-const currentShow = ref<{ [name: string]: any }>({})
+const currentShow = ref<{ name?: string, [key: string]: any }>({})
 const features = ref<Array<ThirdPluginFeature>>([])
 const showPluginDetail = ref(false)
+const showPluginSetting = ref(false)
+const pluginsSeting = ref({})
 onMounted(() => {
   ctx.services.plugin.getInstalledPlugins().then((res) => {
     if (res && res.length) {
@@ -93,8 +120,14 @@ const clickPlugin = (item: ThirdPlugin) => {
     version: item.version
   }
   const f = copyFeatures(item.features)
-  console.log(f)
   features.value = f
+}
+const settingPlugin = () => {
+  
+  ctx.services.plugin.getPluginSettings(currentShow.value.name).then((res) => {
+    pluginsSeting.value = res
+    showPluginSetting.value = true
+  })
 }
 </script>
 <style scoped lang="less">

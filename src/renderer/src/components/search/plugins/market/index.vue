@@ -38,7 +38,7 @@
         </a-menu-item>
       </a-menu>
     </div>
-    <div class="container">
+    <div class="sub-container">
       <component :is="Components[active[0]]" />
     </div>
   </div>
@@ -97,7 +97,7 @@ const Components = {
     }
   }
 }
-.container{
+.sub-container{
   width: 800px;
 }
 </style>

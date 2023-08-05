@@ -162,7 +162,8 @@ export const services_name = {
 }
 
 export const export_stores_name = {
-    current_plugin: "current_plugin"
+    current_plugin: "current_plugin",
+    current_plugin_name: "current_plugin_name"
 }
 
 /**

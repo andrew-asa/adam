@@ -13,10 +13,12 @@ import { stores_name } from "@/main/common/common_const";
 import { CompositePluginManager } from "./CompositePluginManager";
 import { DBServices } from "../db/DBServices";
 import { db_prefix } from "@/common/common_const";
+import { BrowserView } from "electron";
 export class PluginServices implements ServicesProvider {
     handlers: PluginHandler[] = [];
     DH: PluginHandler = new DefaultUIPluginHandler();
     pluginManager: CompositePluginManager = new CompositePluginManager()
+    views: Map<string, BrowserView> = new Map();
     constructor() {
         this.init();
     }
@@ -136,4 +138,11 @@ export class PluginServices implements ServicesProvider {
         return [db_prefix.plugin_settins];
     }
 
+    addView(name: string, view: BrowserView) {
+        this.views.set(name, view);
+    }
+
+    removeView(name: string) {
+        this.views.delete(name);
+    }
 }

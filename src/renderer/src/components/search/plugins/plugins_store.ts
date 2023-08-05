@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import _ from "lodash";
 import { ctx } from '@renderer/startup/ctx_starter'
-import { getHandler } from "./handler/handlers";
 import { ThirdPlugin } from "@/common/core/plugins";
 import { copyThirdPlugin } from "@/common/plugin/plugin_meta_utils";
 interface PluginsState {
@@ -67,7 +66,11 @@ export const userStore = defineStore({
             this.selectPlugin(this.currentPlugin);
         },
         selectPlugin(plugin: ThirdPlugin) {
-            getHandler(plugin).open(plugin);
+            const option = {
+                playload: this.searchValue
+            }
+            // getHandler(plugin).open(plugin, option);
+            ctx.app.search.open(plugin, option);
         },
         onClickPlugin(plugin: ThirdPlugin) {
             console.log(`onClickPlugin: ${plugin.name}`);
@@ -252,7 +255,6 @@ export const userStore = defineStore({
             this._checkSelectKeyPress(e)
             this._checkChooseKeyPress(e)
             this._checkEscape(e)
-
         },
         _trrigerPluginKeydown(e: any) {
             const { ctrlKey, shiftKey, altKey, metaKey } = e;
@@ -278,7 +280,7 @@ export const userStore = defineStore({
         _checkBackspace(e: any) {
             if (e.target.value === '' && e.keyCode === 8) {
                 if (this.currentPlugin && this.currentPlugin.name) {
-                    getHandler(this.currentPlugin).close(this.currentPlugin);
+                    ctx.app.search.close(this.currentPlugin);
                 }
             }
         },

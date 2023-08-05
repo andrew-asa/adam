@@ -161,9 +161,17 @@ export const services_name = {
     plugin_services: "plugin_services",
 }
 
+/**
+ * 暴露的全局变量
+ */
 export const export_stores_name = {
     current_plugin: "current_plugin",
-    current_plugin_name: "current_plugin_name"
+    current_plugin_name: "current_plugin_name",
+
+    renderer: {
+        plugin_stores: "renderer_plugin_stores",
+    }
+
 }
 
 /**

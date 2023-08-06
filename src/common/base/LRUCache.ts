@@ -68,6 +68,10 @@ export class LRUCache<K, V> {
         return undefined;
     }
 
+    has(key: K): boolean {
+        return this.cache.has(key);
+    }
+
     set(key: K, value: V): void {
         if (this.cache.has(key)) {
             const node = this.cache.get(key)!;

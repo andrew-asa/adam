@@ -12,13 +12,15 @@ import { getStore } from "@/common/base/store";
 import { stores_name } from "@/main/common/common_const";
 import { CompositePluginManager } from "./CompositePluginManager";
 import { DBServices } from "../db/DBServices";
-import { db_prefix } from "@/common/common_const";
+import { DECODE_KEY, db_prefix } from "@/common/common_const";
 import { BrowserView } from "electron";
+import { LRUCache } from "@/common/base/LRUCache";
 export class PluginServices implements ServicesProvider {
     handlers: PluginHandler[] = [];
     DH: PluginHandler = new DefaultUIPluginHandler();
     pluginManager: CompositePluginManager = new CompositePluginManager()
     views: Map<string, BrowserView> = new Map();
+    settingsCache: LRUCache<string, PluginSettings> = new LRUCache<string, PluginSettings>(10);
     constructor() {
         this.init();
     }
@@ -104,17 +106,21 @@ export class PluginServices implements ServicesProvider {
     async getPluginSettings(name: string) {
         const db: DBServices = getStore(stores_name.services.db)
         var ret: any = {}
-        const dbr = await db.get({
-            name: name,
-            prefix: this.getPluginSettiingsPrefix(),
-        })
-        if (_.isEmpty(dbr.data)) {
-            ret = this.getPluginMateByName(name)?.settings || {}
-            // if(!_.isEmpty(ret)) {
-            //     this.resetPluginSettings(name)
-            // }
+        if (this.settingsCache.has(name)) {
+            ret = this.settingsCache.get(name)
         } else {
-            ret = dbr.data
+            const dbr = await db.get({
+                name: name,
+                prefix: this.getPluginSettiingsPrefix(),
+            })
+            if (_.isEmpty(dbr.data)) {
+                ret = this.getPluginMateByName(name)?.settings || {}
+                // if(!_.isEmpty(ret)) {
+                //     this.resetPluginSettings(name)
+                // }
+            } else {
+                ret = dbr.data
+            }
         }
         return ret
     }
@@ -145,7 +151,6 @@ export class PluginServices implements ServicesProvider {
             name: name,
             doc: setting,
             prefix: this.getPluginSettiingsPrefix(),
-            cover: true
         })
         return setting
     }
@@ -195,12 +200,62 @@ export class PluginServices implements ServicesProvider {
      * 在插件页面执行脚本
      */
     executeJavaScriptOnPluginView(options: {
-        name: string,
+        name?: string,
         script: string,
     }) {
-        const view = this.getViewByName(options.name)
-        if (view) {
-            view.webContents.executeJavaScript(options.script)
+        if (options.name) {
+            const view = this.getViewByName(options.name)
+            if (view) {
+                view.webContents.executeJavaScript(options.script)
+            }
+        } else {
+            // 全部插件都执行一遍
+            this.views.forEach(view => view.webContents.executeJavaScript(options.script))
         }
+    }
+
+
+    private executeJscriptOnPluginView(view: BrowserView, script: string) {
+        view.webContents.executeJavaScript(script)
+    }
+
+    triggerPluginInputChange(optins: {
+        name?: string,
+        value: string
+    }) {
+        // console.log("currentPluginInputChange", value)
+        this.triggerPluginViewAction({
+            name: optins.name,
+            hook: 'inputChange',
+            data: { text: optins.value }
+        })
+    }
+
+
+    triggerPluginKeyDown(options: {
+        name?: string,
+        value: {
+            modifiers: any,
+            keyCode: any
+        }
+    }) {
+        const code = DECODE_KEY[options.value.keyCode];
+        this.triggerPluginViewAction({
+            name: options.name,
+            hook: 'keydown',
+            data: code
+        })
+    }
+
+    triggerPluginViewAction(options: {
+        name?: string,
+        hook: string,
+        data: any
+    }) {
+
+        this.executeJavaScriptOnPluginView({
+            name: options.name,
+            script: `ctx.plugin.trigger("${options.hook}",${options.data ? JSON.stringify(options.data) : ''});`
+        })
     }
 }

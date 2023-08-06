@@ -27,19 +27,19 @@ export class AppController extends BaseAppController {
     /**
      * @description 给当前选中的插件发送改变的文本
      */
-    public sendSubInputChangeEvent(value: String) {
-        this.sendSyncMessage("currentPluginInputChange", value);
-    }
+    // public sendSubInputChangeEvent(value: String) {
+    //     this.sendSyncMessage("currentPluginInputChange", value);
+    // }
 
     /**
      * 给当前选中的插件发送按键改变时间
      */
-    public sendPluginSomeKeyDownEvent({ modifiers, keyCode }) {
-        this.sendSyncMessage("currentPluginKeyClick", {
-            modifiers,
-            keyCode
-        })
-    }
+    // public sendPluginSomeKeyDownEvent({ modifiers, keyCode }) {
+    //     this.sendSyncMessage("currentPluginKeyClick", {
+    //         modifiers,
+    //         keyCode
+    //     })
+    // }
     public home() {
         this.sendMessage("home", {});
     }

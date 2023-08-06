@@ -81,10 +81,13 @@
     :visible="showPluginSetting"
     @onClose="showPluginSetting = false"
     :settings="pluginsSeting"
+    @on-save="savePluginSettings"
+    @onReset="resetPluginSettings"
   />
 </template>
 <script setup lang="ts">
 import { StarOutlined, MinusCircleOutlined, SettingOutlined } from '@ant-design/icons-vue'
+import { message } from 'ant-design-vue'
 import { ctx } from '@/renderer/src/startup/ctx_starter'
 import { onMounted, ref } from 'vue'
 import { userStore } from '../../store/plugins_market_store'
@@ -94,9 +97,10 @@ import Keyword from './keyword.vue'
 import { copyFeatures } from '@/common/plugin/plugin_meta_utils'
 import plugin_detail from '../widget/plugin_detail.vue'
 import Plugin_settings_edit from '../widget/plugin_settings_edit.vue'
+import _ from 'lodash'
 const store = userStore()
 const { installeds } = storeToRefs(store)
-const currentShow = ref<{ name?: string, [key: string]: any }>({})
+const currentShow = ref<{ name?: string; [key: string]: any }>({})
 const features = ref<Array<ThirdPluginFeature>>([])
 const showPluginDetail = ref(false)
 const showPluginSetting = ref(false)
@@ -111,7 +115,7 @@ onMounted(() => {
   })
 })
 const clickPlugin = (item: ThirdPlugin) => {
-  console.log(`clickPlugin ${item.pluginName}`)
+  // console.log(`clickPlugin ${item.pluginName}`)
   currentShow.value = {
     logo: item.logo,
     name: item.name,
@@ -122,11 +126,31 @@ const clickPlugin = (item: ThirdPlugin) => {
   const f = copyFeatures(item.features)
   features.value = f
 }
+
+const showSettingPanel = () => {
+  showPluginSetting.value = true
+}
+const hideSettingPanel = () => {
+  showPluginSetting.value = false
+}
 const settingPlugin = () => {
-  
   ctx.services.plugin.getPluginSettings(currentShow.value.name).then((res) => {
     pluginsSeting.value = res
-    showPluginSetting.value = true
+    showSettingPanel()
+  })
+}
+
+const savePluginSettings = (settings) => {
+  ctx.services.plugin.updatePluginSettings(currentShow.value.name, settings).then(() => {
+    message.success('保存成功')
+    pluginsSeting.value = settings
+    hideSettingPanel()
+  })
+}
+
+const resetPluginSettings = () => {
+  ctx.services.plugin.resetPluginSettings(currentShow.value.name).then((res) => {
+    pluginsSeting.value = res
   })
 }
 </script>

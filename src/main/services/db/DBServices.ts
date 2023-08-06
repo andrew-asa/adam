@@ -91,6 +91,7 @@ export class DBServices implements ServicesProvider {
   }
   /**
    * 改
+   * 需要确认改的数据是否存在
    */
   async update(
     data: {
@@ -110,23 +111,31 @@ export class DBServices implements ServicesProvider {
     }
   }
   /**
-   * 有则更新，没则新建
+   * 有则更新，没则新建,有则覆盖
+   * @param data {
+   *    name: string,
+   *    extends?: boolean // 如果为true则用数据库的数据 _.extend(doc,数据库中的数据)
+   * }
    */
   async put(data: {
     name: string,
     prefix?: string[],
     doc: any,
-    cover?: boolean
+    extends?: boolean,
   }): Promise<DocRes> {
     try {
       let id = this.getDocID(data);
       const ret_doc = await this.pouchDB.get(id);
-      // data.doc._rev = ret_doc._rev
-      const s = extend(true, {}, data.cover ? {
-        _rev: ret_doc._rev
-      } : ret_doc, data.doc, { _id: id });
+      const s = extend(true,
+        {},
+        data.extends ? ret_doc : {},
+        data.doc,
+        {
+          _id: id,
+          _rev: ret_doc._rev
+        });
       let ret = await this.pouchDB.put(s);
-      return this.createDocRes(data, {})
+      return this.createDocRes(data, ret)
     } catch (e: any) {
       // 文档不存在
       if (e.status === 404) {

@@ -21,7 +21,7 @@ export function openConsole() {
 /**
  * 当前插件控制台
  */
-export function openCurrentPluginConsole(name:string) {
+export function openCurrentPluginConsole(name: string) {
     const services = getStore(stores_name.services.plugin)
     services.openPluginConsole(name)
 }
@@ -220,28 +220,28 @@ export function setExpendHeight({ height }, win) {
 /**
  * 当前插件输入框文本变化
  */
-export function currentPluginInputChange(value: string) {
-    // console.log("currentPluginInputChange", value)
-    triggerCurrentPluginViewAction('inputChange', { text: value })
-}
+// export function currentPluginInputChange(value: string) {
+//     // console.log("currentPluginInputChange", value)
+//     triggerCurrentPluginViewAction('inputChange', { text: value })
+// }
 /**
  * 当前插件按键点击时间
  */
-export function currentPluginKeyClick({ modifiers, keyCode }) {
-    const code = DECODE_KEY[keyCode];
-    // console.log("currentPluginKeyClick", { modifiers, keyCode })
-    // getStore(stores_name.current_plugin_view)?.webContents.sendInputEvent({
-    //     type: 'keyDown',
-    //     modifiers,
-    //     keyCode: code,
-    // })
-    triggerCurrentPluginViewAction('keydown', { modifiers, keyCode: code })
-}
+// export function currentPluginKeyClick({ modifiers, keyCode }) {
+//     const code = DECODE_KEY[keyCode];
+//     // console.log("currentPluginKeyClick", { modifiers, keyCode })
+//     // getStore(stores_name.current_plugin_view)?.webContents.sendInputEvent({
+//     //     type: 'keyDown',
+//     //     modifiers,
+//     //     keyCode: code,
+//     // })
+//     triggerCurrentPluginViewAction('keydown', { modifiers, keyCode: code })
+// }
 
-function triggerCurrentPluginViewAction(hook: string, data: any) {
+// function triggerCurrentPluginViewAction(hook: string, data: any) {
 
-    executeCurrentPluginViewJavaScript(`ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`)
-}
+//     executeCurrentPluginViewJavaScript(`ctx.plugin.trigger("${hook}",${data ? JSON.stringify(data) : ''});`)
+// }
 
 export function setPlaceholder(text: string) {
     executeMainViewJavaScript(`ctx.app.search.setPlaceholder("${text}");`)
@@ -252,10 +252,10 @@ export function executeMainViewJavaScript(s: string) {
     win && win.webContents.executeJavaScript(s)
 }
 
-export function executeCurrentPluginViewJavaScript(s: string) {
-    let win = getStore(stores_name.current_plugin_view)
-    win && win.webContents.executeJavaScript(s)
-}
+// export function executeCurrentPluginViewJavaScript(s: string) {
+//     let win = getStore(stores_name.current_plugin_view)
+//     win && win.webContents.executeJavaScript(s)
+// }
 
 export async function openFolderDialogSync() {
 
@@ -282,17 +282,20 @@ function hasPluginAndNoIternal(options) {
 export function showPopupMenu(options) {
     const pn = options.name
     let pluginMenu: any = [
-        {
-            label: '开发者工具',
-            click: () => {
-                hasPluginAndNoIternal(options) ? openCurrentPluginConsole(pn) : openConsole()
-            }
-        }
     ]
     if (hasPluginAndNoIternal(options)) {
         pluginMenu = pluginMenu.concat([{
+            label: '插件控制台',
+            click: () => {
+                const services = getStore(stores_name.services.plugin)
+                services.openPluginConsole(pn)
+            }
+        }, {
             label: '刷新插件',
-            click: refreshCurrentPluginView
+            click: () => {
+                const services = getStore(stores_name.services.plugin)
+                services.refreshPluginView(pn)
+            }
         },
         {
             label: '当前插件信息',
@@ -310,10 +313,17 @@ export function showPopupMenu(options) {
             // click: newWindow
         }
         ])
-    } else if (options.pluginType == 'internal') {
+    } else {
         pluginMenu = pluginMenu.concat([{
+            label: '插件控制台',
+            click: () => {
+                openConsole()
+            }
+        },{
             label: '刷新',
-            click: refreshCurrentPluginView
+            click: () => {
+                refresh()
+            }
         }])
     }
     let menu = Menu.buildFromTemplate(pluginMenu);

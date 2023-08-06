@@ -148,7 +148,11 @@ export const userStore = defineStore({
         search(value: string) {
             this._setSearchValue(value);
             if (this._hasSelectPlugin()) {
-                ctx.app.controller.sendSubInputChangeEvent(value)
+                // ctx.app.controller.sendSubInputChangeEvent(value)
+                ctx.services.plugin.triggerPluginInputChange({
+                    name: this.currentPlugin.name,
+                    value: value
+                })
                 return
             }
             this._doSearch(value);
@@ -250,7 +254,7 @@ export const userStore = defineStore({
         },
         keydown(e: any) {
             if (this._hasSelectPlugin()) {
-                this._trrigerPluginKeydown(e)
+                this._triggerPluginKeydown(e)
             }
             // 当前插件插件不存在的情况
             this._checkBackspace(e)
@@ -259,7 +263,7 @@ export const userStore = defineStore({
             this._checkChooseKeyPress(e)
             this._checkEscape(e)
         },
-        _trrigerPluginKeydown(e: any) {
+        _triggerPluginKeydown(e: any) {
             const { ctrlKey, shiftKey, altKey, metaKey } = e;
             const modifiers: Array<string> = [];
             ctrlKey && modifiers.push('control');
@@ -267,7 +271,12 @@ export const userStore = defineStore({
             altKey && modifiers.push('alt');
             metaKey && modifiers.push('meta');
             const keyCode = e.code
-            ctx.app.controller.sendPluginSomeKeyDownEvent({ modifiers, keyCode })
+            // ctx.app.controller.sendPluginSomeKeyDownEvent({ modifiers, keyCode })
+            ctx.services.plugin.triggerPluginKeyDown({
+                keyCode: keyCode,
+                modifiers: modifiers,
+                name: this.currentPlugin.name
+            })
         },
         /**
          * 判断是否为esc 直接隐藏

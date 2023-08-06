@@ -78,11 +78,10 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
 
     close(plugin: ThirdPlugin, options: any) {
 
-        const mainWindow = getStore(stores_name.app_main_window)
-        let destroy = true
         let view: BrowserView | undefined = options.view
         if (view) {
-            this.removeShowView(view, plugin, mainWindow, destroy)
+            const mainWindow = getStore(stores_name.app_main_window)
+            this.removeShowView(view, plugin, mainWindow)
         }
     }
 
@@ -120,7 +119,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         return view
     }
 
-    removeShowView(view: BrowserView, plugin: ThirdPlugin, mainWindow: BrowserWindow, destroy = true): void {
+    removeShowView(view: BrowserView, plugin: ThirdPlugin, mainWindow: BrowserWindow): void {
 
         if (!view || !mainWindow) {
             return

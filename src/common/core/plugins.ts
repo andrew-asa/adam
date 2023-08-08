@@ -100,6 +100,10 @@ export interface ThirdPlugin {
      */
     preload?: string;
     /**
+     * 后台脚本 可以对session等后台对象进行操作
+     */
+    backendScript?: string[];
+    /**
      * 特征
      */
     features?: Array<ThirdPluginFeature>;

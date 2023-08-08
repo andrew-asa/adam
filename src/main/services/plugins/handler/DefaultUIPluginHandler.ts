@@ -99,7 +99,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         const preload = this.getPreload(plugin)
         this.customSession(plugin, ses)
         let webPreferences = {
-            // enableRemoteModule: true,
+            enableRemoteModule: true,
             webSecurity: false,
             nodeIntegration: true,
             contextIsolation: false,
@@ -115,7 +115,10 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         let view = new BrowserView({
             webPreferences: webPreferences,
         })
-        this.loadMain(view, plugin, { session: ses })
+        this.loadMain(view, plugin, {
+            session: ses,
+            options: options
+        })
         return view
     }
 
@@ -137,7 +140,8 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
     }
 
     loadMain(view: BrowserView, plugin: ThirdPlugin, {
-        session: Session
+        session: Session,
+        options: any
     }): void {
 
     }

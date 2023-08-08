@@ -8,6 +8,7 @@ import { PluginElectronServices } from '@/common/base/services/electron/PluginEl
 import axios from 'axios'
 import _ from 'lodash'
 import { export_stores_name } from '@/common/common_const'
+import { PluginPluginServices } from '@/common/base/services/plugin/PluginPluginServices'
 const hooks = {}
 
 export const ctx = {
@@ -50,6 +51,7 @@ export const ctx = {
   services: {
     electron: new PluginElectronServices(),
     db: new PluginDBServices(),
+    plugin: new PluginPluginServices(),
   },
   /**
    * 归功的第三方lib
@@ -82,7 +84,6 @@ export type Ctx = typeof ctx
 export function start_adam_preload() {
   // @ts-ignore
   // window.ctx = ctx
-
   Object.defineProperty(window, 'ctx', {
     value: ctx
   })

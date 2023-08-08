@@ -17,13 +17,15 @@ export class UIPluginHandler extends DefaultUIPluginHandler {
     }
 
     loadMain(view: BrowserView,
-        plugin: ThirdPlugin, {
-            session
+        plugin: ThirdPlugin,data: {
+            session: Session,
+            options?: any
         }): void {
         let url = plugin.main || ''
         getStore(stores_name.services.plugin).getPluginManager().loadMain(plugin, {
-            session: session,
-            view: view
+            session: data.session,
+            view: view,
+            options: data.options
         })
     }
 

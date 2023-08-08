@@ -3,13 +3,13 @@ import { invokeMessage } from "@/common/base/Renderer";
 import { ServicesProvider } from "@/common/core/types";
 import { AdamPlugin, PluginSettings } from "@/common/core/plugins";
 import { log } from "console";
+import { BasePluginServices } from "./BasePluginServices";
 
 /**
  * electron 相关操作
  * @link src/main/services/plugins/PluginServices.ts
  */
-export class PluginServices implements ServicesProvider {
-
+export class PluginServices extends BasePluginServices {
 
     openPlugin(plugin: AdamPlugin, ext?: any) {
         return this.invoke("openPlugin", { plugin, ext })
@@ -72,7 +72,8 @@ export class PluginServices implements ServicesProvider {
      * name不指定就全部广播
      */
     executeJavaScriptOnPluginView(options: {
-        script: string, name?: string
+        script: string,
+        name?: string
     }) {
         return this.invoke("executeJavaScriptOnPluginView", options)
     }
@@ -103,9 +104,13 @@ export class PluginServices implements ServicesProvider {
         })
     }
 
-    invoke(name: string, data: any) {
-        return invokeMessage(name, data, {
-            services: services_name.plugin_services,
-        });
+    setPluginReqHeaderReferer(options: {
+        name: string,
+        value: {
+            urls: string[]
+            referer: string
+        }[]
+    }) {
+        this.invoke("setPluginReqHeaderReferer", options)
     }
 }

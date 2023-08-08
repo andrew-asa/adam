@@ -1,6 +1,7 @@
 import { App } from "vue"
 import * as commomConstant from "@renderer/utils/constants/common_const"
 import * as dom_utils from "@renderer/utils/dom_utils"
+import * as common_utils from "@/common/common_utils"
 import * as hook from '@renderer/core/hook'
 import { starter } from "./starter"
 import _ from 'lodash'
@@ -31,6 +32,7 @@ const _ctx = {
      * 提供的工具方法
      */
     utils: {
+        common_utils,
         dom: dom_utils,
         store: store,
         hook,

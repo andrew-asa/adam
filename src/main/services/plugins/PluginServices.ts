@@ -15,6 +15,7 @@ import { DBServices } from "../db/DBServices";
 import { DECODE_KEY, db_prefix } from "@/common/common_const";
 import { BrowserView } from "electron";
 import { LRUCache } from "@/common/base/LRUCache";
+import { getPluginFilePath } from "./utils/plugin_utils";
 export class PluginServices implements ServicesProvider {
     handlers: PluginHandler[] = [];
     DH: PluginHandler = new DefaultUIPluginHandler();
@@ -57,9 +58,14 @@ export class PluginServices implements ServicesProvider {
 
     openPlugin({ plugin, ext }) {
         console.log(`PluginServices openPlugin ${plugin.name}`)
-        const ret = this.getHandler(plugin).open(plugin, ext)
-        if (ret && ret instanceof BrowserView) {
-            this.views.set(plugin.name, ret)
+        try {
+            const pluginM = this.getPluginMateByName(plugin.name) || plugin
+            const ret = this.getHandler(pluginM).open(pluginM, ext)
+            if (ret && ret instanceof BrowserView) {
+                this.views.set(plugin.name, ret)
+            }
+        } catch (e) {
+            console.log(`PluginServices openPlugin ${plugin.name} error`, e);
         }
         return "success"
     }
@@ -100,6 +106,10 @@ export class PluginServices implements ServicesProvider {
     getPluginMateByName(name: string): ThirdPlugin | undefined {
         return this.pluginManager.getPluginMate(name)
     }
+
+    updateSettingCache(name: string, settings: PluginSettings) {
+        this.settingsCache.set(name, settings)
+    }
     /**
      * 获取用户当前插件的配置
      */
@@ -131,28 +141,41 @@ export class PluginServices implements ServicesProvider {
         return this.getPluginMateByName(name)?.settings || {}
     }
     /**
+     * 获取插件预加载路径
+     */
+    getPluginPreloadPath(plugin: ThirdPlugin): string {
+        return getPluginFilePath(plugin.name, plugin.preload)
+    }
+    /**
      * 更新插件设置
      */
     updatePluginSettings({ name, settings }) {
         const db: DBServices = getStore(stores_name.services.db)
-        return db.put({
+
+        // this.settingsCache.set(name, settings)
+        const ret = db.put({
             name: name,
             doc: settings,
             prefix: this.getPluginSettiingsPrefix(),
         })
+
+        this.updateSettingCache(name, settings)
+        return ret
     }
     /**
      * 重置配置
      */
     async resetPluginSettings(name: string) {
         const db: DBServices = getStore(stores_name.services.db)
-        const setting = this.getPluginMateByName(name)?.settings || {}
+        const settings = this.getPluginMateByName(name)?.settings || {}
+
         await db.put({
             name: name,
-            doc: setting,
+            doc: settings,
             prefix: this.getPluginSettiingsPrefix(),
         })
-        return setting
+        this.updateSettingCache(name, settings)
+        return settings
     }
 
     getPluginSettiingsPrefix(): string[] {
@@ -206,7 +229,11 @@ export class PluginServices implements ServicesProvider {
         if (options.name) {
             const view = this.getViewByName(options.name)
             if (view) {
-                view.webContents.executeJavaScript(options.script)
+                view.webContents.executeJavaScript(options.script).then(() => {
+                    // console.log("executeJavaScriptOnPluginView", options.script)
+                }, (err) => {
+                    console.log(`executeJavaScriptOnPluginView ${options.name} : ${options.script} error`, err)
+                })
             }
         } else {
             // 全部插件都执行一遍
@@ -243,7 +270,10 @@ export class PluginServices implements ServicesProvider {
         this.triggerPluginViewAction({
             name: options.name,
             hook: 'keydown',
-            data: code
+            data: {
+                modifiers: options.value.modifiers,
+                keyCode: code
+            }
         })
     }
 
@@ -252,10 +282,36 @@ export class PluginServices implements ServicesProvider {
         hook: string,
         data: any
     }) {
-
         this.executeJavaScriptOnPluginView({
             name: options.name,
             script: `ctx.plugin.trigger("${options.hook}",${options.data ? JSON.stringify(options.data) : ''});`
         })
+    }
+
+    setPluginReqHeaderReferer(options: {
+        name: string,
+        value: {
+            urls: string[]
+            referer: string
+        }[]
+    }, ext: {
+        view,
+        windId,
+        event
+    }) {
+        console.log(options)
+        console.log(ext)
+        const view: BrowserView | undefined = this.getViewByName(options.name)
+        if (view && _.size(options.value) > 0) {
+            console.log(`setPluginReqHeaderReferer ${options.name} ${JSON.stringify(options.value)}`);
+            options.value.forEach(v => {
+                view.webContents.session.webRequest.onBeforeSendHeaders(
+                    { urls: v.urls },
+                    (details, callback) => {
+                        details.requestHeaders['referer'] = v.referer;
+                        callback({ cancel: false, requestHeaders: details.requestHeaders });
+                    })
+            })
+        }
     }
 }

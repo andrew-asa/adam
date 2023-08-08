@@ -194,21 +194,17 @@ export function home() {
  * @Author andrew
  * 设置窗口大小
  */
-export function setWindowSize({ width, height }, win) {
+export function setWindowSize({ width, height }) {
     // console.log(`setWindowSize ${width} ${height}`);
-    if (!win) {
-        win = getStore(stores_name.app_main_window)
-    }
+    const win = getStore(stores_name.app_main_window)
     win && win?.setSize(width, height)
 }
 /**
  * 设置扩展高度
  */
-export function setExpendHeight({ height }, win) {
+export function setExpendHeight({ height }) {
     // console.log(`setExpendHeight  ${height}`);
-    if (!win) {
-        win = getStore(stores_name.app_main_window)
-    }
+    const win = getStore(stores_name.app_main_window)
     if (win) {
         let size = win.getSize()
         win.setSize(size[0], height)
@@ -319,7 +315,7 @@ export function showPopupMenu(options) {
             click: () => {
                 openConsole()
             }
-        },{
+        }, {
             label: '刷新',
             click: () => {
                 refresh()

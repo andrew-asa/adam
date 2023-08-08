@@ -120,4 +120,8 @@ export function isArray(obj) {
     return Object.prototype.toString.call(obj) === "[object Array]";
 }
 
+export function isTrueOrString(value) {
+    return (typeof value === 'string' && value === 'true') || (typeof value === 'boolean' && value === true)
+}
+
 

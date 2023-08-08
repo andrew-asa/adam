@@ -1,4 +1,4 @@
-import { BrowserWindow, ipcMain } from "electron";
+import electron, { BrowserWindow, ipcMain } from "electron";
 import * as controller from "./contronler";
 import { renderer_fun_call_msg_name, renderer_msg_name, services_name } from "@/common/common_const";
 import { stores_name } from "../common/common_const";
@@ -25,6 +25,9 @@ class RendererAPI {
 
         this.initDefaultHandlers()
         registerStore(stores_name.app_renderer_api, this)
+
+
+
     }
 
     private initDefaultServices() {
@@ -79,16 +82,21 @@ class RendererAPI {
     private async handle(event, arg) {
         const window = arg.winId ? BrowserWindow.fromId(arg.winId) : getStore(stores_name.app_main_window);
         const data = arg.data || {};
+        const ext = {
+            view: window,
+            windId: arg.windId,
+            event: event
+        }
         const option = arg.option || {};
         const type = arg.type
         let fn;
         let rdata
         // 指定services
         if (option.services && this.services[option.services][type]) {
-            rdata = await this.services[option.services][type](data, window, event);
+            rdata = await this.services[option.services][type](data, ext);
         } else if (this[arg.type] || this.handlers[type]) {
             fn = this[arg.type] || this.handlers[type];
-            rdata = await fn(data, window, event);
+            rdata = await fn(data, ext);
         } else {
             console.log(`RendererAPI 没有找到对应的方法！${arg.type} option: ${JSON.stringify(option)}`);
         }

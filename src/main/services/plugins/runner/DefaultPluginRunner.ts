@@ -5,6 +5,8 @@ import { getPluginFilePath } from "../utils/plugin_utils";
 import { stores_name } from "@/main/common/common_const";
 import { getStore } from "@/common/base/store";
 import { regs } from "@/common/common_const";
+import _ from "lodash";
+import { isTrueOrString } from "@/common/common_utils";
 
 export class DefaultPluginRunner implements ThirdPluginRunner {
 
@@ -18,16 +20,32 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
 
     loadMain(plugin: ThirdPlugin, ext: {
         session: Session,
-        view: BrowserView
+        view: BrowserView,
+        options?: any
     }): void {
-        this._loadMain(ext.view, plugin.name, plugin.main || '', plugin.ext)
+        this._loadMain(ext.view, plugin.name, plugin.main || '', ext.options || {})
     }
 
-    _loadMain(view: BrowserView, name: string, main: string, options?: any) {
-        if (main.match(regs.http_or_https)) {
-            view.webContents.loadURL(main)
+    async _loadMain(view: BrowserView, name: string, main: string, options?: any) {
+        var fixMain = main
+        const s = getStore(stores_name.services.plugin)
+        const settings = await s.getPluginSettings(name)
+        if (_.has(settings, 'debug') && isTrueOrString(settings.debug) && _.has(settings, 'main')) {
+            console.log(`${name} debug in debug main url [${settings.main}]`)
+            fixMain = settings.main
+            if (_.has(settings, 'openConsoleOnCreate') && isTrueOrString(settings.openConsoleOnCreate)) {
+                view.webContents.once('dom-ready', () => {
+                    view.webContents.openDevTools({
+                        mode: 'undocked',
+                    })
+                });
+            }
+        }
+
+        if (fixMain.match(regs.http_or_https)) {
+            view.webContents.loadURL(fixMain)
         } else {
-            const fn = this.getPluginMain(name, main)
+            const fn = this.getPluginMain(name, fixMain)
             view.webContents.loadFile(fn)
         }
         this.addEnvent(view, name, options)
@@ -46,16 +64,24 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
             // view.webContents.openDevTools();
             // this.triggerPluginHooks(view, 'PluginEnter', ext);
             // this.triggerPluginHooks(view, 'PluginReady', ext);
-            this.notifierPluginLoad(view, pluginName,option || {});
+            this.notifierPluginLoad(view, pluginName, option || {});
+            view.webContents.send('attach-preload', {
+                webContentsId: view.webContents.id
+            });
+
         });
         //修复请求跨域问题
-        view.webContents.session.webRequest.onBeforeSendHeaders(
-            (details, callback) => {
-                callback({
-                    requestHeaders: { referer: '*', ...details.requestHeaders },
-                });
-            }
-        );
+        // view.webContents.session.webRequest.onBeforeSendHeaders(
+        //     (details, callback) => {
+        //         callback({
+        //             requestHeaders: { referer: '*', ...details.requestHeaders },
+        //         });
+        //     }
+        // );
+
+        
+
+
 
         view.webContents.session.webRequest.onHeadersReceived(
             (details, callback) => {
@@ -88,7 +114,13 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
 
 
     getRunnerPreloads(plugin: ThirdPlugin): string[] {
-        return [path.join(__dirname, '../preload/adam.js')]
+        const ret: string[] = [path.join(__dirname, '../preload/adam.js')]
+        if (plugin.backendScript && !_.isEmpty(plugin.backendScript)) {
+            ret.push(...plugin.backendScript.map(item => {
+                return getPluginFilePath(plugin.name, item)
+            }))
+        }
+        return ret
     }
 
     triggerPluginHooks(view: BrowserView, hook: string, data: any) {

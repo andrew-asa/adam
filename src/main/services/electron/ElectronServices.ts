@@ -1,7 +1,25 @@
-import { app, clipboard, dialog, nativeImage } from "electron";
+import { app, clipboard, dialog, nativeImage, shell } from "electron";
 import { ServicesProvider } from "@/common/core/types";
 import _ from "lodash";
 export class ElectronServices implements ServicesProvider {
+    /**
+     * 系统默认程序打开文件
+     */
+    openPath(filePath: string) {
+        return shell.openPath(filePath)
+    }
+    /**
+     * 文件夹中显示文件
+     */
+    showItemInFolder(filePath: string) {
+        return shell.showItemInFolder(filePath)
+    }
+    /**
+     * 删除文件
+     */
+    trashItem(path: string) {
+        return shell.trashItem(path)
+    }
     copyImageToClipboardFromPath(path: string) {
         const imageNativeObj = nativeImage.createFromPath(path);
         clipboard.writeImage(imageNativeObj);

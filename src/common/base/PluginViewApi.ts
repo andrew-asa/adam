@@ -1,4 +1,4 @@
-import { PluginContainerLifeCycle, ThirdPlugin } from "../core/plugins";
+import {ThirdPlugin } from "../core/plugins";
 import { BaseAppController } from "./BaseAppController";
 
 /**

@@ -1,5 +1,8 @@
 {
-    "entryPoints": ["src/common/base/PluginViewApi.ts"],
-    "out": "dist/docs"
-  }
-  
+  "entryPoints": [
+    "src/common/base/services/db/PluginDBServices.ts",
+    "src/common/base/services/electron/PluginElectronServices.ts",
+    "src/common/base/services/plugin/PluginPluginServices.ts"
+  ],
+  "out": "dist/docs"
+}

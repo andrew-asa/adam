@@ -3,7 +3,7 @@ import { BaseDBServices } from "./BaseDBServices";
 import { getStore } from "../../store";
 import { db_prefix, export_stores_name } from "@/common/common_const";
 /**
- * 数据库控制器
+ * 数据库操作相关
  * 
  * @example ctx.services.db.xxx()
  */
@@ -22,7 +22,7 @@ export class PluginDBServices extends BaseDBServices {
     }
 
 
-    getDbPrefix(): string[] {
+    protected  getDbPrefix(): string[] {
         return [db_prefix.plugin_db, this.getPluginName()];
     }
 }

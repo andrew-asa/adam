@@ -1,6 +1,11 @@
-import { app, clipboard } from "electron";
+import { app, clipboard, dialog, nativeImage } from "electron";
 import { ServicesProvider } from "@/common/core/types";
+import _ from "lodash";
 export class ElectronServices implements ServicesProvider {
+    copyImageToClipboardFromPath(path: string) {
+        const imageNativeObj = nativeImage.createFromPath(path);
+        clipboard.writeImage(imageNativeObj);
+    }
     writeText(text: string) {
         clipboard.writeText(text);
     }
@@ -21,5 +26,60 @@ export class ElectronServices implements ServicesProvider {
 
     isDevEnv(): boolean {
         return !this.isProduction()
+    }
+    /**
+     * 打开文件对话框
+     */
+    openFolderDialog(OpenDialogOptions: {
+        title?: string;
+        defaultPath?: string;
+        buttonLabel?: string;
+        filters?: {
+            extensions: string[];
+            name: string;
+        }[];
+        properties?: Array<'openFile' | 'openDirectory' | 'multiSelections' | 'showHiddenFiles' | 'createDirectory' | 'promptToCreate' | 'noResolveAliases' | 'treatPackageAsDirectory' | 'dontAddToRecent'>;
+        /**
+         * Message to display above input boxes.
+         *
+         * @platform darwin
+         */
+        message?: string;
+        /**
+         * Create security scoped bookmarks when packaged for the Mac App Store.
+         *
+         * @platform darwin,mas
+         */
+        securityScopedBookmarks?: boolean;
+    }) {
+        const opt = _.extend({}, OpenDialogOptions, {
+            properties: ['openDirectory']
+        });
+        return dialog.showOpenDialog(opt);
+    }
+
+    showOpenDialog(OpenDialogOptions: {
+        title?: string;
+        defaultPath?: string;
+        buttonLabel?: string;
+        filters?: {
+            extensions: string[];
+            name: string;
+        }[];
+        properties?: Array<'openFile' | 'openDirectory' | 'multiSelections' | 'showHiddenFiles' | 'createDirectory' | 'promptToCreate' | 'noResolveAliases' | 'treatPackageAsDirectory' | 'dontAddToRecent'>;
+        /**
+         * Message to display above input boxes.
+         *
+         * @platform darwin
+         */
+        message?: string;
+        /**
+         * Create security scoped bookmarks when packaged for the Mac App Store.
+         *
+         * @platform darwin,mas
+         */
+        securityScopedBookmarks?: boolean;
+    }) {
+        return dialog.showOpenDialog(OpenDialogOptions);
     }
 }

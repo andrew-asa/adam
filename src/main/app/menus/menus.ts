@@ -34,10 +34,6 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
                 type: 'normal',
                 label: '主控制台',
                 click: openConsole
-            }, {
-                type: 'normal',
-                label: '当前插件控制台',
-                click: openCurrentPluginConsole
             },
             {
                 type: 'normal',

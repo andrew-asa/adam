@@ -3,7 +3,6 @@ import { CONFIGURE_DIR, isMacOS, stores_name } from "@main/common/common_const";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
 import { getStore } from "@/common/base/store";
-import { DECODE_KEY } from "@/common/common_const";
 import { ServicesProvider } from "@/common/core/types";
 import { openFile } from "./appsearch";
 

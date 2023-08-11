@@ -1,7 +1,6 @@
 import { services_name } from "@/common/common_const";
 import { invokeMessage } from "@/common/base/Renderer";
 import { ServicesProvider } from "@/common/core/types";
-import { AdamPlugin, PluginSettings } from "@/common/core/plugins";
 import { log } from "console";
 import { BaseServices } from "../BaseServices";
 

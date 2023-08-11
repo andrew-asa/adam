@@ -51,7 +51,7 @@ import appstore from './views/appstore/index.vue'
 import dev from './views/dev/index.vue'
 import installed from './views/installed/index.vue'
 import settings from './views/settings/index.vue'
-import "./assets/ant_reset.less";
+import './assets/ant_reset.less'
 import {
   HeartOutlined,
   UserOutlined,
@@ -59,8 +59,13 @@ import {
   SettingOutlined,
   BugOutlined
 } from '@ant-design/icons-vue'
-
-const active = ref(['appstore'])
+const props: any = defineProps({
+  code: {
+    type: String,
+    default: 'appstore'
+  }
+})
+const active = ref([props.code])
 const changeMenu = (key: any) => {
   // router.push(key);
 }
@@ -72,7 +77,7 @@ const Components = {
   settings: settings
 }
 </script>
-<style lang="less" >
+<style lang="less">
 * {
   margin: 0;
   padding: 0;
@@ -97,7 +102,7 @@ const Components = {
     }
   }
 }
-.sub-container{
+.sub-container {
   width: 800px;
 }
 </style>

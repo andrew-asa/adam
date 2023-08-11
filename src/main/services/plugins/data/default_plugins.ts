@@ -10,10 +10,32 @@ export const default_internal_plugin: ThirdPlugin[] = [{
   main: "market",
   features: [
     {
+      code: "appstore",
+      explain: "插件管理",
       cmds: [
         "CJGL",
         "ChaJianGuanLi",
         "插件管理"
+      ]
+    },
+    {
+      code: "installed",
+      explain: "已安装插件",
+      cmds: [
+        "已安装",
+        "yianzhuang",
+        "installed",
+        "yaz"
+      ]
+    },
+    {
+      code: "settings",
+      explain: "应用设置",
+      cmds: [
+        "settings",
+        "应用设置",
+        "chajianshezhi",
+        "cjsz"
       ]
     }
   ],

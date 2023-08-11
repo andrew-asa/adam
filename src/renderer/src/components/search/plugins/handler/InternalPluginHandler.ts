@@ -14,17 +14,20 @@ export class InternalPluginHandler extends DefaultPluginHandler {
         return plugin.pluginType && plugin.pluginType === 'internal'
     }
 
-    open(plugin: ThirdPlugin, options?: any): void {
+    open(plugin: ThirdPlugin, options: any): void {
 
         const store = getStore(export_stores_name.renderer.plugin_stores)
-        super.open(plugin,options)
-        store.setInternalPluginName(plugin.main)
+        super.open(plugin, options)
+        store.setInternalPlugin({
+            name: plugin.main,
+            code: options.code
+        })
         ctx.app.controller.setExpendHeight(600)
     }
     close(plugin: ThirdPlugin): void {
         super.close(plugin)
         const store = getStore(export_stores_name.renderer.plugin_stores)
-        store.setInternalPluginName("")
+        store.setInternalPlugin({})
         ctx.app.controller.setExpendHeight(60)
     }
 

@@ -27,7 +27,11 @@
         @onClickPlugin="(e) => store.onClickPlugin(e)"
       ></result>
       <div class="internal-plugin-container">
-        <component :is="Components[internalPluginName]" />
+        <component
+          v-if="internalPlugin.name"
+          :is="Components[internalPlugin.name]"
+          :code="internalPlugin.code"
+        />
       </div>
     </div>
   </div>
@@ -42,8 +46,15 @@ import result from './result.vue'
 import { userStore } from './plugins/plugins_store'
 import _ from 'lodash'
 const store = userStore()
-const { searchValue, currentPlugin, options, currentSelect, placeholder, clipboardFile,internalPluginName } =
-  storeToRefs(store)
+const {
+  searchValue,
+  currentPlugin,
+  options,
+  currentSelect,
+  placeholder,
+  clipboardFile,
+  internalPlugin
+} = storeToRefs(store)
 const container = ref(null)
 const searchContainer = ref(null)
 const Components = {

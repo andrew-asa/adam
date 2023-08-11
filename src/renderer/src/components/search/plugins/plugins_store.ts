@@ -11,13 +11,25 @@ interface PluginsState {
     placeholder: string;
     currentSelect: number;
     currentPlugin: ThirdPlugin | null | {};
-    clipboardFile: any[];
+    clipboardFile: ClipboardItem[];
     pageCount: number;
     _init: boolean;
     /**
-     * 运行内部插件名字
+     * 内部运行插件
      */
-    internalPluginName: string;
+    internalPlugin: {
+        // 名字
+        name?: string,
+        // 代码
+        code?: string
+        [key: string]: any
+    }
+}
+export interface ClipboardItem {
+    name: String,
+    dataUrl?: String,
+    isFile?: Boolean
+    [key: string]: any
 }
 export const userStore = defineStore({
     id: "plugins_store",
@@ -56,9 +68,12 @@ export const userStore = defineStore({
         clipboardFile: [],
         pageCount: 35,
         _init: false,
-        internalPluginName: ''
+        internalPlugin: {}
     }),
     actions: {
+        setClipboardFile(clipboardFile: ClipboardItem[]) {
+            this.clipboardFile = clipboardFile
+        },
         getSearchValue() {
             return this.searchValue
         },
@@ -70,9 +85,9 @@ export const userStore = defineStore({
         },
         selectPlugin(plugin: ThirdPlugin) {
             const option = {
-                playload: this.searchValue
+                playload: this.searchValue,
+                code: (plugin.ext && plugin.ext.code) ? plugin.ext.code : '',
             }
-            // getHandler(plugin).open(plugin, option);
             ctx.app.search.open(plugin, option);
         },
         onClickPlugin(plugin: ThirdPlugin) {
@@ -303,7 +318,7 @@ export const userStore = defineStore({
         _checkPaste(e: any) {
             const { ctrlKey, metaKey } = e;
             if ((ctrlKey || metaKey) && e.key === 'v') {
-                // console.log(`文件粘贴`);
+                console.log(`文件粘贴`);
             }
         },
         /**
@@ -353,8 +368,9 @@ export const userStore = defineStore({
         clickPlugin(plugin: any) {
             this.setCurrentPlugin(plugin);
         },
-        setInternalPluginName(name: string) {
-            this.internalPluginName = name
+
+        setInternalPlugin(p: { name?: string, code?: string }) {
+            this.internalPlugin = p
         }
     },
     getters: {

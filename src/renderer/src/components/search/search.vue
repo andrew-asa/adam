@@ -6,6 +6,18 @@
     >
       {{ currentPlugin && currentPlugin.pluginName }}
     </div>
+    <div
+      :class="clipboardFile[0].name ? 'clipboard-tag' : 'clipboard-img'"
+      v-if="!!clipboardFile.length"
+    >
+      <img :src="getIcon()" />
+      <div class="ellipse">{{ clipboardFile[0].name }}</div>
+      <a-tag
+        color="#aaa"
+        v-if="clipboardFile.length > 1"
+        >{{ clipboardFile.length }}</a-tag
+      >
+    </div>
     <a-input
       id="search"
       ref="mainInput"
@@ -56,13 +68,9 @@
 import { defineProps, defineEmits, ref } from 'vue'
 import { LoadingOutlined, MoreOutlined } from '@ant-design/icons-vue'
 import { ctx } from '../../startup/ctx_starter'
+import fileIcon from '../../assets/file.png'
+import folderIcon from '../../assets/folder.png'
 
-const inputProps = { autoComplete: 'off' }
-
-// const opConfig = remote.getGlobal('OP_CONFIG');
-// const { Menu } = remote;
-
-// const config = ref(opConfig.get());
 
 const props: any = defineProps({
   searchValue: {
@@ -79,7 +87,12 @@ const props: any = defineProps({
   },
   pluginLoading: Boolean,
   clipboardFile: {
-    type: Array,
+    type: Array<{
+      name: String,
+      dataUrl?: String,
+      isFile?: Boolean
+      [key: string]: any
+    }>,
     default: []
   }
 })
@@ -120,9 +133,7 @@ const changeHideOnBlur = () => {
 
 const getIcon = () => {
   if (props.clipboardFile[0].dataUrl) return props.clipboardFile[0].dataUrl
-  return props.clipboardFile[0].isFile
-    ? require('../../assets/file.png')
-    : require('../../assets/folder.png')
+  return props.clipboardFile[0].isFile ? fileIcon : folderIcon
 }
 
 const newWindow = () => {

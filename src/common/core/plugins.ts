@@ -54,6 +54,8 @@ export interface ThirdPluginFeature {
      * 触发命令列表
      */
     cmds: any[]
+    label?: string
+    [key: string]: any
 }
 /**
  * 第三方插件

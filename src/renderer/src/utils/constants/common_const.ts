@@ -8,3 +8,11 @@ export const isElectron = !!(nodeProcess?.versions?.electron)
 export const isMacOS = /macintosh|mac os x/i.test(navigator.userAgent)
 export const isWindows = /win64|win32|wow64|wow32/i.test(navigator.userAgent)
 
+
+export const db_keys = {
+    /**
+     * 搜索配置
+     */
+    search_configure: "search_configure"
+}
+

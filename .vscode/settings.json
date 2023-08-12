@@ -11,5 +11,9 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "vue-i18n.i18nPaths": "src/renderer/src/i18n",
+  "i18n-ally.localesPaths": [
+    "src/renderer/src/i18n"
+  ],
   
 }

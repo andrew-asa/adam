@@ -216,7 +216,7 @@ export const userStore = defineStore({
 
                                 let item: any = {
                                     name: plugin.name,
-                                    pluginName: cmd.label || plugin.pluginName,
+                                    pluginName: cmd.label || feature.label || plugin.pluginName,
                                     main: plugin.main,
                                     description: feature.explain || plugin.description,
                                     logo: plugin.logo,

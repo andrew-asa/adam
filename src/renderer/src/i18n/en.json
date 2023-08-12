@@ -1,0 +1,20 @@
+{
+  "hello": "hello",
+  "feature": {
+    "settings": {
+      "title": "Settings"
+    },
+    "installed": {
+      "title": "installed"
+    },
+    "appstore": {
+      "title": "appstore"
+    },
+    "account": {
+      "title": "account"
+    },
+    "dev": {
+      "title": "developer"
+    }
+  }
+}

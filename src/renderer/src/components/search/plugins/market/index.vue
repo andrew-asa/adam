@@ -10,31 +10,32 @@
           <template #icon>
             <AppstoreOutlined />
           </template>
-          插件市场
+
+          {{ $t('feature.appstore.title') }}
         </a-menu-item>
         <a-menu-item key="installed">
           <template #icon>
             <HeartOutlined />
           </template>
-          已安装
+          {{ $t('feature.installed.title') }}
         </a-menu-item>
         <a-menu-item key="settings">
           <template #icon>
             <SettingOutlined />
           </template>
-          设置
+          {{ $t('feature.settings.title') }}
         </a-menu-item>
         <a-menu-item key="account">
           <template #icon>
             <UserOutlined />
           </template>
-          账户
+          {{ $t('feature.account.title') }}
         </a-menu-item>
         <a-menu-item key="dev">
           <template #icon>
             <BugOutlined />
           </template>
-          开发者
+          {{ $t('feature.dev.title') }}
         </a-menu-item>
       </a-menu>
     </div>

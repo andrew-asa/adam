@@ -1,5 +1,5 @@
 <template>
- settings   
+ <p>{{ $t('hello') }}</p>
 </template>
 <script setup lang="ts">
 

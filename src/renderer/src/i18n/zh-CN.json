@@ -1,0 +1,23 @@
+{
+  "hello": "hello",
+  "feature": {
+    "settings": {
+      "title": "设置"
+    },
+    "setting": {
+      "title": "设置"
+    },
+    "installed": {
+      "title": "已安装"
+    },
+    "appstore": {
+      "title": "插件市场"
+    },
+    "account": {
+      "title": "账号"
+    },
+    "dev": {
+      "title": "开发者"
+    }
+  }
+}

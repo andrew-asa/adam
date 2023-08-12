@@ -9,12 +9,29 @@ import { switchToRoute } from "../router"
 import { AppController } from "@/common/base/AppController"
 import * as store from "@/common/base/store"
 import { SearchController } from "../components/search/SearchController"
-import { ThirdPlugin } from "@/common/core/plugins"
 import { AppDBServices } from "@/common/base/services/db/AppDBServices"
 import { ElectronServices } from "@/common/base/services/electron/ElectronServices"
 import { PluginServices } from "@/common/base/services/plugin/PluginServices"
 const hooks = {}
 const empty_fun = () => {
+}
+const services: {
+    electron: ElectronServices,
+    plugin: PluginServices,
+    db: AppDBServices,
+    [key: string]: any
+} = {
+    electron: new ElectronServices(),
+    plugin: new PluginServices(),
+    db: new AppDBServices(),
+}
+
+export function registerService(name: string, service: any) {
+    services[name] = service
+}
+
+export function getService(name: string) {
+    return services[name]
 }
 
 const _ctx = {
@@ -44,11 +61,7 @@ const _ctx = {
     /**
      * 后端给前端的接口
      */
-    services: {
-        electron: new ElectronServices(),
-        plugin: new PluginServices(),
-        db: new AppDBServices(),
-    },
+    services: services,
 }
 export const ctx = Object.freeze(_ctx)
 export class ctx_starter implements starter {

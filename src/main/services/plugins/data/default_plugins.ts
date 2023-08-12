@@ -12,6 +12,7 @@ export const default_internal_plugin: ThirdPlugin[] = [{
     {
       code: "appstore",
       explain: "插件管理",
+      
       cmds: [
         "CJGL",
         "ChaJianGuanLi",
@@ -19,6 +20,7 @@ export const default_internal_plugin: ThirdPlugin[] = [{
       ]
     },
     {
+      label: "已安装",
       code: "installed",
       explain: "已安装插件",
       cmds: [
@@ -31,6 +33,7 @@ export const default_internal_plugin: ThirdPlugin[] = [{
     {
       code: "settings",
       explain: "应用设置",
+      label: "应用设置",
       cmds: [
         "settings",
         "应用设置",

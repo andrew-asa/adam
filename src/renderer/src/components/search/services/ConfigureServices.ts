@@ -26,7 +26,7 @@ export class ConfigureServices {
         ctx.services.db.get(db_keys.search_configure).then(({ data }) => {
             if (_.isEmpty(data.data)) return
             this.conf = data.data
-            console.log(`renderer ConfigureServices fetch conf`, this.conf);
+            // console.log(`renderer ConfigureServices fetch conf`, this.conf);
         })
     }
 
@@ -51,6 +51,16 @@ export class ConfigureServices {
 
     setLocale(value: string) {
         this.conf.locale = value
+        this.doUpdate()
+    }
+
+    getConfigure() {
+        return this.conf
+    }
+
+    updateConfigure(conf: Configure) {
+        this.conf = _.extend({}, this.conf, conf)
+        console.log(`ConfigureServices update conf`, this.conf);
         this.doUpdate()
     }
 }

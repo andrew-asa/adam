@@ -2,7 +2,22 @@
   "hello": "hello",
   "feature": {
     "settings": {
-      "title": "设置"
+      "title": "设置",
+      "base": {
+        "title": "基本设置",
+        "normal": "常规",
+        "autopaste": "自动粘贴到搜索框",
+        "autopaste_explain": "1.呼出 adam时，在设定时间内，复制的内容将自动粘贴到搜索框\n2. 使用全局快捷键时，在设定时间内，插件应用将获得复制的内容，并自动进行处理"
+      },
+      "globalkey": {
+        "title": "全局快捷键"
+      },
+      "superpannel": {
+        "title": "超级面板"
+      },
+      "superpanel": {
+        "title": "超级面板"
+      }
     },
     "setting": {
       "title": "设置"

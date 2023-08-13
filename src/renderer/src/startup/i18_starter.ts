@@ -9,6 +9,7 @@ export class i18_starter implements starter {
 
         console.log(`i18_starter start`);
         const i18n = createI18n({
+            legacy: true,
             locale: 'zh-CN',
             messages: langs
         })

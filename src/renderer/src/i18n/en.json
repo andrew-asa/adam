@@ -2,7 +2,17 @@
   "hello": "hello",
   "feature": {
     "settings": {
-      "title": "Settings"
+      "title": "Settings",
+      "base": {
+        "title": "base settings"
+      },
+      "globalkey": {
+        "title": "glo"
+      },
+      "superpannel": {},
+      "superpanel": {
+        "title": "super panel"
+      }
     },
     "installed": {
       "title": "installed"

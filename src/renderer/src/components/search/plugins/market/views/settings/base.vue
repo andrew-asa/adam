@@ -7,14 +7,38 @@
           <label>{{ $t('feature.settings.base.autopaste') }}</label>
           <a-popover>
             <template #content>
-                {{ $t('feature.settings.base.autopaste_explain') }}
+              {{ $t('feature.settings.base.autopaste_explain') }}
             </template>
             <question-circle-outlined class="ml-2"></question-circle-outlined>
           </a-popover>
-          
         </div>
         <div class="flex-1 flex justify-end mr-4">
           <a-switch v-model:checked="autoPasteIntoSearch"></a-switch>
+        </div>
+      </div>
+      <div class="flex pt-3">
+        <div class="flex-1">
+          <label>{{ $t('feature.settings.base.placeholder') }}</label>
+        </div>
+        <div class="flex-1 flex justify-end mr-4">
+          <a-input
+            v-model:value="placeholder"
+            :placeholder="default_conf.placeholder"
+          />
+          <a-button
+            class="ml-2"
+            type="primary"
+            @click="placeholderSure"
+          >
+            确定</a-button
+          >
+          <a-button
+            class="ml-2"
+            type="primary"
+            @click="placeholderReset"
+          >
+            重置</a-button
+          >
         </div>
       </div>
     </div>
@@ -24,13 +48,25 @@
 import { ref, watch } from 'vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { userStore } from './plugins_settings_store'
+import { default_conf } from '@renderer/components/search/services/ConfigureServices'
 import { storeToRefs } from 'pinia'
-const store = userStore()   
-const {
-    autoPasteIntoSearch
-} = storeToRefs(store)
+import { message } from 'ant-design-vue'
+const store = userStore()
+const { autoPasteIntoSearch } = storeToRefs(store)
+const placeholder = ref('')
 watch(autoPasteIntoSearch, () => {
-    store.doSaveSettings()
+  store.doSaveSettings()
 })
+const placeholderSure = () => {
+  if (placeholder.value) {
+    store.setPlaceholder(placeholder.value)
+    message.success('设置成功')
+  }
+}
+
+const placeholderReset = () => {
+  placeholder.value = default_conf.placeholder
+  placeholderSure()
+}
 </script>
 <style scoped></style>

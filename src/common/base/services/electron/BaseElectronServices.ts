@@ -1,6 +1,4 @@
 import { services_name } from "@/common/common_const";
-import { invokeMessage } from "@/common/base/Renderer";
-import { ServicesProvider } from "@/common/core/types";
 import { BaseServices } from "../BaseServices";
 
 /**
@@ -63,10 +61,10 @@ export class BaseElectronServices extends BaseServices {
     isProduction() {
         return this.invoke("isProduction", {});
     }
-/**
-     * @description 是否是生产环境
-     * @returns 
-     */
+    /**
+         * @description 是否是生产环境
+         * @returns 
+         */
     isDevEnv() {
         return this.invoke("isDevEnv", {});
     }
@@ -98,5 +96,19 @@ export class BaseElectronServices extends BaseServices {
         securityScopedBookmarks?: boolean;
     }) {
         return this.invoke("showOpenDialog", OpenDialogOptions);
+    }
+
+    /**
+     * 获取粘贴板上的文件列表
+     * @returns 
+     */
+    getClipboardFiles(): Promise<{
+        isFile: boolean,
+        isDirectory: boolean,
+        name: string,
+        path: string
+        [key: string]: any
+    }[]> {
+        return this.invoke("getClipboardFiles", {});
     }
 }

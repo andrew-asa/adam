@@ -1,6 +1,11 @@
 import { app, clipboard, dialog, nativeImage, shell } from "electron";
+import plist from "plist";
+import fs, { Stats } from "fs";
+import path from "path";
+import ofs from "original-fs";
 import { ServicesProvider } from "@/common/core/types";
 import _ from "lodash";
+import { isMacOS } from "@/main/common/common_const";
 export class ElectronServices implements ServicesProvider {
     /**
      * 系统默认程序打开文件
@@ -99,5 +104,80 @@ export class ElectronServices implements ServicesProvider {
         securityScopedBookmarks?: boolean;
     }) {
         return dialog.showOpenDialog(OpenDialogOptions);
+    }
+
+
+    getClipboardFiles(): {
+        isFile: boolean,
+        isDirectory: boolean,
+        name: string,
+        path: string
+        [key: string]: any
+    }[] {
+        let fileInfo: any = []
+        const empty_list = []
+        if (isMacOS) {
+            if (!clipboard.has("NSFilenamesPboardType")) return empty_list;
+            const result = clipboard.read("NSFilenamesPboardType");
+            if (!result) return empty_list;
+            try {
+                fileInfo = plist.parse(result);
+            } catch (e) {
+                return empty_list;
+            }
+        }
+        if (!Array.isArray(fileInfo)) return empty_list;
+        const target: any = fileInfo
+            .map((p) => {
+                let state = this.lstatSimpleSync(p)
+                if(!state.exists) return false;
+                return state
+            })
+            .filter(Boolean);
+        return target;
+    }
+
+    lstatSync(path: string): {
+        exists: boolean,
+        state: any
+    } {
+        let ret = {
+            exists: false,
+            state: {}
+        }
+        if (fs.existsSync(path)) {
+            ret.state = fs.lstatSync(path);
+        }
+        return ret
+    }
+
+    lstatSimpleSync(p: string): {
+        exists: boolean,
+        name: string,
+        isFile: boolean,
+        isDirectory: boolean,
+        path: string,
+        dir: string
+        [key: string]: any
+    } {
+        const exist = fs.existsSync(p)
+        const name = path.basename(p) || p
+        var isFile = false
+        var isDirectory = false
+        var p = p
+        var dir = path.dirname(p)
+        if (exist) {
+            let s = ofs.lstatSync(p)
+            isFile = s.isFile()
+            isDirectory = s.isDirectory()
+        }
+        return {
+            exists: exist,
+            name: name,
+            isFile: isFile,
+            isDirectory: isDirectory,
+            path: p,
+            dir: dir
+        }
     }
 }

@@ -11,18 +11,18 @@ import * as store from "@/common/base/store"
 import { SearchController } from "../components/search/SearchController"
 import { AppDBServices } from "@/common/base/services/db/AppDBServices"
 import { ElectronServices } from "@/common/base/services/electron/ElectronServices"
-import { PluginServices } from "@/common/base/services/plugin/PluginServices"
+import { RendererPluginServices } from "../components/search/services/RendererPluginServices"
 const hooks = {}
 const empty_fun = () => {
 }
 const services: {
     electron: ElectronServices,
-    plugin: PluginServices,
+    plugin: RendererPluginServices,
     db: AppDBServices,
     [key: string]: any
 } = {
     electron: new ElectronServices(),
-    plugin: new PluginServices(),
+    plugin: new RendererPluginServices(),
     db: new AppDBServices(),
 }
 

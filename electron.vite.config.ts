@@ -5,6 +5,7 @@ import { render } from 'vue'
 import fs from 'fs-extra'
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 async function copyFolderRecursive(source, destination) {
   try {
@@ -33,7 +34,20 @@ var inputs = {
 }
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [
+      externalizeDepsPlugin(),
+      // nodePolyfills()
+    ],
+    build: {
+      rollupOptions: {
+        plugins: [
+          // nodePolyfills()
+        ],
+        external: [
+          'original-fs', // 将 'original-fs' 标记为外部模块
+        ],
+      }
+    },
     resolve: {
       alias: {
         '@': resolve('src'),

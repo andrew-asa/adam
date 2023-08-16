@@ -10,7 +10,6 @@ export class search_starter implements starter {
     name: string = "search_starter"
     start(app: App) {
         const store = userStore()
-        store.initOptions();
         registerStore(export_stores_name.renderer.plugin_stores, store);
         const configureServices = new ConfigureServices();
         registerService("configure", configureServices);

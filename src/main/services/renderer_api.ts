@@ -34,11 +34,11 @@ class RendererAPI {
     private initDefaultServices() {
         this.services = services
         const es = new ElectronServices()
-        this.registerServices(services_name.electron_services, es, stores_name.services.electron)
+        this.registerServices(services_name.electron_services, es, ElectronServices.servicesName)
         let dbpath = es.getPath('userData')
-        this.registerServices(services_name.db_services, new DBServices(dbpath), stores_name.services.db)
-        this.registerServices(services_name.plugin_services, new PluginServices(), stores_name.services.plugin)
-        this.registerServices(services_name.app_controller_services, new AppControllerServices(), stores_name.services.app)
+        this.registerServices(services_name.db_services, new DBServices(dbpath), DBServices.servicesName)
+        this.registerServices(services_name.plugin_services, new PluginServices(), PluginServices.servicesName)
+        this.registerServices(services_name.app_controller_services, new AppControllerServices(), AppControllerServices.servicesName)
     }
 
     private registerServices(serviceName: string, services: ServicesProvider, storeName?: string) {

@@ -5,8 +5,13 @@ import path from "path";
 import ofs from "original-fs";
 import { ServicesProvider } from "@/common/core/types";
 import _ from "lodash";
-import { isMacOS } from "@/main/common/common_const";
+import { isMacOS, stores_name } from "@/main/common/common_const";
+import { getStore } from "@/common/base/store";
 export class ElectronServices implements ServicesProvider {
+    static servicesName: string = stores_name.services.electron
+    static getServices(): ElectronServices {
+        return getStore(ElectronServices.servicesName)
+    }
     /**
      * 系统默认程序打开文件
      */
@@ -130,7 +135,7 @@ export class ElectronServices implements ServicesProvider {
         const target: any = fileInfo
             .map((p) => {
                 let state = this.lstatSimpleSync(p)
-                if(!state.exists) return false;
+                if (!state.exists) return false;
                 return state
             })
             .filter(Boolean);

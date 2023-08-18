@@ -4,6 +4,9 @@ import PouchDB from "pouchdb";
 import pouchdbFind from 'pouchdb-find';
 import { extend } from "@/common/common_utils";
 import { DocRes, ServicesProvider } from "@/common/core/types";
+import { getStore } from "@/common/base/store";
+import { stores_name } from "@/main/common/common_const";
+
 export class DBServices implements ServicesProvider {
   readonly docMaxByteLength;
   readonly docAttachmentMaxByteLength;
@@ -17,6 +20,12 @@ export class DBServices implements ServicesProvider {
     this.defaultDbName = path.join(dbPath, "db_store");
     this.init();
   }
+
+  static servicesName: string = stores_name.services.db
+  static getServices(): DBServices {
+    return getStore(DBServices.servicesName)
+  }
+
 
 
   init() {

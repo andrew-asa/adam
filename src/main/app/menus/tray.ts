@@ -8,6 +8,7 @@ function createTray(): Promise<Tray> {
         tray.on('click', function (this: Tray) {
             tray.popUpContextMenu()
         })
+        console.log("createTray")
         tray.setContextMenu(getTrayMenus())
         resolve(tray)
     })

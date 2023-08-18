@@ -22,6 +22,10 @@ export class PluginServices implements ServicesProvider {
     pluginManager: CompositePluginManager = new CompositePluginManager()
     views: Map<string, BrowserView> = new Map();
     settingsCache: LRUCache<string, PluginSettings> = new LRUCache<string, PluginSettings>(10);
+    static servicesName: string = stores_name.services.plugin
+    static getServices(): PluginServices {
+        return getStore(PluginServices.servicesName)
+    }
     constructor() {
         this.init();
     }
@@ -114,7 +118,7 @@ export class PluginServices implements ServicesProvider {
      * 获取用户当前插件的配置
      */
     async getPluginSettings(name: string) {
-        const db: DBServices = getStore(stores_name.services.db)
+        const db: DBServices = DBServices.getServices()
         var ret: any = {}
         if (this.settingsCache.has(name)) {
             ret = this.settingsCache.get(name)
@@ -150,7 +154,7 @@ export class PluginServices implements ServicesProvider {
      * 更新插件设置
      */
     updatePluginSettings({ name, settings }) {
-        const db: DBServices = getStore(stores_name.services.db)
+        const db: DBServices = DBServices.getServices()
 
         // this.settingsCache.set(name, settings)
         const ret = db.put({

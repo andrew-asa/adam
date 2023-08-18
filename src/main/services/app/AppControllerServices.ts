@@ -1,12 +1,17 @@
 import { getStore } from "@/common/base/store";
 import { ServicesProvider } from "@/common/core/types";
 import { BrowserView, BrowserWindow, Menu, dialog, shell } from "electron";
-import { CONFIGURE_DIR, isMacOS, stores_name } from "../../common/common_const";
+import { CONFIGURE_DIR, isMacOS } from "../../common/common_const";
+import { stores_name } from "@/main/common/common_const";
 import { openFile } from "../appsearch";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
 
 export class AppControllerServices implements ServicesProvider {
+    static servicesName: string = stores_name.services.app
+    static getServices(): AppControllerServices {
+        return getStore(AppControllerServices.servicesName)
+    }
     /**
      * app 后端控制器
      */
@@ -15,8 +20,8 @@ export class AppControllerServices implements ServicesProvider {
     }
 
     /**
- * 打开控制台
- */
+     * 打开控制台
+     */
     openConsole() {
         const win = getStore(stores_name.app_main_window)
         win && win.webContents.openDevTools(

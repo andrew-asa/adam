@@ -1,4 +1,3 @@
-import { AdamPlugin, ThirdPlugin } from "../core/plugins";
 import { BaseAppController } from "./BaseAppController";
 
 export class AppController extends BaseAppController {

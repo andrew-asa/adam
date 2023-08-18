@@ -1,8 +1,5 @@
-import { services_name } from "../common_const";
-import { Renderer, renderer } from "./Renderer";
-import { BaseServices } from "./services/BaseServices";
-const renderer_msg_name = "renderer-msg-trigger"
-const renderer_fun_call_msg_name = "renderer-fun-call-msg-trigger"
+import { services_name } from "@/common/common_const";
+import { BaseServices } from "@/common/base/services/BaseServices";
 
 /**
  * main/services/RendererAPI => src/main/services/AppControllerServices.ts

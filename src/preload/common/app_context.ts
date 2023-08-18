@@ -1,5 +1,5 @@
 import { PluginDBServices } from '@/common/base/services/db/PluginDBServices'
-import { PluginViewApi } from '@/common/base/PluginViewApi'
+import { PluginViewApi } from '@/common/base/services/app/PluginViewApi'
 import * as action from '@/common/base/action'
 import * as store from '@/common/base/store'
 import { ThirdPlugin } from '@/common/core/plugins'

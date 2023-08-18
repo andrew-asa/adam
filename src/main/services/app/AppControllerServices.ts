@@ -1,8 +1,8 @@
 import { getStore } from "@/common/base/store";
 import { ServicesProvider } from "@/common/core/types";
 import { BrowserView, BrowserWindow, Menu, dialog, shell } from "electron";
-import { CONFIGURE_DIR, isMacOS, stores_name } from "../common/common_const";
-import { openFile } from "./appsearch";
+import { CONFIGURE_DIR, isMacOS, stores_name } from "../../common/common_const";
+import { openFile } from "../appsearch";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
 

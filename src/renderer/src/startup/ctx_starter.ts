@@ -6,7 +6,7 @@ import * as hook from '@renderer/core/hook'
 import { starter } from "./starter"
 import _ from 'lodash'
 import { switchToRoute } from "../router"
-import { AppController } from "@/common/base/AppController"
+import { AppController } from "@/common/base/services/app/AppController"
 import * as store from "@/common/base/store"
 import { SearchController } from "../components/search/SearchController"
 import { AppDBServices } from "@/common/base/services/db/AppDBServices"

@@ -9,7 +9,7 @@ import { DBServices } from "./db/DBServices";
 import { ElectronServices } from "./electron/ElectronServices";
 import { services } from "./contronler";
 import { PluginServices } from "./plugins/PluginServices";
-import { AppControllerServices } from "./AppControllerServices";
+import { AppControllerServices } from "./app/AppControllerServices";
 
 /**
  * 提供给前端的接口

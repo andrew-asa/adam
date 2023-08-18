@@ -1,47 +1,20 @@
+import { services_name } from "../common_const";
 import { Renderer, renderer } from "./Renderer";
+import { BaseServices } from "./services/BaseServices";
 const renderer_msg_name = "renderer-msg-trigger"
 const renderer_fun_call_msg_name = "renderer-fun-call-msg-trigger"
 
 /**
- * main/services/RendererAPI => main/services/controller
+ * main/services/RendererAPI => src/main/services/AppControllerServices.ts
  * 发消息
  */
 // const renderer_msg_name = "renderer-msg-trigger"
-export class BaseAppController {
-    private renderer: Renderer = renderer;
-    from: string = "main";
+export class BaseAppController extends BaseServices {
+    
+    serviceName: string = services_name.app_controller_services;
     constructor() {
+        super();
     }
-    constructorParams(type: String, data?: any) {
-        return {
-            type: type,
-            data: data,
-            ext: {
-                from: this.from
-            }
-        }
-    }
-    sendSyncMessage(type: String, data?: any) {
-        this.renderer.sendSync(renderer_msg_name, this.constructorParams(type, data));
-    }
-    sendMessage(type: String, data?: any) {
-        return this.renderer.send(renderer_msg_name, this.constructorParams(type, data));
-    }
-    async invokeMessage(type: String, data?: any) {
-        return await this.renderer.invoke(renderer_fun_call_msg_name, this.constructorParams(type, data));
-    }
-    /**
-     * 同步调用
-     */
-    async invokeMessageSync(type: String, data?: any) {
-        try {
-            const result = await this.renderer.invoke(renderer_fun_call_msg_name, this.constructorParams(type, data));
-            return result
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     /**
      * 设置窗口大小
      * @param width 宽度
@@ -49,7 +22,7 @@ export class BaseAppController {
      * @example ctx.app.controller.setWindowSize(width, height);
      */
     public setWindowSize(width: number, height: number) {
-        this.sendMessage("setWindowSize", { width: width, height: height });
+        this.invoke("setWindowSize", { width: width, height: height });
     }
 
 
@@ -59,23 +32,25 @@ export class BaseAppController {
      * @example ctx.app.controller.setExpendHeight(height);
      */
     public setExpendHeight(height: number) {
-        this.sendMessage("setExpendHeight", { height });
+        this.invoke("setExpendHeight", { height });
     }
 
     /**
      * 打开文件对话框
      */
     public openFolderDialog() {
-        return this.invokeMessage("openFolderDialog", {});
+        return this.invoke("openFolderDialog", {});
     }
     /**
      * 获取菜单
      */
     public getMenu() {
-        return this.invokeMessage("getMenu", {});
+        return this.invoke("getMenu", {});
     }
-
+    /**
+     * 搜索框显示菜单
+     */
     public showPopupMenu(options) {
-        return this.invokeMessage("showPopupMenu", options || {});
+        return this.invoke("showPopupMenu", options || {});
     }
 }

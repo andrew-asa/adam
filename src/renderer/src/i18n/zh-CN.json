@@ -24,7 +24,10 @@
       "title": "设置"
     },
     "installed": {
-      "title": "已安装"
+      "title": "已安装",
+      "keyword": {
+        "play": "打开运行"
+      }
     },
     "appstore": {
       "title": "插件市场"

@@ -2,3 +2,10 @@
     background-color: #eee;
 }
 
+
+/* ant-popover content padding 为0 
+:overlayClassName="'popover-content-p-0'"
+ */
+.popover-content-p-0 .ant-popover-inner-content {
+    padding: 0 !important;
+}

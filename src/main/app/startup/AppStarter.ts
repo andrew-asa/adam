@@ -3,7 +3,7 @@ import createTray from "@main/app/menus/tray";
 import server from "@/main/server/server";
 import { backendpor } from "@/common/common_const";
 import { Starter } from "../type";
-import { AppControllerContext } from "@/main/services/AppControllerContext";
+import { AppControllerContext } from "@/main/services/AppControllerServices";
 import { registerStore } from "@/common/base/store";
 import { CONFIGURE_DIR, stores_name } from "@/main/common/common_const";
 import { protocol } from "electron";
@@ -21,7 +21,7 @@ export class AppStarter implements Starter {
 
     registerGlobalStore() {
 
-        registerStore(stores_name.app_controller_context, new AppControllerContext())
+        // registerStore(stores_name.app_controller_context, new AppControllerContext())
     }
     /**
      * 应用，窗口都启动好之后的启动逻辑

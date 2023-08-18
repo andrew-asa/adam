@@ -9,6 +9,7 @@ import { DBServices } from "./db/DBServices";
 import { ElectronServices } from "./electron/ElectronServices";
 import { services } from "./contronler";
 import { PluginServices } from "./plugins/PluginServices";
+import { AppControllerServices } from "./AppControllerServices";
 
 /**
  * 提供给前端的接口
@@ -37,6 +38,7 @@ class RendererAPI {
         let dbpath = es.getPath('userData')
         this.registerServices(services_name.db_services, new DBServices(dbpath), stores_name.services.db)
         this.registerServices(services_name.plugin_services, new PluginServices(), stores_name.services.plugin)
+        this.registerServices(services_name.app_controller_services, new AppControllerServices(), stores_name.services.app)
     }
 
     private registerServices(serviceName: string, services: ServicesProvider, storeName?: string) {

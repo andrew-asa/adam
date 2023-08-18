@@ -15,7 +15,8 @@
       }
     },
     "installed": {
-      "title": "installed"
+      "title": "installed",
+      "keyword": {}
     },
     "appstore": {
       "title": "appstore"

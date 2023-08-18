@@ -319,6 +319,11 @@ export function showPopupMenu(options) {
             click: () => {
                 refresh()
             }
+        },{
+            label: '插件管理',
+            click:() => {
+                
+            }
         }])
     }
     let menu = Menu.buildFromTemplate(pluginMenu);

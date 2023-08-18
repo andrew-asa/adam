@@ -65,10 +65,7 @@ export const stores_name = {
    */
   current_plugin_view: 'current_plugin_view',
 
-  /**
-   * app控制上下文
-   */
-  app_controller_context: "app_controller_context",
+
   /**
    * 获取renderer_api
    */
@@ -91,8 +88,18 @@ export const stores_name = {
      * 数据库
      */
     db: "store_db_services",
+    /**
+     * electron 相关
+     */
     electron: "store_electron_services",
+    /**
+     * 插件相关
+     */
     plugin: "store_plugin_services",
+    /**
+     * app相关
+     */
+    app: "app_controller_services",
   }
 }
 /**

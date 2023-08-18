@@ -10,50 +10,35 @@ export class AppController extends BaseAppController {
      * @description 前进
      */
     public forward() {
-        this.sendMessage("forward", {});
+        this.invoke("forward", {});
     }
     /**
      * @description 后退
      */
     public back() {
-        this.sendMessage("back", {});
+        this.invoke("back", {});
     }
     public openConsole() {
-        this.sendMessage("openConsole", {});
+        this.invoke("openConsole", {});
     }
     public openInBrowser() {
-        this.sendMessage("openInBrowser", {});
+        this.invoke("openInBrowser", {});
     }
-    /**
-     * @description 给当前选中的插件发送改变的文本
-     */
-    // public sendSubInputChangeEvent(value: String) {
-    //     this.sendSyncMessage("currentPluginInputChange", value);
-    // }
-
-    /**
-     * 给当前选中的插件发送按键改变时间
-     */
-    // public sendPluginSomeKeyDownEvent({ modifiers, keyCode }) {
-    //     this.sendSyncMessage("currentPluginKeyClick", {
-    //         modifiers,
-    //         keyCode
-    //     })
-    // }
+    
     public home() {
-        this.sendMessage("home", {});
+        this.invoke("home", {});
     }
 
 
     public show() {
-        this.sendMessage("show", {});
+        this.invoke("show", {});
     }
 
     public hide() {
-        this.sendMessage("hide", {});
+        this.invoke("hide", {});
     }
 
     public removeAllPluginView() {
-        this.sendMessage("removeAllPluginView", {});
+        this.invoke("removeAllPluginView", {});
     }
 }

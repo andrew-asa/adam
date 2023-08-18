@@ -1,18 +1,35 @@
 <template>
-  <a-button
-    v-if="isKeyword(value)"
-    type="primary" shape="round" size="small"
-    class="mr-2 mt-1"
+  <a-popover
+    trigger="click"
+    :overlayClassName="'popover-content-p-0'"
   >
-    <template #icon>
-      <plus-outlined />
+    <template #content>
+      <div class="keyworld-options">
+        <div class="options-item shadow-md">
+          <span>
+            <caret-right-outlined />
+          </span>
+          <span class="ml-2"> {{ $t('feature.installed.keyword.play') }}</span>
+        </div>
+      </div>
     </template>
-    {{ value }}
-  </a-button>
+    <a-button
+      v-if="isKeyword(value)"
+      type="primary"
+      shape="round"
+      size="small"
+      class="mr-2 mt-1"
+    >
+      <template #icon>
+        <plus-outlined />
+      </template>
+      {{ value }}
+    </a-button>
+  </a-popover>
 </template>
 <script setup lang="ts">
 import _ from 'lodash'
-import { PlusOutlined } from '@ant-design/icons-vue'
+import { PlusOutlined, CaretRightOutlined } from '@ant-design/icons-vue'
 const props = defineProps({
   value: {
     type: [Object, String, null],
@@ -31,6 +48,14 @@ const isFile = (value: any) => {
   // @ts-ignore
   return _.isObject(value) && value.type && value.type === 'file'
 }
+
+const log = (v) => {
+  console.log(v)
+}
 </script>
 <style scoped lang="less">
+.keyworld-options {
+  padding: 0 !important;
+  width: 150px;
+}
 </style>

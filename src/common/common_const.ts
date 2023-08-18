@@ -159,6 +159,11 @@ export const services_name = {
      * 插件相关
      */
     plugin_services: "plugin_services",
+
+    /**
+     * 应用控制器相关服务
+     */
+    app_controller_services: "app_controller_services",
 }
 
 /**

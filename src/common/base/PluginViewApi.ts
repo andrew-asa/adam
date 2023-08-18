@@ -16,6 +16,6 @@ export class PluginViewApi extends BaseAppController  {
      * @example ctx.app.controller.setPlaceholder("回车搜索文件")
      */
     public setPlaceholder(text: String) {
-        this.sendSyncMessage("setPlaceholder", text);
+        this.invoke("setPlaceholder", text);
     }
 }

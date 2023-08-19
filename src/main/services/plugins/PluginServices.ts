@@ -16,6 +16,7 @@ import { DECODE_KEY, db_prefix } from "@/common/common_const";
 import { BrowserView } from "electron";
 import { LRUCache } from "@/common/base/LRUCache";
 import { getPluginFilePath } from "./utils/plugin_utils";
+import { events } from "@/common/core/Events";
 export class PluginServices implements ServicesProvider {
     handlers: PluginHandler[] = [];
     DH: PluginHandler = new DefaultUIPluginHandler();
@@ -257,7 +258,7 @@ export class PluginServices implements ServicesProvider {
         // console.log("currentPluginInputChange", value)
         this.triggerPluginViewAction({
             name: optins.name,
-            hook: 'inputChange',
+            hook: events.plugin.input_change,
             data: { text: optins.value }
         })
     }
@@ -273,7 +274,7 @@ export class PluginServices implements ServicesProvider {
         const code = DECODE_KEY[options.value.keyCode];
         this.triggerPluginViewAction({
             name: options.name,
-            hook: 'keydown',
+            hook: events.plugin.keydown,
             data: {
                 modifiers: options.value.modifiers,
                 keyCode: code
@@ -288,7 +289,7 @@ export class PluginServices implements ServicesProvider {
     }) {
         this.executeJavaScriptOnPluginView({
             name: options.name,
-            script: `ctx.plugin.trigger("${options.hook}",${options.data ? JSON.stringify(options.data) : ''});`
+            script: `ctx.services.event.dispatchEvent("${options.hook}",${options.data ? JSON.stringify(options.data) : ''});`
         })
     }
 

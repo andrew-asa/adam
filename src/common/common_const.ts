@@ -56,12 +56,7 @@ export const regs = {
 }
 
 
-export const plugin_events = {
-    /**
-     * 插件进入
-     */
-    plugin_enter: "PluginEnter",
-}
+
 
 
 export const DECODE_KEY = {

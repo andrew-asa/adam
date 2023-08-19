@@ -79,7 +79,7 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
         //     }
         // );
 
-        
+
 
 
 
@@ -131,13 +131,13 @@ export class DefaultPluginRunner implements ThirdPluginRunner {
 
     notifierPluginLoad(view: BrowserView, pluginName: string, options?: any) {
         if (!view) return;
-        const s = `ctx.plugin._loadPlugin("${pluginName}",${options ? JSON.stringify(options) : '{}'});`
+        const s = `window.__internal__.plugin.loadPlugin("${pluginName}",${options ? JSON.stringify(options) : '{}'});`
         this.executeJavaScript(view.webContents, s, true);
     }
 
     notifierPluginUnLoad(view: BrowserView, pluginName: string, options?: any) {
         if (!view) return;
-        const s = `ctx.plugin._unloadPlugin("${pluginName}",${options ? JSON.stringify(options) : '{}'});`
+        const s = `window.__internal__.plugin.unloadPlugin("${pluginName}",${options ? JSON.stringify(options) : '{}'});`
         this.executeJavaScript(view.webContents, s, true);
     }
 

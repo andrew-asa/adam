@@ -260,6 +260,7 @@ export class AppControllerServices implements ServicesProvider {
         let pluginMenu: any = [
         ]
         if (this.hasPluginAndNoIternal(options)) {
+            // 插件窗口
             pluginMenu = pluginMenu.concat([{
                 label: '插件控制台',
                 click: () => {
@@ -290,6 +291,7 @@ export class AppControllerServices implements ServicesProvider {
             }
             ])
         } else {
+            // 主窗口
             pluginMenu = pluginMenu.concat([{
                 label: '插件控制台',
                 click: () => {
@@ -303,7 +305,7 @@ export class AppControllerServices implements ServicesProvider {
             }, {
                 label: '插件管理',
                 click: () => {
-
+                    this.executeMainViewJavaScript(`console.log('插件管理');`)
                 }
             }])
         }

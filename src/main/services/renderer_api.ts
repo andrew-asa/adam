@@ -26,9 +26,6 @@ class RendererAPI {
 
         this.initDefaultHandlers()
         registerStore(stores_name.app_renderer_api, this)
-
-
-
     }
 
     private initDefaultServices() {

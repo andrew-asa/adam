@@ -5,7 +5,7 @@ import { default_plugin_window_height, default_window_height, stores_name } from
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { BrowserView, BrowserWindow, Session, session } from "electron";
 import { LRUCache } from "@/common/base/LRUCache";
-import { setExpendHeight } from "../../contronler";
+import { AppControllerServices } from "@/main/services/app/AppControllerServices";
 
 export class DefaultUIPluginHandler extends AbstractPluginHandler implements PluginHandler {
     view: BrowserView | undefined = undefined
@@ -38,7 +38,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
         view.webContents.once('dom-ready', () => {
             const width = this.getMainWindowWidth(mainWindow)
             view.setBounds({ x: 0, y: default_window_height, width: width, height: default_plugin_window_height });
-            setExpendHeight({ height: default_plugin_window_height + default_window_height })
+            AppControllerServices.getServices().setExpendHeight({ height: default_plugin_window_height + default_window_height })
             this.setCurrentView(view)
         })
     }
@@ -66,7 +66,7 @@ export class DefaultUIPluginHandler extends AbstractPluginHandler implements Plu
      * 重置主窗口大小
      */
     resetMainWindowSize(mainWindow: BrowserWindow): void {
-        setExpendHeight({ height: default_window_height })
+        AppControllerServices.getServices().setExpendHeight({ height: default_window_height })
     }
     /**
      * 获取主窗口宽度

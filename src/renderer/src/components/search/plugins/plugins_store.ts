@@ -35,7 +35,7 @@ export const userStore = defineStore({
          * 展示小卡片
          */
         displayCards: [],
-        
+
         /**
          * 可选参见
          */
@@ -148,7 +148,7 @@ export const userStore = defineStore({
         _setSearchValue(value: string) {
             this.searchValue = value;
         },
-        
+
         /**
          * 清空可选项展示
          */
@@ -259,6 +259,20 @@ export const userStore = defineStore({
 
         setInternalPlugin(p: { name?: string, code?: string }) {
             this.internalPlugin = p
+        },
+        clickMenus(menu: any) {
+            // console.log(menu)
+            if (menu && menu.key == 'manager') {
+                ctx.app.search.open({
+                    name: "adam_built_in_plugin_manager",
+                    main: "market",
+                    pluginName: "插件管理",
+                    pluginType: "internal",
+                }, {
+                    playload: this.searchValue,
+                    code: 'installed',
+                });
+            }
         }
     },
     getters: {

@@ -15,11 +15,7 @@ export class RubickApiAdapter {
             if (fn) {
                 const rdata = await fn(arg, window, event);
                 event.returnValue = rdata;
-                // return rdata
             }
-            // const data = await this[arg.type](arg, window, event);
-            // event.returnValue = data;
-            // event.sender.send(`msg-back-${arg.type}`, data);
         });
     }
 }

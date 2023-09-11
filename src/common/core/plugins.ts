@@ -121,6 +121,7 @@ export interface ThirdPlugin {
      * 用户设置
      */
     settings?: PluginSettings
+    [key: string]: any
 }
 
 /**

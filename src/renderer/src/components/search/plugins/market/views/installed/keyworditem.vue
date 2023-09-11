@@ -5,7 +5,10 @@
   >
     <template #content>
       <div class="keyworld-options">
-        <div class="options-item shadow-md">
+        <div
+          class="options-item shadow-md"
+          @click="run(value)"
+        >
           <span>
             <caret-right-outlined />
           </span>
@@ -36,7 +39,7 @@ const props = defineProps({
     default: ''
   }
 })
-
+const emit = defineEmits(['run'])
 const isKeyword = (value) => {
   return _.isString(value)
 }
@@ -49,8 +52,8 @@ const isFile = (value: any) => {
   return _.isObject(value) && value.type && value.type === 'file'
 }
 
-const log = (v) => {
-  console.log(v)
+const run = (v) => {
+  emit('run', v)
 }
 </script>
 <style scoped lang="less">

@@ -59,7 +59,7 @@ export class SearchController implements ServicesProvider {
     /**
      * 打开插件 
      */
-    open(plugin: ThirdPlugin, options?: { playload?: string }) {
+    open(plugin: ThirdPlugin, options?: { [key: string]: any }) {
         this.getHandler(plugin).open(plugin, options)
     }
 

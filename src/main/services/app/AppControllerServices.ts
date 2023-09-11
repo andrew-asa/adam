@@ -6,6 +6,8 @@ import { stores_name } from "@/main/common/common_const";
 import { openFile } from "../appsearch";
 import { is } from "@electron-toolkit/utils";
 import path from "path";
+import { events } from "@/common/core/Events";
+import { PluginServices } from "@/main/services/plugins/PluginServices";
 
 export class AppControllerServices implements ServicesProvider {
     static servicesName: string = stores_name.services.app
@@ -221,9 +223,6 @@ export class AppControllerServices implements ServicesProvider {
     }
 
 
-
-
-
     setPlaceholder(text: string) {
         this.executeMainViewJavaScript(`ctx.app.search.setPlaceholder("${text}");`)
     }
@@ -231,6 +230,11 @@ export class AppControllerServices implements ServicesProvider {
     executeMainViewJavaScript(s: string) {
         let win = getStore(stores_name.app_main_window)
         win && win.webContents.executeJavaScript(s)
+    }
+
+    triggerMainViewEnent(event: string, data: any) {
+        const s = `ctx.services.event.dispatchEvent("${event}",${JSON.stringify(data)})`
+        this.executeMainViewJavaScript(s)
     }
 
     async openFolderDialogSync() {
@@ -264,14 +268,19 @@ export class AppControllerServices implements ServicesProvider {
             pluginMenu = pluginMenu.concat([{
                 label: '插件控制台',
                 click: () => {
-                    const services = getStore(stores_name.services.plugin)
-                    services.openPluginConsole(pn)
+                    PluginServices.getServices().openPluginConsole(pn)
                 }
             }, {
                 label: '刷新插件',
                 click: () => {
-                    const services = getStore(stores_name.services.plugin)
-                    services.refreshPluginView(pn)
+                    PluginServices.getServices().refreshPluginView(pn)
+                }
+            }, {
+                label: '关闭插件',
+                click: () => {
+                    this.triggerMainViewEnent(events.renderer.search.close_plugin, {
+                        plugin: options
+                    })
                 }
             },
             {
@@ -305,7 +314,10 @@ export class AppControllerServices implements ServicesProvider {
             }, {
                 label: '插件管理',
                 click: () => {
-                    this.executeMainViewJavaScript(`console.log('插件管理');`)
+                    this.triggerMainViewEnent(events.menus.menu_click, {
+                        key: 'manager',
+                        label: '插件管理'
+                    })
                 }
             }])
         }

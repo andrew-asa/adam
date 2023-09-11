@@ -10,7 +10,7 @@ export class EventServices {
         }
         this.listeners[type].push(callback);
     }
-    removeEventListener(type, callback, options) {
+    removeEventListener(type, callback?) {
         if (!(type in this.listeners)) {
             return;
         }

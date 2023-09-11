@@ -27,5 +27,11 @@ export const events = {
          * 点击菜单
          */
         menu_click: "menu_click",
+    },
+    renderer: {
+        search: {
+            // 后端通知前端关闭插件
+            close_plugin: "renderer_search_close_plugin",
+        }
     }
 }

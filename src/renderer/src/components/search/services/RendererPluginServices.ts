@@ -19,6 +19,10 @@ export class RendererPluginServices extends PluginServices {
 
     }
 
+    getPluginByName(name: string): ThirdPlugin {
+        return this.plugins.find(p => p.name === name)
+    }
+
     setPlugins(plugins: ThirdPlugin[]) {
         this.plugins = plugins
     }

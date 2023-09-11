@@ -4,6 +4,7 @@
       <Keyworditem
       v-for="cmd in feature.cmds"
       :value="cmd"
+      @run="e=>run(e, feature)"
       />
       <div class="mt-2">{{ feature.explain }}</div>
     </div>
@@ -19,6 +20,13 @@ const props = defineProps({
     default: []
   }
 })
+const emit = defineEmits(['run'])
+const run = (cmd, featureItem)=>{
+  emit('run', {
+    feature: featureItem,
+    cmd:cmd
+  })
+}
 </script>
 <style scoped lang="less">
 .keyword-container {

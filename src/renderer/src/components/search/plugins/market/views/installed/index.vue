@@ -68,7 +68,10 @@
         </a-button>
       </div>
       <a-divider orientation="center">关键字</a-divider>
-      <Keyword :features="features" />
+      <Keyword
+        :features="features"
+        @run="runPlugin"
+      />
     </a-layout-content>
   </a-layout>
   <plugin_detail
@@ -121,7 +124,8 @@ const clickPlugin = (item: ThirdPlugin) => {
     name: item.name,
     pluginName: item.pluginName,
     description: item.description,
-    version: item.version
+    version: item.version,
+    pluginType: item.pluginType
   }
   const f = copyFeatures(item.features)
   features.value = f
@@ -152,6 +156,20 @@ const resetPluginSettings = () => {
   ctx.services.plugin.resetPluginSettings(currentShow.value.name).then((res) => {
     pluginsSeting.value = res
   })
+}
+const runPlugin = ({ feature, cmd }) => {
+  ctx.app.search.open(
+    {
+      name: currentShow.value.name,
+      pluginName: currentShow.value.pluginName,
+      pluginType: currentShow.value.pluginType,
+      logo: currentShow.value.logo
+    },
+    {
+      playload: cmd,
+      code: feature?.code || ''
+    }
+  )
 }
 </script>
 <style scoped lang="less">

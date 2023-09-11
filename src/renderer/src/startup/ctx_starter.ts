@@ -14,7 +14,7 @@ import { EventServices } from "@/common/core/EventServices"
 const hooks = {}
 const empty_fun = () => {
 }
-const services: {
+export const services: {
     electron: ElectronServices,
     plugin: RendererPluginServices,
     db: AppDBServices,

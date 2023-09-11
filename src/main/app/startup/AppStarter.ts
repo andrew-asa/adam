@@ -3,9 +3,7 @@ import createTray from "@main/app/menus/tray";
 import server from "@/main/server/server";
 import { backendpor } from "@/common/common_const";
 import { Starter } from "../type";
-import { AppControllerContext } from "@/main/services/app/AppControllerServices";
-import { registerStore } from "@/common/base/store";
-import { CONFIGURE_DIR, stores_name } from "@/main/common/common_const";
+import { CONFIGURE_DIR } from "@/main/common/common_const";
 import { protocol } from "electron";
 import path from "path";
 function startServer() {

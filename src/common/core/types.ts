@@ -22,11 +22,11 @@ export interface DocRes {
 }
 
 /**
- * 搜索模式 | 球模式 | 浏览器模式
+ * 搜索模式 | 提问模式 | 浏览器模式
  */
-export type Mode = 'search' | 'ball' | 'browser'
+export type Mode = 'search' | 'question' | 'browser'
 export const Modes = {
     search: 'search',
-    ball: 'ball',
+    question: 'question',
     browser: 'browser'
 } 

@@ -160,8 +160,8 @@ export class AppControllerServices implements ServicesProvider {
      * @Description 取消/打开 悬浮小球
      * @Date 2023-03-28 16:50:30
      */
-    setMode(m: Mode) {
-        this.mode = m
+    setMode(...args: [m: Mode, e?: any]): void {
+        this.mode = args[0];
     }
 
     getMode() {

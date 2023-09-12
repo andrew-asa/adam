@@ -17,22 +17,23 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
             type: 'checkbox',
             label: '搜索框',
             checked: AppControllerServices.getServices().getMode() === Modes.search,
-            click: () => {
-                AppControllerServices.getServices().setMode(Modes.search as Mode)
+            click: (e) => {
+                console.log(e);
+                AppControllerServices.getServices().setMode(Modes.search as Mode, e)
             }
         }, {
             type: 'checkbox',
             label: '浏览器',
-            checked: AppControllerServices.getServices().getMode() === Modes.ball,
-            click: () => {
-                AppControllerServices.getServices().setMode(Modes.ball as Mode)
+            checked: AppControllerServices.getServices().getMode() === Modes.browser,
+            click: (e) => {
+                AppControllerServices.getServices().setMode(Modes.browser as Mode, e)
             }
         }, {
             type: 'checkbox',
             label: '悬浮球',
-            checked: AppControllerServices.getServices().getMode() === Modes.ball,
-            click: () => {
-                AppControllerServices.getServices().setMode(Modes.ball as Mode)
+            checked: AppControllerServices.getServices().getMode() === Modes.question,
+            click: (e) => {
+                AppControllerServices.getServices().setMode(Modes.question as Mode, e)
             }
         }]
     },

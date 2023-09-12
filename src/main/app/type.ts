@@ -5,9 +5,8 @@ export interface WindowCreator {
     getWindow: () => BrowserWindow | null;
 }
 
-/**
- * 启动器
- */
 export interface Starter {
-    start(): void
+    name: string;
+    order?: number;
+    start(): void;
 }

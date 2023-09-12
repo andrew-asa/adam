@@ -25,14 +25,14 @@ export class AppStarter implements Starter {
      * 应用，窗口都启动好之后的启动逻辑
      */
     start() {
-        // 创建托盘
-        createTray();
         // 提供给前端的接口
         renderer_api.setup();
         // 启动后端服务器提供服务
         // startServer();
         this.registerGlobalStore();
         this.registererFileProtocol();
+        // 创建托盘
+        createTray();
     }
 
     registererFileProtocol() {

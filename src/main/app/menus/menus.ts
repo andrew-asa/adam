@@ -1,5 +1,6 @@
 import { Menu } from "electron";
 import { AppControllerServices } from "@/main/services/app/AppControllerServices";
+import { Mode, Modes } from "@/common/core/types";
 
 export const getTrayMenus = () => Menu.buildFromTemplate([
     {
@@ -10,12 +11,32 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
         }
     },
     {
-        type: 'normal',
-        label: '悬浮',
-        click: ()=> {
-            AppControllerServices.getServices().toggleBall()
-        }
+        type: 'submenu',
+        label: '模式',
+        submenu: [{
+            type: 'checkbox',
+            label: '搜索框',
+            checked: AppControllerServices.getServices().getMode() === Modes.search,
+            click: () => {
+                AppControllerServices.getServices().setMode(Modes.search as Mode)
+            }
+        }, {
+            type: 'checkbox',
+            label: '浏览器',
+            checked: AppControllerServices.getServices().getMode() === Modes.ball,
+            click: () => {
+                AppControllerServices.getServices().setMode(Modes.ball as Mode)
+            }
+        }, {
+            type: 'checkbox',
+            label: '悬浮球',
+            checked: AppControllerServices.getServices().getMode() === Modes.ball,
+            click: () => {
+                AppControllerServices.getServices().setMode(Modes.ball as Mode)
+            }
+        }]
     },
+
     {
         type: 'submenu',
         label: '开发',
@@ -31,7 +52,7 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
             {
                 type: 'normal',
                 label: '主控制台',
-                click: ()=> {
+                click: () => {
                     AppControllerServices.getServices().openConsole()
                 }
             },
@@ -45,14 +66,14 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
             {
                 type: 'normal',
                 label: '刷新',
-                click: ()=> {
+                click: () => {
                     AppControllerServices.getServices().refresh()
                 }
             },
             {
                 type: 'normal',
                 label: '用户目录',
-                click: ()=> {
+                click: () => {
                     AppControllerServices.getServices().openUserHome()
                 }
             }
@@ -61,13 +82,13 @@ export const getTrayMenus = () => Menu.buildFromTemplate([
     {
         type: 'normal',
         label: '隐藏',
-        click: ()=> {
+        click: () => {
             AppControllerServices.getServices().hideMainWin()
         }
     }, {
         type: 'normal',
         label: '退出',
-        click: ()=> {
+        click: () => {
             AppControllerServices.getServices().quit()
         }
     },

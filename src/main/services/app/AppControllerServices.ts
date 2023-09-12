@@ -1,5 +1,5 @@
 import { getStore } from "@/common/base/store";
-import { ServicesProvider } from "@/common/core/types";
+import { Mode, Modes, ServicesProvider } from "@/common/core/types";
 import { BrowserView, BrowserWindow, Menu, dialog, shell } from "electron";
 import { CONFIGURE_DIR, isMacOS } from "../../common/common_const";
 import { stores_name } from "@/main/common/common_const";
@@ -14,6 +14,7 @@ export class AppControllerServices implements ServicesProvider {
     static getServices(): AppControllerServices {
         return getStore(AppControllerServices.servicesName)
     }
+    mode: string = Modes.search
     /**
      * app 后端控制器
      */
@@ -150,13 +151,21 @@ export class AppControllerServices implements ServicesProvider {
     }
 
 
+    browserModel() {
+
+    }
+
     /**
      * @Author andrew
      * @Description 取消/打开 悬浮小球
      * @Date 2023-03-28 16:50:30
      */
-    toggleBall() {
+    setMode(m: Mode) {
+        this.mode = m
+    }
 
+    getMode() {
+        return this.mode
     }
 
     /**

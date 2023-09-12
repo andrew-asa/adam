@@ -1,5 +1,5 @@
 import { App } from "vue";
-import { starter } from "./starter";
+import { Starter } from "./starter";
 import { userStore } from "../components/search/plugins/plugins_store";
 import { getStore, registerStore } from "@/common/base/store";
 import { export_stores_name } from "@/common/common_const";
@@ -7,7 +7,7 @@ import { ConfigureServices } from "../components/search/services/ConfigureServic
 import { ctx, registerService } from "./ctx_starter";
 import { events } from "@/common/core/Events";
 
-export class search_starter implements starter {
+export class search_starter implements Starter {
     name: string = "search_starter"
     start(app: App) {
         const store = userStore()

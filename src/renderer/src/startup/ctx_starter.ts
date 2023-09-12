@@ -2,7 +2,7 @@ import { App } from "vue"
 import * as dom_utils from "@renderer/utils/dom_utils"
 import * as common_utils from "@/common/common_utils"
 import * as hook from '@renderer/core/hook'
-import { starter } from "./starter"
+import { Starter } from "./starter"
 import { switchToRoute } from "../router"
 import { AppController } from "@/common/base/services/app/AppController"
 import * as store from "@/common/base/store"
@@ -60,7 +60,7 @@ const _ctx = {
     services: services,
 }
 export const ctx = Object.freeze(_ctx)
-export class ctx_starter implements starter {
+export class ctx_starter implements Starter {
     name: string = "ctx_starter"
     start(app: App) {
         Object.defineProperty(window, 'ctx', {

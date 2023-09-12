@@ -1,6 +1,6 @@
 import { App } from "vue";
 
-export interface starter {
+export interface Starter {
     name: string;
     start(app: App): void;
 }

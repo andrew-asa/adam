@@ -4,10 +4,10 @@ import ContextMenuSubmenu from '@renderer/components/lib/contextmenu/ContextMenu
 import directive from '@renderer/components/lib/contextmenu/directive'
 import emitContext from '@renderer/components/lib/contextmenu/emitContext'
 import hideContext from '@renderer/components/lib/contextmenu/hideContext'
-import { starter } from "./starter";
+import { Starter } from "./starter";
 import { App } from 'vue'
 
-export class vue3_contentmenu_starter implements starter {
+export class vue3_contentmenu_starter implements Starter {
     name: string = "vue3_contentmenu_starter"
     start(app: App) {
         app.provide('emitContext', emitContext)

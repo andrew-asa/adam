@@ -2,9 +2,9 @@ import { App } from "@vue/runtime-core";
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { starter } from "./starter";
+import { Starter } from "./starter";
 
-export class element_plus_starter implements starter {
+export class element_plus_starter implements Starter {
     name: string = "element_plus_starter"
     start(app: App) {
         app.use(ElementPlus)

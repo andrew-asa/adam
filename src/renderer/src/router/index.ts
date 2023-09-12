@@ -60,6 +60,6 @@ function _fixRoute() {
 export function switchToRoute(path: string) {
     router.push({ path: path })
 }
-addDemoRoutes()
+// addDemoRoutes()
 export default router
 export { routes, router }

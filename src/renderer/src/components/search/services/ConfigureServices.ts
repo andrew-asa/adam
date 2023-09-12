@@ -31,8 +31,8 @@ export class ConfigureServices {
 
     init() {
         console.log(`renderer ConfigureServices init`);
-        ctx.services.db.get(db_keys.search_configure).then(({ data }) => {
-            if (_.isEmpty(data.data)) return
+        ctx.services.db.get(db_keys.search_configure).then((data) => {
+            if (!data || _.isEmpty(data.data)) return
             this.conf = _.extend({}, default_conf, data.data)
             // console.log(`renderer ConfigureServices fetch conf`, this.conf);
         })

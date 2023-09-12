@@ -1,7 +1,7 @@
 import { App } from '@vue/runtime-core'
-import { starter } from './starter';
+import { Starter } from './starter';
 import _ from 'lodash';
-const starters: starter[] = [];
+const starters: Starter[] = [];
 export function start(app: App) {
     console.log(`start app`);
     const files = import.meta.glob('./*.ts', {

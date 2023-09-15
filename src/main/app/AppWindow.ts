@@ -85,9 +85,12 @@ export class AppMainWindowCreator implements WindowCreator {
         win.on("closed", () => {
             // @ts-ignore
             win = null;
-            registerStore(stores_name.app_main_window, win)
+            registerStore(stores_name.app_main_window, null)
             // registerAction(actions_name.get_main_window, () => win)
         });
+        win.on("show", () => {
+            console.log('show main window');
+        })
     }
 }
 

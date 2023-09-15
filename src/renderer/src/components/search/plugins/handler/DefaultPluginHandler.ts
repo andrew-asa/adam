@@ -1,7 +1,7 @@
 import { PluginHandler } from "@/common/core/PluginHandler"
 import { ThirdPlugin } from "@/common/core/plugins"
 import _ from "lodash"
-import { ctx } from "@/renderer/src/startup/ctx_starter";
+import { ctx } from "@renderer/core/context";
 import { copyThirdPlugin } from "@/common/plugin/plugin_meta_utils";
 import { export_stores_name } from "@/common/common_const";
 import { getStore } from "@/common/base/store";

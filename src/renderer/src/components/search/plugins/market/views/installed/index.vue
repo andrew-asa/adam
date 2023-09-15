@@ -91,7 +91,7 @@
 <script setup lang="ts">
 import { StarOutlined, MinusCircleOutlined, SettingOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-import { ctx } from '@/renderer/src/startup/ctx_starter'
+import { ctx } from '@renderer/core/context'
 import { onMounted, ref } from 'vue'
 import { userStore } from '../../store/plugins_market_store'
 import { storeToRefs } from 'pinia'

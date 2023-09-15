@@ -39,12 +39,14 @@
 <script setup lang="ts">
 import { isMacOS, isWindows } from '@renderer/utils/constants/common_const'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import market from '@renderer/components/search/plugins/market/index.vue'
 import search from './search.vue'
 import result from './result.vue'
 import { userStore } from './plugins/plugins_store'
 import _ from 'lodash'
+import { ctx } from '@renderer/core/context'
+import { events } from '@/common/core/Events'
 const store = userStore()
 const {
   searchValue,
@@ -60,6 +62,9 @@ const searchContainer = ref(null)
 const Components = {
   market: market
 }
+onBeforeMount(() => {
+  ctx.services.event.dispatchEvent(events.renderer.search.page_loaded)
+})
 </script>
 <style scoped lang="less">
 .drag-bar {

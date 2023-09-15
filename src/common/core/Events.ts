@@ -30,6 +30,11 @@ export const events = {
     },
     renderer: {
         search: {
+
+            /**
+             * 页面加载完成
+             */
+            page_loaded: "renderer_search_page_load",
             // 后端通知前端关闭插件
             close_plugin: "renderer_search_close_plugin",
         }

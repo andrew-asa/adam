@@ -1,3 +1,4 @@
+import { Logger } from "@renderer/utils/base/Logger";
 
 export class EventServices {
     listeners = {}
@@ -25,13 +26,14 @@ export class EventServices {
             }
         }
     }
-    dispatchEvent(type, data) {
+    dispatchEvent(type: string, data?: any) {
         if (!(type in this.listeners)) {
             return;
         }
+        Logger.getLogger("EventServices").debug("dispatchEvent", type);
         var stack = this.listeners[type];
         for (var i = 0, l = stack.length; i < l; i++) {
-            stack[i](data);
+            data ? stack[i](data) : stack[i]();
         }
     }
 }

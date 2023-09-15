@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import _ from "lodash";
-import { ctx } from '@renderer/startup/ctx_starter'
+import { ctx } from '@renderer/core/context'
 import { ThirdPlugin } from "@/common/core/plugins";
 interface PluginsState {
     displayCards: any[];
@@ -174,7 +174,6 @@ export const userStore = defineStore({
             altKey && modifiers.push('alt');
             metaKey && modifiers.push('meta');
             const keyCode = e.code
-            // ctx.app.controller.sendPluginSomeKeyDownEvent({ modifiers, keyCode })
             ctx.services.plugin.triggerPluginKeyDown({
                 keyCode: keyCode,
                 modifiers: modifiers,
@@ -244,7 +243,6 @@ export const userStore = defineStore({
                 if (options.length === 0 && this.options.length > 0) {
                     ctx.app.controller.setExpendHeight(60)
                 } else if (options.length > 0 && this.options.length === 0) {
-                    // const h = this.options.length * 60 > 600 ? 600 : this.options.length * 60
                     ctx.app.controller.setExpendHeight(600)
                 }
             }

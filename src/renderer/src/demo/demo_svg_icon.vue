@@ -19,6 +19,7 @@
       <svg-icon
         :name="op"
         width="24px"
+        height="24px"
         class="mr-2 ml-2"
       />
     </div>

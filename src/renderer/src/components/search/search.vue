@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from 'vue'
 import { LoadingOutlined, MoreOutlined } from '@ant-design/icons-vue'
-import { ctx } from '../../startup/ctx_starter'
+import { ctx } from '@renderer/core/context'
 import fileIcon from '../../assets/file.png'
 import folderIcon from '../../assets/folder.png'
 

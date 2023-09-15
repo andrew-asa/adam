@@ -1,5 +1,5 @@
-import { ctx } from "@/renderer/src/startup/ctx_starter";
-import { db_keys } from "@/renderer/src/utils/constants/common_const";
+import { ctx } from "@renderer/core/context";
+import { db_keys } from "@renderer/utils/constants/common_const";
 import _ from "lodash";
 
 export interface Configure {
@@ -23,7 +23,7 @@ export const default_conf: Configure = {
     locale: "zh-CN",
     placeholder: "Hi Adam",
 }
-export class ConfigureServices {
+export class SearchConfigureServices {
     conf: Configure = default_conf
     constructor() {
         this.init();

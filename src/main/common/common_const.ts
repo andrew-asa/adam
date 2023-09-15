@@ -128,5 +128,11 @@ export const default_window_height = 60
  */
 export const default_plugin_window_height = 540
 
+export const MAIN_HOOKS = {
+  TRAY: {
+    EPDATE_ITEM: "EPDATE_ITEM"
+  }
+}
+
 
 

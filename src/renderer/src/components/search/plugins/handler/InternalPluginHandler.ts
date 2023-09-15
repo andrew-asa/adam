@@ -1,4 +1,4 @@
-import { ctx } from "@/renderer/src/startup/ctx_starter";
+import { ctx } from "@renderer/core/context";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
 import { ThirdPlugin } from "@/common/core/plugins";
 import { getStore } from "@/common/base/store";

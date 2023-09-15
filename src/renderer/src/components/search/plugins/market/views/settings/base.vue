@@ -48,7 +48,7 @@
 import { ref, watch } from 'vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { userStore } from './plugins_settings_store'
-import { default_conf } from '@renderer/components/search/services/ConfigureServices'
+import { default_conf } from '@renderer/components/search/services/SearchConfigureServices'
 import { storeToRefs } from 'pinia'
 import { message } from 'ant-design-vue'
 const store = userStore()

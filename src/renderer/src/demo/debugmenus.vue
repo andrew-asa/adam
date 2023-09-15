@@ -12,7 +12,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ctx } from '@/renderer/src/startup/ctx_starter.js'
+import { ctx } from '@renderer/core/context'
 import { inject } from 'vue'
 const props: any = defineProps({
   showButton: {

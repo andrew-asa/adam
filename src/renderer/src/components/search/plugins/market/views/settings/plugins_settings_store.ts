@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import _ from "lodash";
-import { ctx } from '@renderer/startup/ctx_starter'
-import { Configure, default_conf } from "@renderer/components/search/services/ConfigureServices";
+import { ctx } from '@renderer/core/context'
+import { Configure, default_conf } from "@renderer/components/search/services/SearchConfigureServices";
 
 
 export const userStore = defineStore({

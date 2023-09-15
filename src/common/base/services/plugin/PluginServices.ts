@@ -38,7 +38,6 @@ export class PluginServices extends BasePluginServices {
      * 更新插件设置
      */
     updatePluginSettings(name: string, settings: PluginSettings) {
-        // console.log("updatePluginSettings", name, settings)
         return this.invoke("updatePluginSettings", { name, settings })
     }
 
@@ -47,10 +46,8 @@ export class PluginServices extends BasePluginServices {
     }
 
     getPluginDefaultSettings(name: string) {
-        // console.log("getPluginDefaultSettings", name)
         return this.invoke("getPluginDefaultSettings", name)
     }
-
 
     getCurrentViewsNames() {
         return this.invoke("getCurrentViewsNames", {})

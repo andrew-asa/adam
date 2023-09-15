@@ -1,6 +1,6 @@
 import { openApp } from "@main/services/appsearch";
 import { AbstractPluginHandler } from "./AbstractPluginHandler";
-import { SystemApp, ThirdPlugin } from "@/common/core/plugins";
+import { ThirdPlugin } from "@/common/core/plugins";
 import { PluginHandler } from "@/common/core/PluginHandler";
 import { copyThirdPluginToAppPlugin } from "@/common/common_utils";
 

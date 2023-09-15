@@ -1,5 +1,4 @@
 
-import { backendpor } from "@/common/common_const";
 import { Starter } from "../type";
 import { CONFIGURE_DIR } from "@/main/common/common_const";
 import { protocol } from "electron";

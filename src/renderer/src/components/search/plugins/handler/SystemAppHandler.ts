@@ -2,7 +2,7 @@ import { export_stores_name } from "@/common/common_const";
 import { DefaultPluginHandler } from "./DefaultPluginHandler";
 import { ThirdPlugin } from "@/common/core/plugins";
 import { copyThirdPlugin } from "@/common/plugin/plugin_meta_utils";
-import { ctx } from "@/renderer/src/startup/ctx_starter";
+import { ctx } from "@renderer/core/context";
 import { getStore } from "@/common/base/store";
 
 export class SystemAppHandler extends DefaultPluginHandler {

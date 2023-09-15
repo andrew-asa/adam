@@ -6,7 +6,6 @@ export class RendererPluginServices extends PluginServices {
     plugins: ThirdPlugin[];
     constructor() {
         super()
-        this.init()
     }
 
     init() {

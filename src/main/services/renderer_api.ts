@@ -10,12 +10,14 @@ import { ElectronServices } from "./electron/ElectronServices";
 import { services } from "./contronler";
 import { PluginServices } from "./plugins/PluginServices";
 import { AppControllerServices } from "./app/AppControllerServices";
+import { Logger } from "../common/core/Logger";
 
 /**
  * 提供给前端的接口
  * ==> contronler
  */
 class RendererAPI {
+    logger = Logger.getLogger('RendererAPI')
     handlers = {};
     services: { [key: string]: ServicesProvider } = {};
     public setup() {
@@ -88,15 +90,19 @@ class RendererAPI {
         }
         const option = arg.option || {};
         const type = arg.type
+
         let fn;
         let rdata
+        this.logger.debug(`handle [${option && option.services}]${type}`); 
         // 指定services
         if (option.services && this.services[option.services][type]) {
             rdata = await this.services[option.services][type](data, ext);
-        } else if (this[arg.type] || this.handlers[type]) {
-            fn = this[arg.type] || this.handlers[type];
-            rdata = await fn(data, ext);
-        } else {
+        } 
+        // else if (this[arg.type] || this.handlers[type]) {
+        //     fn = this[arg.type] || this.handlers[type];
+        //     rdata = await fn(data, ext);
+        // } 
+        else {
             console.log(`RendererAPI 没有找到对应的方法！${arg.type} option: ${JSON.stringify(option)}`);
         }
         event.returnValue = rdata;
